@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Mappy et Oslandia vers l'OpenSource</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/press-releases/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="/">Mappy Labs <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/Mappy et Oslandia vers l'OpenSource.html" rel="bookmark"
+                   title="Permalink to Mappy et Oslandia vers l'OpenSource">Mappy et Oslandia vers l'OpenSource</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2014-02-11T00:00:00">
+                Tue 11 February 2014
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Paris, le 11 février 2014. </p>
+<p>Depuis plus de deux ans, Oslandia accompagne Mappy dans sa transition vers l’OpenSource. La première étape est symbolisée par le projet de migration des bases de données Oracle du backoffice cartographique vers PostGIS. Celui-ci vient notamment d’être finalisé et fonctionne actuellement en production.</p>
+<p>Mappy propose des services de calcul d’itinéraire et de cartographie. Supportant plusieurs milliards de requêtes par mois, la plateforme LBS (Location Based Services) est au cœur de l’activité de Mappy et sert de socle aux nouveaux produits tel que le Web To Store.</p>
+<p>Oslandia travaille conjointement avec Mappy pour migrer cette plateforme cartographique d’une solution développée en interne, vers une solution basée entièrement sur des logiciels libres, afin de préparer les défis techniques et opérationnels à venir.</p>
+<p>Les backoffices de préparation des données et de création du plan cartographique ont été entièrement migrés avec succès.</p>
+<p>Cette pile applicative était initialement basée sur Oracle Spatial, SQL Server, et des outils internes non standards de création de carte. Elle n’utilise plus désormais que des composants OpenSource.</p>
+<p>Oracle et SQL Server ont été entièrement remplacés par PostgreSQL et PostGIS, qui constitue le socle de base de données géographique pour le stockage et le prétraitement des données géographiques. Mapnik, Python, Tornado, Varnish, MemCached, Debian sont les autres composants OpenSource utilisés.</p>
+<p>La migration vers ces composants OpenSource a permis de rationnaliser et d’optimiser l’architecture du composant « carte »:</p>
+<ul>
+<li>Temps de traitement des données réduit </li>
+<li>Standardisation des formats et API</li>
+<li>Forte diminution de la dette technique</li>
+<li>Nombre de lignes de code optimisé</li>
+<li>Baisse du coût de la plateforme, et passage à l’échelle plus économique</li>
+<li>Montée en compétence et motivation des équipes</li>
+<li>Maîtrise complète des outils</li>
+</ul>
+<p>Oslandia a permis à Mappy d’intégrer la culture et les méthodes de l’OpenSource dans ses équipes, et leur a fourni les compétences techniques nécessaires pour mettre en place cette architecture à forte charge. Les compétences d’Oslandia en systèmes d’information géographique, et son expertise unique en France sur PostGIS, ont permis de mener à bien ce projet.</p>
+<p>Mappy a ainsi pu bénéficier des dernières technologies OpenSource à la pointe de l’état de l’art, et également pu contribuer à certains projets libres comme Mapnik.</p>
+<p>PostGIS, la base de données géographique supportant toute l’infrastructure, a permis d’atteindre de très hautes performances et un niveau fonctionnel élevé.</p>
+<p>La base de 75Go bénéficie des toutes dernières avancées de PostgreSQL et PostGIS, tels que la réplication au fil de l’eau, les nouvelles fonctions géographiques de PostGIS, les requêtes CTE récursives, le support de JSON et bien plus.</p>
+<p>Audrey Malherbe, responsable du projet chez Mappy, souligne que le choix de PostgreSQL et de PostGIS était une évidence : </p>
+<blockquote>
+<p>« Nous voulions basculer dans l’OpenSource en nous appuyant sur des technologies performantes et reconnues comme PostGIS. Il était important pour nous de contribuer à l’OpenSource et l’expertise technique d’Oslandia et son implication dans la communauté nous ont permis de nous lancer dans cette aventure en toute confiance. »</p>
+</blockquote>
+<p>Mappy a l’intention de continuer ce virage vers l’OpenSource et d’étendre la méthode de migration aux autres services de la plateforme cartographique.</p>
+<p><strong>À propos de Mappy</strong></p>
+<p>Spécialiste du calcul d’itinéraire et des services de cartographie, Mappy est reconnu comme le leader français de la recherche locale par la carte, sur Internet, tablettes, mobiles et GPS.</p>
+<p>Mappy propose à ses utilisateurs trois types de recherche : la recherche par le plan, qui permet de visualiser un quartier, de s’immerger dans la ville  grâce aux vues 360° dans 320 villes françaises, mais également de pousser la porte de plusieurs milliers de commerces ; la recherche d’itinéraires disponible pour les déplacements en voiture, en transports en commun, en vélo et en mode piéton ; enfin la recherche de produits, permettant de localiser un produit précis, dans une zone géographique donnée, de connaître son prix et sa disponibilité.</p>
+<p>Acteur majeur du déplacement urbain, Mappy propose aux annonceurs une solution géolocalisée sur l’ensemble du territoire, facilitant les dispositifs web-to-store et la génération de trafic vers leurs points de vente.</p>
+<p>Mappy compte aujourd’hui plus de 10 millions d’utilisateurs mensuels sur Internet, tablettes et mobiles (Mappy et MappyGPS Free).</p>
+<p>Mappy est une filiale à 100% de Solocal Group. <a href="http://www.mappy.com">http://www.mappy.com</a></p>
+<p><strong>À propos d’Oslandia</strong></p>
+<p>Oslandia est une ENL (Entreprise du Numérique Libre) Française spécialisée en systèmes d’information géographique (SIG) Open Source, et particulièrement en bases de données spatiales, Web Services OGC et SIG bureautiques. Oslandia propose une offre de service complète : conseil, audit, développement, support, formation.</p>
+<p><a href="http://www.oslandia.com">http://www.oslandia.com</a> </p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="three columns">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="/pages/About.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/press-releases.html">Press releases</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-4"><a href="/tag/mapnik.html">Mapnik</a></li>
+	    <li class="tag-4"><a href="/tag/opensource.html">OpenSource</a></li>
+	    <li class="tag-4"><a href="/tag/postgis.html">PostGIS</a></li>
+	    <li class="tag-4"><a href="/tag/french.html">French</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+
+</body>
+</html>

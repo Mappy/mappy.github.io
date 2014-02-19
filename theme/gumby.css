@@ -254,7 +254,8 @@ ul, ol {
 }
 
 ul {
-  list-style: none outside;
+  list-style: outside;
+  margin-left: 25px;
 }
 
 ol {
