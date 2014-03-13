@@ -74,7 +74,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;We have to write a parser (i.e. a class implementing &lt;a href="http://wiki.apache.org/solr/SolrPlugins#ValueSourceParser"&gt;org.apache.solr.search.ValueSourceParser&lt;/a&gt; that reads the value from the left to the right&lt;/p&gt;
+&lt;p&gt;We have to write a parser (i.e. a class implementing &lt;a href="http://wiki.apache.org/solr/SolrPlugins#ValueSourceParser"&gt;org.apache.solr.search.ValueSourceParser&lt;/a&gt; that reads the value from the left to the right)&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GeoBoostValueParser&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;ValueSourceParser&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
 
     &lt;span class="nd"&gt;@Override&lt;/span&gt;
