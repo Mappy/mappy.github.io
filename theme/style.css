@@ -254,6 +254,10 @@ article .entry-title {
     font-weight: bold;
 }
 
+article .entry-content a:hover {
+    text-decoration: underline;
+}
+
 article .published {
     display: block;
 }
@@ -261,8 +265,6 @@ article .published {
 .tag-row span {
     font-size: 0.8em;
 }
-
-
 
 .entry-content h1 {
     font-size: 2em;
