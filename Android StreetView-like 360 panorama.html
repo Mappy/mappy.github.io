@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Android StreetView-like 360 panorama with OpenGl</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/panorama/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><strong>Mappy</strong>Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/Android StreetView-like 360 panorama.html" rel="bookmark"
+                   title="Permalink to Android StreetView-like 360 panorama with OpenGl">Android StreetView-like 360 panorama with OpenGl</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2014-08-04T00:00:00">
+                Mon 04 August 2014
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p><a href="http://mappy.com">Mappy</a> offers StreetView-like immersive experience to explore France cities. The web interface uses a <a href="http://fr.mappy.com/#/40/M1/TSearch/Snotre+dame+paris/N42.63223,-2.96266,2.35218,48.85267/Z10/">Flash player to display the cubic projections of "360" panorama images</a>.</p>
+<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_web_flash_player.png" /></p>
+<p>To provide the same feature on Android devices, we looked at existing solutions. Two we came accross were :</p>
+<ul>
+<li><a href="http://krpano.com/">krpano HTML5 Viewer</a> works in modern mobile browsers (<a href="http://krpano.com/docu/html5/#supportedsystems">supported browsers, WebViews</a>).</li>
+<li><a href="https://github.com/zarelaky/panoramagl-android">PanoramaGL</a> Android library handles many projections (spherical, cubic and cylindrical), JSON configuration, transitions, gyroscope and more.</li>
+</ul>
+<p>Still, these two did not exactly match our needs :</p>
+<ol>
+<li><strong>Wide device support, starting with Android 2.3</strong>, while <a href="http://krpano.com/docu/html5/#supportedsystems">krpano</a> requires latest Android browsers or <code>WebViews</code>.</li>
+<li><strong>StreetView-like gesture control (rotate, zoom)</strong>, while <a href="https://github.com/zarelaky/panoramagl-android">PanoramaGL</a> handles "Pan-Rotate" as a speed vector we felt not as easy to control. It may be configurable but we didn't find out how.</li>
+<li><strong>Click on 3D way arrows</strong>, while PanoramaGL provides hotspots with visual feedback on click. Still, these are 2D bitmap layers inside textures, as far as we understood.</li>
+</ol>
+<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_android_01.png" />
+<img alt="Mappy 360 Web player" src="images/mappy_panorama_android_02.png" /></p>
+<blockquote>
+<p>Available on Google Play, <a href="https://play.google.com/store/apps/details?id=com.mappy.app">Mappy for Android</a>.</p>
+</blockquote>
+<p>Let's describe the main technical aspects we implemented building our own <em>PanoramicLib</em>. </p>
+<h1>Cubic projection</h1>
+<p>To display 360 panoramas with cubic projection, we texture the inner faces of a simple cube mesh (6 square faces, 2 triangles each).</p>
+<p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png" />
+<img alt="Cube faces layout" src="images/panoramic_cube_02.png" />
+<img alt="Cube rotation angles names" src="images/panoramic_cube_04.png" /></p>
+<p>In the OpenGL 3D space, both cube and camera center are (x=0, y=0, z=0). The camera rotates on itself, using pitch and yaw angles. This is important because the cubic projected textures are valid only if seen from the cube center. Zoom is done just by changing the Field Of View angle (the cube mesh is not scaled).</p>
+<p><img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_05.png" />
+<img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_06.png" /></p>
+<blockquote>
+<p><em>PanoramicLib</em> sample using "target" textures for debugging</p>
+</blockquote>
+<p>In <em>PanoramicLib</em> source :</p>
+<ul>
+<li><code>PanoramicGestureListener</code> class handles scroll and fling gestures to set camera orientation.</li>
+<li><code>PanoramicScaleGestureListener</code> class handles pinch to zoom gesture.</li>
+</ul>
+<h1>Progressive resolution loading</h1>
+<p>Our panorama images are provided through Web services. For faster loading, low resolution bitmaps (128 * 128) are first downloaded. Higher resolutions are progressively downloaded, updating the cube faces to sharper textures. For high resolutions, faces are divided in multiple tiles of 512 * 512 pixels. </p>
+<p><img alt="Multiple bitmap tiles per face possibilities" src="images/panoramic_cube_03.png" /></p>
+<p>Ideally, using tiles would lower the amount of downloaded data because client application could :</p>
+<ul>
+<li>Download tiles only for visible faces,</li>
+<li>Download max resolution tiles only for zoomed parts</li>
+</ul>
+<p>... but we didn't push this far for now.</p>
+<p>In <em>PanoramicLib</em> source, the <code>PanoramicTile</code> interface is responsible for handling a bitmap tile and a tiny <code>PanoramicTileIdentifier</code> structure describing which face of the cube the tile belongs. The "split factor" (<code>PanoramicTileIdentifier.getSplitFactor()</code>) is number of times the face is splitted.</p>
+<ul>
+<li>splitFactor = 0 : 1 tile per face,</li>
+<li>splitFactor = 1 : 4 tiles per face,</li>
+<li>splitFactor = 2 : 16 tiles per face.</li>
+</ul>
+<p><code>PanoramicTileIdentifier.getPosition()</code> gives the position of tile inside the face (0 is top-left).</p>
+<p>Tiles can be added any time during cube rendering. The <code>PanoramicCubeMesh</code> will consider face, splitfactor and position to add the bitmap on to the corresponding texture. A higher split factor is considered as a higher resolution. The cube will adapt to use the tiles with the highest split factor.</p>
+<p>The face splits are not polygons. The cube mesh vertices never changes and  each face always uses only two triangles. The multiple tiles of a face are actually merged in a single texture. While resolution goes up, new texture buffers are allocated and tile bitmaps are progressively drawn inside (using <code>GLUtils.texSubImage2D()</code>).</p>
+<h1>Interactive elements with ray-picking</h1>
+<p>To provide click-able 3D arrows as in Google StreetView and move from a panorama to a neighbor one, we needed to detect the click. In 3D space.</p>
+<blockquote>
+<p><em>"Picking is the task of determining which screen-rendered object a user has clicked on."</em> <a href="http://en.wikipedia.org/wiki/Picking">(Wikipedia)</a></p>
+</blockquote>
+<p>The idea with ray-picking is to compute a 3D ray between the camera and the point the user clicked. For each polygon in the scene, you test if the ray intersects it, resolving the <a href="http://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">"line-plane intersection" equation</a>. The closest intersected polygon belongs to the clicked object.</p>
+<p><img alt="Ray picking diagram" src="images/ray_picking_01.png" /></p>
+<blockquote>
+<p>Image from <a href="http://oivdoc90.vsg3d.com/content/88-picking">VSG, Visualization Science Group - Open Inventor Mentor, 2nd Edition - Volume I</a></p>
+</blockquote>
+<p>The picking code comes from <a href="https://github.com/i-schuetz/Android_OpenGL_Picking">Ivan Schuetz "Android OpenGL Picking"</a> GitHub project.
+It refers to <a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to-state-this-is-my-first.html">Gregory Beauchamp "Ray picking on Android"</a> article.</p>
+<p>We adaptated the code to take the picking out of the OpenGL thread. In <code>PanoramicLib</code>, we notify the <code>Activy</code> on way arrow click to load next panorama view. This has to run on the UI thread. </p>
+<p>In Ivan Schuetz example, ray intersect computing is done in <code>ExampleGLRenderer.onDrawFrame(GL10 gl)</code> <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLRenderer.java">(source)</a>, calling <code>ExampleGLObject.draw(GL10 gl, Ray ray)</code> on each scene object. Intersections are logged to Android LogCat from there <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLObject.java">(source)</a>. It runs on the OpenGL thread because it requires the OpenGL context to grab projection and modelview matrixes to compute ray and projected objects coordinates.</p>
+<p>To handle intersection computing on the UI thread, we saved the current OpenGL matrixes in a member of each <code>ArrowMesh</code> instance, on each draw, using <code>MatrixGrabber</code> class <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/MatrixGrabber.java">(source)</a>.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="/pages/About.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/mapping.html">Mapping</a></li>
+		<li><a href="/category/panorama.html">panorama</a></li>
+		<li><a href="/category/press-releases.html">Press releases</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-4"><a href="/tag/ray-picking.html">ray-picking</a></li>
+	    <li class="tag-4"><a href="/tag/french.html">French</a></li>
+	    <li class="tag-4"><a href="/tag/solr.html">Solr</a></li>
+	    <li class="tag-4"><a href="/tag/android.html">Android</a></li>
+	    <li class="tag-2"><a href="/tag/postgis.html">PostGIS</a></li>
+	    <li class="tag-1"><a href="/tag/opensource.html">OpenSource</a></li>
+	    <li class="tag-2"><a href="/tag/mapnik.html">Mapnik</a></li>
+	    <li class="tag-1"><a href="/tag/english.html">English</a></li>
+	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
+	    <li class="tag-4"><a href="/tag/opengl.html">OpenGL</a></li>
+	    <li class="tag-4"><a href="/tag/360.html">360</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+
+</body>
+</html>
