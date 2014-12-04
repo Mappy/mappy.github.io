@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 
-        <title>Mappy Labs - Android</title>
+        <title>PyLR, an OpenLR decoder in python</title>
         <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/mapping/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -37,38 +38,45 @@
 
         <div class="row">
 
-<section id="content">
-
-
+<section id="content" class="body">
 
    <div class="row">
-
-
         <div class="ten columns">
-		         <ol id="post-list">
-				        <li><article class="hentry">
-				                <header> <h2 class="entry-title"><a href="/Android StreetView-like 360 panorama.html" rel="bookmark" title="Permalink to Android StreetView-like 360 panorama with OpenGl">Android StreetView-like 360 panorama with OpenGl</a></h2> </header>
-				                <footer class="post-info">
-				                    <abbr class="published" title="2014-08-04T00:00:00+02:00"> Mon 04 August 2014 </abbr>
-<address class="vcard author">By <a class="url fn" href="/author/mappy.html">Mappy</a></address>				                </footer><!-- /.post-info -->
-				                <div class="entry-content"> <p>Display StreetView-like panoramas on Android devices, with interactive arrows to move from a view to the next, based on 360 photos with cubic projection.</p> <a href="/Android StreetView-like 360 panorama.html" rel="bookmark" title="Permalink to Android StreetView-like 360 panorama with OpenGl">Read more</i></a> </div><!-- /.entry-content -->
 
 
+            <header>
+              <h2 class="entry-title">
+                <a href="/PyLR, an OpenLR decoder in python.html" rel="bookmark"
+                   title="Permalink to PyLR, an OpenLR decoder in python">PyLR, an OpenLR decoder in python</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2014-12-04T00:00:00+01:00">
+                Thu 04 December 2014
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <h1>PyLR, an OpenLR decoder in python</h1>
+<p>Here, at Mappy, we have decided to release our implementation of the <a href="http://www.openlr.org">OpenLR</a> specification.</p>
+<p>To make a story short, OpenLR is an open source  software project launched by TomTom in september 2009. This is an attempt to provide a location referencing method that works between digital maps of different vendors or versions.</p>
+<p>We use traffic informations from 10 countries in Europe in <a href="http://datex2.easyway-its.eu/content/datex">DATEX</a> format, location reference was provided using the <a href="https://en.wikipedia.org/wiki/Traffic_message_channel">TMC</a> reference system.
+The problem with TMC is that the coverage of the road network is relatively less than optimal. Because TomTom was providing information on a larger portion of the road network (in theory, the whole network could be covered) using its OpenLR scheme, we have decided to drop TMC in favor of OpenLR.</p>
+<p>The basics:</p>
+<p>OpenLR data provide paths or that must be "decoded" on the destination network (also called 'map' in the OpenLR terminology) by computing the shortest path between location reference points and a bunch of values representing the physical properties of the network at these points.</p>
+<p>So, what is PyLR ?</p>
+<p>PyLR is a partial Python implementation of the OpenLR specification largely inspired from the reference implementation in Java (available on the OpenLR site).</p>
+<p>It is partial in the sense that only parser/decoder is provided, encoding et serializing OpenLR data is not supported at the moment.</p>
+<p>While still a work in progress, it is actually used in production here at Mappy.
+For information, our implementation fail to decode less than 1% of the collected traffic situations, which correspond mostly to mismatched data with our network database.</p>
+<p>PyLR implement a decoder from the binary/base64 data representation (xml is not handled at the moment). It implements also a decoder that use an abstract representationof the targeted map.</p>
+<p>At the moment, PyLR is not really usable out of the box: you still need to implement a concrete database and a shortest path algorithm for playing with the library.</p>
+<p>As stated before, it is a work in progress, we have plan to provide more tools for testing and playing around with the lib: stay tuned !!!!</p>
+<p>PyLR is available on <a href="https://github.com/Mappy/PyLR">github</a> and is released under the Apache licence, version 2.</p>
+            </div><!-- /.entry-content -->
 
-								<div class="row tag-row">
-										<span>Tagged as : </span>
-											<a class="danger label" href="/tag/android.html">Android</a>
-											<a class="danger label" href="/tag/panorama.html">panorama</a>
-											<a class="danger label" href="/tag/360.html">360</a>
-											<a class="danger label" href="/tag/ray-picking.html">ray-picking</a>
-											<a class="danger label" href="/tag/opengl.html">OpenGL</a>
-											<a class="danger label" href="/tag/english.html">English</a>
-								</div>
-
-
-
-				        </article></li>
-				</ol><!-- /#posts-list -->
 
         </div><!-- /.eleven.columns -->
         
@@ -117,10 +125,8 @@
 
 </div> </div><!-- /.row -->
 
-<p class="paginator">
-    Page 1 / 1
-</p>
-</section><!-- /#content -->
+
+</section>
 
        </div><!-- /.row -->
     </div><!-- /.container -->

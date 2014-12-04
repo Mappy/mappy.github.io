@@ -51,7 +51,7 @@
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2014-02-25T00:00:00">
+              <abbr class="published" title="2014-02-25T00:00:00+01:00">
                 Tue 25 February 2014
               </abbr>
               <address class="vcard author">
@@ -130,7 +130,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>Even if Solr <a href="http://wiki.apache.org/solr/FunctionQuery">FunctionQuery</a> gives us a set of possibility, it may not fit our particular needs. In that case we can easily extend the list of available functions by writing our own in Java. Let's implement a <code>geoboost</code> function that is equal to <code>1</code> inside a given bounding box, and that is decreasing until <code>epsilon</code> outside the bounding box. The decreasing speed is configurable via parameter <code>mu</code> (A plot of this function is available <a href="/images/geoboost.png">here</a>)</p>
-<div class="highlight"><pre><span class="n">geoboost</span><span class="p">(</span><span class="n">epsilon</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">lat_min</span><span class="p">,</span> <span class="n">lng_min</span><span class="p">,</span> <span class="n">lat_max</span><span class="p">,</span> <span class="n">lng_max</span><span class="p">)</span>
+<div class="highlight"><pre>geoboost(epsilon, mu, lat_min, lng_min, lat_max, lng_max)
 </pre></div>
 
 
@@ -147,7 +147,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
         <span class="kt">float</span> <span class="n">lngmax</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="na">parseFloat</span><span class="o">();</span>
         <span class="n">ValueSource</span> <span class="n">lat</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="na">parseValueSource</span><span class="o">();</span>
         <span class="n">ValueSource</span> <span class="n">lng</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="na">parseValueSource</span><span class="o">();</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">GeoBoostFunction</span><span class="o">(</span><span class="n">eps</span><span class="o">,</span><span class="n">mu</span><span class="o">,</span><span class="n">latmin</span><span class="o">,</span><span class="n">lngmin</span><span class="o">,</span><span class="n">latmax</span><span class="o">,</span><span class="n">lngmax</span><span class="o">,</span><span class="n">lat</span><span class="o">,</span><span class="n">lng</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">GeoBoostFunction</span><span class="o">(</span><span class="n">eps</span><span class="o">,</span><span class="n">mu</span><span class="o">,</span><span class="n">latmin</span><span class="o">,</span><span class="n">lngmin</span><span class="o">,</span><span class="n">latmax</span><span class="o">,</span><span class="n">lngmax</span><span class="o">,</span><span class="n">lat</span><span class="o">,</span><span class="n">lng</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </pre></div>
@@ -165,10 +165,10 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
   <span class="nd">@Override</span>
   <span class="kd">public</span> <span class="n">FunctionValues</span> <span class="nf">getValues</span><span class="o">(</span><span class="n">Map</span> <span class="n">context</span><span class="o">,</span> <span class="n">AtomicReaderContext</span> <span class="n">readerContext</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="k">new</span> <span class="nf">FloatDocValues</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="n">FloatDocValues</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
             <span class="nd">@Override</span>
             <span class="kd">public</span> <span class="kt">float</span> <span class="nf">floatVal</span><span class="o">(</span><span class="kt">int</span> <span class="n">doc</span><span class="o">)</span> <span class="o">{</span>
-                <span class="k">return</span> <span class="nf">boost</span><span class="o">(</span><span class="n">doc</span><span class="o">,</span> <span class="n">latvals</span><span class="o">,</span> <span class="n">lngvals</span><span class="o">);</span>
+                <span class="k">return</span> <span class="n">boost</span><span class="o">(</span><span class="n">doc</span><span class="o">,</span> <span class="n">latvals</span><span class="o">,</span> <span class="n">lngvals</span><span class="o">);</span>
             <span class="o">}</span>
             <span class="o">...</span>
         <span class="o">};</span>
@@ -256,17 +256,19 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 <h4>Tags</h4>
 	<ul>
-	    <li class="tag-4"><a href="/tag/ray-picking.html">ray-picking</a></li>
-	    <li class="tag-4"><a href="/tag/french.html">French</a></li>
+	    <li class="tag-4"><a href="/tag/opengl.html">OpenGL</a></li>
+	    <li class="tag-2"><a href="/tag/mapnik.html">Mapnik</a></li>
+	    <li class="tag-4"><a href="/tag/python.html">Python</a></li>
+	    <li class="tag-4"><a href="/tag/openlr.html">OpenLR</a></li>
 	    <li class="tag-4"><a href="/tag/solr.html">Solr</a></li>
-	    <li class="tag-4"><a href="/tag/android.html">Android</a></li>
+	    <li class="tag-4"><a href="/tag/360.html">360</a></li>
+	    <li class="tag-1"><a href="/tag/english.html">English</a></li>
 	    <li class="tag-2"><a href="/tag/postgis.html">PostGIS</a></li>
 	    <li class="tag-1"><a href="/tag/opensource.html">OpenSource</a></li>
-	    <li class="tag-2"><a href="/tag/mapnik.html">Mapnik</a></li>
-	    <li class="tag-1"><a href="/tag/english.html">English</a></li>
+	    <li class="tag-4"><a href="/tag/android.html">Android</a></li>
 	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
-	    <li class="tag-4"><a href="/tag/opengl.html">OpenGL</a></li>
-	    <li class="tag-4"><a href="/tag/360.html">360</a></li>
+	    <li class="tag-4"><a href="/tag/ray-picking.html">ray-picking</a></li>
+	    <li class="tag-4"><a href="/tag/french.html">French</a></li>
 </ul>
 
 <nav class="widget">
