@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/frederic-le-menach.atom.xml" rel="self"></link><id>/</id><updated>2015-02-04T00:00:00+01:00</updated><entry><title>mappy.com migre vers Leaflet</title><link href="/mappy-com-migre-vers-leaflet.html" rel="alternate"></link><updated>2015-02-04T00:00:00+01:00</updated><author><name>Michael Cellier</name></author><id>tag:,2015-02-04:mappy-com-migre-vers-leaflet.html</id><summary type="html">&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
+&lt;p&gt;En mai 2014, une nouvelle version du site Mappy a vu le jour :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 4" src="images/leaflet/hp-v4.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Précédente version (4)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 5" src="images/leaflet/hp-v5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Nouvelle version (5)&lt;/p&gt;
+&lt;p&gt;Cette version a entraîné bon nombre de refactoring technique (comme un passage à Backbone par exemple) dont le plus impactant fût la décision de remplacer l’API cartographique JavaScript historique par &lt;a href="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Leaflet est une API de cartographie JavaScript OpenSource parmi les plus connues et actives. Utilisée par de nombreux sites importants, aussi bien généralistes (Flickr, Foursquare, Pinterest) que spécialistes de la cartographie (Mapbox, OpenStreetMap), elle dispose de plus de 175 contributeurs.&lt;/p&gt;
+&lt;h2&gt;La compatibilité de la cartographie Mappy avec Leaflet&lt;/h2&gt;
+&lt;p&gt;Notre plateforme cartographique dispose de certaines spécificités par rapport aux standards actuels :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;une projection &lt;a href="http://spatialreference.org/ref/esri/world-gall-stereographic/"&gt;Gall&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;des tuiles de 384 pixels de large (au lieu des 256 généralement utilisés par les autres acteurs cartographique),&lt;/li&gt;
+&lt;li&gt;13 niveaux de zoom, avec un facteur 3 entre chaque niveau (au lieu de 20 niveaux et d'un facteur x2).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Elles ont été intégrées sous la forme d’un plugin Leaflet, inspiré du plugin &lt;a href="https://www.mapbox.com/developers/api/"&gt;Mapbox&lt;/a&gt;. Ce plugin étend l’API Leaflet et intègre également d’autres méthodes pour effectuer des recherches géographiques, des recherches géographiques inversées (Retrouver une adresse depuis des coordonnées) et enfin des recherches d’itinéraires via les services de Mappy.&lt;/p&gt;
+&lt;p&gt;Utilisée aujourd’hui par le site &lt;a href="http://www.mappy.com"&gt;fixe&lt;/a&gt;, le site &lt;a href="http://m.mappy.com"&gt;mobile&lt;/a&gt; et le &lt;a href="http://widgets.mappy.com/map/documentation"&gt;widget&lt;/a&gt;, cette API est également distribuée aux partenaires. Si vous êtes intéressés, je vous invite à consulter &lt;a href="http://corporate.mappy.com/faq/integrez-mappy/"&gt;la page dédiée à intégration de nos services dans vos produits&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Contributions&lt;/h2&gt;
+&lt;p&gt;Depuis cette migration à Leaflet, nous avons apporté quelques contributions sous la forme de “&lt;a href="https://github.com/Leaflet/Leaflet/pull/3038"&gt;pull request&lt;/a&gt;” ou de nouveau plugin (&lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;leaflet-active-area&lt;/a&gt;, un prochain article le présentera en détail).&lt;/p&gt;
+&lt;h2&gt;A l’avenir&lt;/h2&gt;
+&lt;p&gt;Au final, ce passage à Leaflet ne nous apporte que des avantages et nous avons hâte de proposer d’autres “pull requests” ou plugins.&lt;/p&gt;
+&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</summary><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry></feed>
