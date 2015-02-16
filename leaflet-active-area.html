@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 
-        <title>PyLR, an OpenLR decoder in python</title>
+        <title>Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</title>
         <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
-        <link href="/feeds/mapping/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+        <link href="/feeds/leaflet/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -46,35 +46,42 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="/PyLR, an OpenLR decoder in python.html" rel="bookmark"
-                   title="Permalink to PyLR, an OpenLR decoder in python">PyLR, an OpenLR decoder in python</a></h2>
+                <a href="/leaflet-active-area.html" rel="bookmark"
+                   title="Permalink to Un plugin Leaflet pour le site Mappy (Leaflet-active-area)">Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2014-12-04T00:00:00+01:00">
-                Thu 04 December 2014
+              <abbr class="published" title="2015-02-16T00:00:00+01:00">
+                Mon 16 February 2015
               </abbr>
               <address class="vcard author">
                 By <a class="url fn" href="/author/mappy.html">Mappy</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <h1>PyLR, an OpenLR decoder in python</h1>
-<p>Here, at Mappy, we have decided to release our implementation of the <a href="http://www.openlr.org">OpenLR</a> specification.</p>
-<p>To make a story short, OpenLR is an open source  software project launched by TomTom in september 2009. This is an attempt to provide a location referencing method that works between digital maps of different vendors or versions.</p>
-<p>We use traffic informations from 10 countries in Europe in <a href="http://datex2.easyway-its.eu/content/datex">DATEX</a> format, location reference was provided using the <a href="https://en.wikipedia.org/wiki/Traffic_message_channel">TMC</a> reference system.
-The problem with TMC is that the coverage of the road network is relatively less than optimal. Because TomTom was providing information on a larger portion of the road network (in theory, the whole network could be covered) using its OpenLR scheme, we have decided to drop TMC in favor of OpenLR.</p>
-<p>The basics:</p>
-<p>OpenLR data provide paths or that must be "decoded" on the destination network (also called 'map' in the OpenLR terminology) by computing the shortest path between location reference points and a bunch of values representing the physical properties of the network at these points.</p>
-<p>So, what is PyLR ?</p>
-<p>PyLR is a partial Python implementation of the OpenLR specification largely inspired from the reference implementation in Java (available on the OpenLR site).</p>
-<p>It is partial in the sense that only parser/decoder is provided, encoding et serializing OpenLR data is not supported at the moment.</p>
-<p>While still a work in progress, it is actually used in production here at Mappy.
-For information, our implementation fail to decode less than 1% of the collected traffic situations, which correspond mostly to mismatched data with our network database.</p>
-<p>PyLR implement a decoder from the binary/base64 data representation (xml is not handled at the moment). It implements also a decoder that use an abstract representationof the targeted map.</p>
-<p>At the moment, PyLR is not really usable out of the box: you still need to implement a concrete database and a shortest path algorithm for playing with the library.</p>
-<p>As stated before, it is a work in progress, we have plan to provide more tools for testing and playing around with the lib: stay tuned !!!!</p>
-<p>PyLR is available on <a href="https://github.com/Mappy/PyLR">github</a> and is released under the Apache licence, version 2.</p>
+              <h1>Un plugin Leaflet pour le site mappy.com</h1>
+<p>Lors de la mise en place de Leaflet sur mappy.com, (comme présenté dans un <a href="/mappy-com-migre-vers-leaflet.html">billet précédent</a>), nous avons eu l'occasion de développer un plugin Leaflet, proposé en open-source.</p>
+<h3>Mise en avant de la carte</h3>
+<p>L’un des objectifs de cette nouvelle version fût de mettre en avant la carte dans l’interface, qui n'occupait qu’une petite partie de l’interface de la version précédente. Ainsi, sur les pages de fiche POI ou sur la feuille de route, la carte occupe tout l’écran, du haut en bas de l’écran.</p>
+<p>Cela est surtout visible sur les grandes résolutions, où chaque bord laisse place à la carte comme le témoignent les captures d’écran suivantes :</p>
+<p><img alt="Itinéraire" src="images/leaflet-active-area/iti.png" /></p>
+<p><a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;opt.cost=time&amp;opt.notoll=0&amp;opt.infotraffic=0&amp;opt.gascost=1.558&amp;opt.gas=petrol&amp;opt.compensation=0&amp;routeidx=0">Feuille de route d’un itinéraire</a></p>
+<p><img alt="Fiche POI" src="images/leaflet-active-area/poi.png" /></p>
+<p><a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7">Fiche POI</a></p>
+<p>Comme on peut le voir sur les images ci-dessus, et vu que la carte occupe presque tout l’écran, les informations - marqueurs et polyline - ne sont pas centrées. Le centre de la carte correspond au centre de l’écran, caché derrière les éléments HTML.
+Cela est plus visible lorsque l’on rend transparents ces éléments HTML comme le montrent les captures suivantes :</p>
+<p><img alt="Itinéraire avec fond transparent" src="images/leaflet-active-area/iti-transparent.png" /></p>
+<p><a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;opt.cost=time&amp;opt.notoll=0&amp;opt.infotraffic=0&amp;opt.gascost=1.558&amp;opt.gas=petrol&amp;opt.compensation=0&amp;routeidx=0">Feuille de route d’un itinéraire avec fond transparent</a></p>
+<p><img alt="Fiche POI avec fond transparent" src="images/leaflet-active-area/poi-transparent.png" /></p>
+<p><a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7">Fiche POI avec fond transparent</a></p>
+<p>Les appels à l’API Leaflet (centrage de la carte, centrage de la vue en fonction de marqueurs, d’un itinéraire) vont naturellement avoir pour centre de la carte le centre de l’écran si celle-ci en occupe la quasi-totalité.</p>
+<h3>Le plugin Leaflet-active-area</h3>
+<p>Afin de pouvoir afficher des marqueurs ou un itinéraire de façon excentrée, nous avons développé un plugin Leaflet pour abstraire ce comportement.</p>
+<p>Il s’agit du plugin <a href="https://github.com/Mappy/Leaflet-active-area">Leaflet-active-area</a> qui, comme le montre la <a href="http://techblog.mappy.com/Leaflet-active-area/examples/index.html">page d’exemple</a>, permet d’appeler les méthodes usuelles de Leaflet telles que setView, setZoom, fitBounds tout en "centrant" la carte à partir d’une autre zone.</p>
+<p>Le principe est de définir une classe CSS, positionnée de façon absolue, qui sera prise en compte comme zone active de la carte. Ainsi, le centre de la carte sera le centre de cette zone et l’ensemble des marqueurs ou tracés y seront placés.</p>
+<h3>Disponible sous license Apache 2.0</h3>
+<p>Il nous a paru évident, utilisant une API open-source utilisée et développée par une énorme communité de développeurs, de proposer ce plugin en open-source. Il est disponible sur <a href="https://github.com/Mappy/Leaflet-active-area">github</a> et référencé dans <a href="http://leafletjs.com/plugins.html#other-plugins-and-libraries">“la page des plugins”</a> du site leaflet.</p>
+<p>A ce jour, nous avons même reçu la contribution de plusieurs développeurs hors Mappy avec l'ouverture - et l'acceptation - de 4 pull requests, la création puis la résolution de plusieurs issues. N'hésitez pas à contribuer !</p>
             </div><!-- /.entry-content -->
 
 
