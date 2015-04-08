@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>JavaScript : de Q aux promesses natives</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/javascript/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><strong>Mappy</strong>Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/javascript-de-Q-aux-promesses-natives.html" rel="bookmark"
+                   title="Permalink to JavaScript : de Q aux promesses natives">JavaScript : de Q aux promesses natives</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2015-04-08T00:00:00+02:00">
+                Wed 08 April 2015
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (<a href="https://en.wikipedia.org/wiki/Event_loop">event loop</a>).</p>
+<h1>Boucle d’événement ?</h1>
+<p>Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (<code>timeout</code>, <code>click</code>, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
+L’avantage principal est le fait que les entrées/sorties sont non bloquantes.</p>
+<p><img alt="Event loop" src="images/javascript/event-loop.png" /></p>
+<p>Si vous souhaitez en savoir plus sur la boucle d’événement, je vous recommande vivement cette présentation de <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">Philip Roberts « What the heck is the event loop anyway? »</a> présentée lors de la JSConf EU 2014 ou alors cette page sur la <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/EventLoop">gestion de la concurrence et boucle des événements</a> sur <a href="https://developer.mozilla.org/fr/">MDN</a>.</p>
+<h1>Code asynchrone</h1>
+<p>Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
+Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les <a href="https://nodejs.org/api/fs.html">API FileSystem de node</a>), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les <code>callbacks</code> de succès et d'erreur.</p>
+<p>Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :</p>
+<div class="highlight"><pre><span class="nx">action1</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">v1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">action2</span><span class="p">(</span><span class="nx">v1</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">action3</span><span class="p">(</span><span class="nx">v2</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v3</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">action4</span><span class="p">(</span><span class="nx">v3</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v4</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Traitement de v4</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).</p>
+<p>Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">addresses</span> <span class="o">=</span> <span class="cp">[]</span><span class="p">;</span>
+<span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+        <span class="nx">computeItinerary</span><span class="p">(</span><span class="nx">addresses</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">displayItinerary</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">);</span>
+        <span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
+    <span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
+<span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
+</pre></div>
+
+
+<p>C’est là qu’interviennent les promesses, qui sont une des façons de “remettre à plat” cette pyramide.</p>
+<h1>Les promesses</h1>
+<p>Le terme <code>promise</code> a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des <code>futurs</code> (<code>futures</code>) ou <code>délais</code> (<code>delays</code>) que l’on retrouve notamment en <code>Dart</code>, en <code>Python</code>, en <code>Java</code> (<code>java.util.concurrent.Future</code>), en <code>Scala</code>, <a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations">etc</a>.</p>
+<p>Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :</p>
+<div class="highlight"><pre><span class="nx">action1</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action2</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action3</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action4</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">v4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Traintement de v4</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">addresses</span> <span class="o">=</span> <span class="cp">[]</span><span class="p">;</span>
+<span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">))</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">computeItinerary</span><span class="p">(</span><span class="nx">addresses</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">displayItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">errorCallback</span><span class="p">);</span>
+</pre></div>
+
+
+<h1>Une première approche avec Q</h1>
+<p>Sur le site Mappy, les appels asynchrones ont étés migrés vers des promesses en avril 2013 en utilisant la librairie <a href="https://github.com/kriskowal/q">Q</a>.
+Parmi les <a href="http://microjs.com/#promise">multiples alternatives</a>, nous nous sommes intéressés aux <code>Deferred</code> de jQuery, notamment car elles étaient déjà incluses sur le site.
+Néanmoins, Q a été choisie par rapport aux <code>Deferred</code> de jQuery principalement pour sa gestion des exceptions plus fine  (plus de <a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling">détails sur le site de Q</a>).
+Par ailleurs, les <code>Deferred</code> de jQuery ne sont pas compatibles avec la spécification <a href="https://promisesaplus.com/">Promise/A+</a>, donc sujets à plus de travail en cas de changement de librairie (voici la liste de <a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md">librairie et leur compatibilité face à la spécification</a>).</p>
+<p>Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via <code>Q</code> :</p>
+<div class="highlight"><pre>Q.all([
+    geocode(&#39;Paris&#39;),
+    geocode(&#39;Lyon&#39;)
+])
+.then(computeItinerary)
+.then(displayItinerary)
+.fail(errorCallback);
+</pre></div>
+
+
+<p>Le <code>fail</code> s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.</p>
+<p>Voici l’implémentation d’une fonction, par exemple <code>geocode</code> :</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">geocode</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">Q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Lancement d’une requête Ajax, etc</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">deferred</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span> <span class="nx">coordinates</span><span class="o">:</span> <span class="cp">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="cp">]</span> <span class="p">});</span>
+        <span class="c1">// et, en cas d’erreur :</span>
+        <span class="c1">// deferred.reject(&#39;erreur&#39;);</span>
+    <span class="p">},</span> <span class="mi">250</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nx">deferred</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>Les méthodes <code>geocode</code>, <code>computeItinerary</code> et <code>displayItinerary</code> renvoient l’attribut <code>promise</code> d’un objet <code>deferred</code> renvoyé via un appel à <a href="https://github.com/kriskowal/q#using-deferreds"><code>Q.defer()</code></a> (aucun rapport avec la librairie de jQuery). En cas de succès, la méthode <code>resolve</code> de l’objet <code>deferred</code> sera invoqué et la méthode <code>reject</code> en cas d’erreur.</p>
+<p>En plus d’être plus lisible, ce code est également optimisé puisque les 2 requêtes de géocodage sont lancées en parallèles via <a href="https://github.com/kriskowal/q#combination"><code>Q.all</code></a>.
+La fonction <code>computeItinerary</code> consomme les résultats des 2 autres promesses précédentes et retourne une valeur, consommé par la méthode <code>displayItinerary</code>.</p>
+<h1>Maintenant : les promesses natives</h1>
+<p>Les promesses ont fait leur bonhomme de chemin dans les spécifications d’ECMAScript puisqu’elles font maintenant partie de la version 6 de la norme (ES6).
+Cette version commence par ailleurs a être supportée par les principaux navigateurs du marché avec Firefox 31+, Chrome 41+, Opera 28+, Safari 7.1+ et iOS 8 :</p>
+<p><img alt="support des promesses natives" src="images/javascript/es6-promise-support.png" /></p>
+<p><a href="https://kangax.github.io/compat-table/es6/#Promise">Table de compatibilité d’ECMAScript 6</a></p>
+<p>Pour ces raisons, il nous a semblé intéressant de délaisser la librairie Q au profit des promesses ES6 natives.
+Bien sûr, nous utilisons un polyfill (<a href="https://github.com/jakearchibald/es6-promise">es6-promise</a>) pour les navigateurs incompatibles, Internet Explorer en tête.
+Ce polyfill est un sous-ensemble de <a href="https://github.com/tildeio/rsvp.js">rsvp.js</a>, une implémentation plus complète.</p>
+<p>Voici comment on déclarerait la fonction geocode avec une promesse native :</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">geocode</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Promise</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Lancement d’une requête Ajax, etc</span>
+        <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">resolve</span><span class="p">({</span> <span class="nx">coordinates</span><span class="o">:</span> <span class="cp">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="cp">]</span> <span class="p">});</span>
+            <span class="c1">// et, en cas d’erreur :</span>
+            <span class="c1">// reject(&#39;erreur&#39;);</span>
+        <span class="p">},</span> <span class="mi">250</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :</p>
+<div class="highlight"><pre><span class="nx">geocode</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}).</span><span class="k">catch</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Le <code>catch</code> est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :</p>
+<div class="highlight"><pre><span class="nx">geocode</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le <a href="http://jsfiddle.net/2ve41szc/">premier</a> avec l’utilisation du <code>catch</code>, le <a href="http://jsfiddle.net/2ve41szc/1/">second</a> avec la deuxième forme.</p>
+<p>Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">(</span><span class="cp">[</span>
+    <span class="nx">requete1</span><span class="p">,</span>
+    <span class="nx">requete2</span>
+<span class="cp">]</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Une fois les 2 promesses requete1 et requete2 résolues...</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Nous avons donc, avec notre exemple d'itinéraire habituel :</p>
+<div class="highlight"><pre>Promise.all([
+    geocode(&#39;Paris&#39;),
+    geocode(&#39;Lyon&#39;)
+])
+.then(computeItinerary)
+.then(displayItinerary)
+.then(undefined, errorCallback);
+</pre></div>
+
+
+<h1>Et demain ?</h1>
+<p>Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.</p>
+<p>Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé <code>await</code> permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :</p>
+<div class="highlight"><pre><span class="nx">async</span> <span class="kd">function</span> <span class="nx">itinerary</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">paris</span>     <span class="o">=</span> <span class="nx">await</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">lyon</span>      <span class="o">=</span> <span class="nx">await</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">itinerary</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">computeItinerary</span><span class="p">(</span><span class="cp">[</span><span class="nx">paris</span><span class="p">,</span> <span class="nx">lyon</span><span class="cp">]</span><span class="p">);</span>
+  <span class="nx">displayItinerary</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Notez le mot clé <code>async</code> en début de fonction, pour signaler que la méthode utilise un <code>await</code>.
+Si vous êtes téméraire, le bout de code ci-dessus est déjà utilisable dans votre code source via l’utilisation d’un transpileur comme <a href="https://babeljs.io/">Babel</a> (programme transformant un code ES6 ou ES7 en code ES5, bien plus supporté parmi les navigateurs actuels).
+D’ailleurs, si vous souhaitez tenter l’expérience, cet <a href="http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html">article (en anglais), sur le blog de pouchdb</a>, en parle plus en détails.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="/pages/About.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/javascript.html">javascript</a></li>
+		<li><a href="/category/leaflet.html">leaflet</a></li>
+		<li><a href="/category/mapping.html">Mapping</a></li>
+		<li><a href="/category/panorama.html">panorama</a></li>
+		<li><a href="/category/press-releases.html">Press releases</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-2"><a href="/tag/javascript.html">JavaScript</a></li>
+	    <li class="tag-4"><a href="/tag/openlr.html">OpenLR</a></li>
+	    <li class="tag-2"><a href="/tag/solr.html">Solr</a></li>
+	    <li class="tag-1"><a href="/tag/english.html">English</a></li>
+	    <li class="tag-1"><a href="/tag/french.html">French</a></li>
+	    <li class="tag-1"><a href="/tag/opensource.html">OpenSource</a></li>
+	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
+	    <li class="tag-2"><a href="/tag/postgis.html">PostGIS</a></li>
+	    <li class="tag-4"><a href="/tag/python.html">Python</a></li>
+	    <li class="tag-4"><a href="/tag/opengl.html">OpenGL</a></li>
+	    <li class="tag-4"><a href="/tag/android.html">Android</a></li>
+	    <li class="tag-2"><a href="/tag/mapnik.html">Mapnik</a></li>
+	    <li class="tag-4"><a href="/tag/360.html">360</a></li>
+	    <li class="tag-4"><a href="/tag/ray-picking.html">ray-picking</a></li>
+	    <li class="tag-2"><a href="/tag/leaflet.html">Leaflet</a></li>
+	    <li class="tag-4"><a href="/tag/meetup.html">MeetUp</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+
+</body>
+</html>
