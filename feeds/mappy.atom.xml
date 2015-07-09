@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/mappy.atom.xml" rel="self"></link><id>/</id><updated>2015-04-08T00:00:00+02:00</updated><entry><title>Meet Up Enterprise Search Paris</title><link href="/Meet%20Up%20Enterprise%20Search%20Paris.html" rel="alternate"></link><updated>2015-04-08T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-04-08:Meet Up Enterprise Search Paris.html</id><summary type="html">&lt;p&gt;Voici la présentation effectuée par Mappy lors du dernier &lt;a href="http://www.meetup.com/Enterprise-Search-Paris/events/220773793/"&gt;Meet Up Enterprise Search Paris&lt;/a&gt; impeccablement organisé par &lt;a href="http://www.francelabs.com/"&gt;France Labs&lt;/a&gt; au NUMA.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/mappy.atom.xml" rel="self"></link><id>/</id><updated>2015-07-09T00:00:00+02:00</updated><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><updated>2015-07-09T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-07-09:mappy-responsive.html</id><summary type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Site petit écran" src="images/responsive/petitecran.png" /&gt;
+&lt;img alt="Site écran moyen" src="images/responsive/moyenecran.png" /&gt;
+&lt;img alt="Site grand écran" src="images/responsive/grandecran.png" /&gt;&lt;/p&gt;
+&lt;p&gt;En effet, auparavant, les sites &lt;a href="//fr.mappy.com"&gt;fr.mappy.com&lt;/a&gt;, &lt;a href="//fr-be.mappy.com"&gt;fr-be.mappy.com&lt;/a&gt;, &lt;a href="//nl-be.mappy.com"&gt;nl-be.mappy.com&lt;/a&gt; et &lt;a href="//en.mappy.com"&gt;en.mappy.com&lt;/a&gt; étaient dédiés aux navigateurs de bureau et m.mappy.com aux navigateurs mobiles et tablettes.
+Ce billet a pour but de présenter le contexte et notre parcours vers cette orientation.&lt;/p&gt;
+&lt;h2&gt;Historiquement 2 sites&lt;/h2&gt;
+&lt;p&gt;Mappy a mis en ligne mobile il y a plus de 5 ans.
+D’abord via des technologies de type BkRender (pour les téléphones très limités de l’époque), le site a évolué à plusieurs reprises vers une version "HTML5" incorporant une base commune de code avec le site principal (notamment backbone et l’API de cartographie Mappy).&lt;/p&gt;
+&lt;h2&gt;Réflexion autour du Responsive&lt;/h2&gt;
+&lt;p&gt;Nos principales motivations au passage à un site responsive étaient :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;d’arrêter le double développement d’User-Stories à la fois sur le site fixe et mobile (et, ainsi, de livrer les futures User-Stories sur tous les supports),&lt;/li&gt;
+&lt;li&gt;l’&lt;a href="http://googlewebmastercentral.blogspot.fr/2015/04/faqs-april-21st-mobile-friendly.html"&gt;annonce de Google&lt;/a&gt; favorisant les sites "mobile-friendly" alors que le site mobile était fermé aux robots,&lt;/li&gt;
+&lt;li&gt;le fait de n’avoir qu’une unique base de code, afin de simplifier le développement de nouvelles fonctionnalités et la maintenance,&lt;/li&gt;
+&lt;li&gt;d’offrir une version mobile pour les versions étrangères.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le passage à un site responsive soulève néanmoins quelques points de vigilance quant au processus actuel :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;chaque fonctionnalité doit être testée sur plus de support qu’auparavant,&lt;/li&gt;
+&lt;li&gt;lors de la conception, certains points doivent être pris en compte (conception sur petit et grand écran, gestion du touch, image en haute définition, etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Enfin, certaines fonctionnalités sont différentes entre le site fixe et le site mobile.
+L’itinéraire sur mobile par exemple, présente un écran affichant le sommaire de la feuille de route, écran inexistant sur la version fixe.&lt;/p&gt;
+&lt;p&gt;Une preuve de concept a alors été réalisée pour déterminer la faisabilité technique d’un site reponsive.
+Cette preuve de concept a démontré qu’un résultat satisfaisant pouvait être atteint à un coût acceptable (environ 2 itérations de développement).&lt;/p&gt;
+&lt;h2&gt;Implémentation&lt;/h2&gt;
+&lt;h3&gt;"Responsive client" ou "dynamic server" ?&lt;/h3&gt;
+&lt;p&gt;L’implémentation peut s’effectuer de 2 façons, éventuellement complémentaires :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;l’&lt;strong&gt;approche "responsive client"&lt;/strong&gt; : le même code est envoyé par le serveur à tous les navigateurs, qu’ils soient mobiles ou non, et l’affichage des éléments graphiques est conditionné par des &lt;code&gt;media queries&lt;/code&gt; CSS et des comportements différents éventuellement conditionnés par du code JavaScript ;&lt;/li&gt;
+&lt;li&gt;l’&lt;strong&gt;approche "dynamic server"&lt;/strong&gt; : un contenu HTML, CSS et JS différent est envoyé à chaque client en fonction du &lt;code&gt;User-Agent&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;L’approche "dynamic server" a l’avantage de pouvoir servir un contenu allégé de façon bien plus simple qu’avec l’approche côté cliente (notamment pour les images). Cependant, elle a l’énorme inconvénient de servir un contenu différent en fonction du &lt;code&gt;User-Agent&lt;/code&gt;, une pratique dangereuse en cas de &lt;code&gt;reverse-proxy&lt;/code&gt; (à moins d’ajouter un entête &lt;code&gt;Vary: User-Agent&lt;/code&gt; qui rend l’utilisation d’un reverse-proxy caduque). Enfin, certains navigateurs se disent iPhone, Android et Windows Phone comme c’est le cas pour &lt;a href="https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx#code-snippet-11"&gt;Windows Phone 8.1&lt;/a&gt; ce qui rend la tâche complexe.&lt;/p&gt;
+&lt;p&gt;L’approche "responsive client", préconisée par les &lt;a href="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/responsive-design#why-responsive-design"&gt;recommandations SEO&lt;/a&gt; de Google, n’a pas ces inconvénients puisque le même contenu est servi à tous.
+Par contre, il est plus difficile de charger un contenu allégé en fonction du navigateur.&lt;/p&gt;
+&lt;h3&gt;CSS&lt;/h3&gt;
+&lt;p&gt;L’implémentation du site responsive s’effectue principalement via des "&lt;a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries?redirectlocale=en-US&amp;amp;redirectslug=CSS%2FMedia_queries"&gt;CSS media queries&lt;/a&gt;" afin d’afficher ou masquer des éléments ou les ré-arranger en fonction de la taille d’écran :&lt;/p&gt;
+&lt;h4&gt;Site grand écran&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="Zoning grand écran" src="images/responsive/zoning-fixe.jpg" /&gt;&lt;/p&gt;
+&lt;h4&gt;Site petit écran&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-home.jpg" /&gt;
+&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-poi.jpg" /&gt;
+&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-resultats.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Page d’accueil / écran de résultats / affichage d’un POI ou un itinéraire&lt;/p&gt;
+&lt;p&gt;3 points de rupture principaux ont été définis pour :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;les petits écrans (par exemple les téléphones en portrait/paysage et tablette en portrait),&lt;/li&gt;
+&lt;li&gt;les écrans moyens (par exemple les tablettes en mode paysage),&lt;/li&gt;
+&lt;li&gt;et enfin les grands écrans (toutes les plus grandes définitions) où certains contenus sont plus aérés (taille des éléments, marge entre la barre gauche et la carte et le bord de l’écran, etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Un point de détail, depuis le passage au responsive, notre vocabulaire a changé puisque nous parlons de petit ou grand écran plutôt que de fixe et mobile.&lt;/p&gt;
+&lt;h3&gt;Optimisations graphiques&lt;/h3&gt;
+&lt;p&gt;À la manière de &lt;a href="https://fortawesome.github.io/Font-Awesome/icons/"&gt;Font Awesome&lt;/a&gt;, une grande partie de nos icônes (catégories de commerce, outils de la carte, etc) utilise une police de caractère spéciale les aggrégeant. Cela permet de s’abstraire d’une version normale et haute densité de pixel ("retina").
+Cette technique se limite toutefois à des icônes d’une seule couleur donc nous conservons encore quelques sprites.&lt;/p&gt;
+&lt;h3&gt;JavaScript&lt;/h3&gt;
+&lt;p&gt;Certains cas minoritaires nécessitent l’utilisation de JavaScript pour adapter le comportement à la cible (notamment le choix des emplacements publicitaires à afficher ou les différences de comportement comme le cas du sommaire de la feuille de route évoqué plus haut).&lt;/p&gt;
+&lt;p&gt;Néanmoins, la majorité des cas ne concerne que des adaptations au niveau des CSS.&lt;/p&gt;
+&lt;h2&gt;Tests&lt;/h2&gt;
+&lt;p&gt;Afin d’avoir un feedback rapide lors de nos développements mais également pour faciliter les tests manuels, nous avons opté pour quelques supports physiques de téléphones ou tablettes de type &lt;a href="http://devicelab.vanamco.com/"&gt;devicelab&lt;/a&gt; couplé à &lt;a href="http://vanamco.com/ghostlab/"&gt;GhostLab&lt;/a&gt; :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Mur de &amp;quot;devices&amp;quot;" src="images/responsive/mur-devices.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Enfin, nos tests Selenium sont en cours d’évolution puisque nous comptons maintenent les lancer sous 2 formats (grand et petit écran).&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Le passage au site "responsive" s’est passé sans accroc.&lt;/p&gt;
+&lt;p&gt;Le travail a porté ses fruits, notamment sur 2 points :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;l’impact SEO suite à la mise en ligne du site reponsive a été largement positif avec une progression entre 20 et 30 % (également lié à la suppression du message d’avertissement dans les pages de résultats Google indiquant que le site n’était pas adapté au mobile suite au blocage des robots sur ce même domaine),&lt;/li&gt;
+&lt;li&gt;l’unification du code simplifie le développement et allège les processus au quotidien (moins de livrables, moins d’environnements, moins de projets dont des briques communes, etc).&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="French"></category><category term="JavaScript"></category><category term="responsive"></category></entry><entry><title>Meet Up Enterprise Search Paris</title><link href="/Meet%20Up%20Enterprise%20Search%20Paris.html" rel="alternate"></link><updated>2015-04-08T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-04-08:Meet Up Enterprise Search Paris.html</id><summary type="html">&lt;p&gt;Voici la présentation effectuée par Mappy lors du dernier &lt;a href="http://www.meetup.com/Enterprise-Search-Paris/events/220773793/"&gt;Meet Up Enterprise Search Paris&lt;/a&gt; impeccablement organisé par &lt;a href="http://www.francelabs.com/"&gt;France Labs&lt;/a&gt; au NUMA.&lt;/p&gt;
 &lt;iframe src="//slides.com/solrmappy/deck/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</summary><category term="Solr"></category><category term="OpenSource"></category><category term="MeetUp"></category></entry><entry><title>JavaScript : de Q aux promesses natives</title><link href="/javascript-de-Q-aux-promesses-natives.html" rel="alternate"></link><updated>2015-04-08T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-04-08:javascript-de-Q-aux-promesses-natives.html</id><summary type="html">&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
 &lt;h1&gt;Boucle d’événement ?&lt;/h1&gt;
 &lt;p&gt;Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (&lt;code&gt;timeout&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.

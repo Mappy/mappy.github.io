@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Mappy.com dorénavant responsive !</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+
+        <script src="/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><strong>Mappy</strong>Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/mappy-responsive.html" rel="bookmark"
+                   title="Permalink to Mappy.com dorénavant responsive !">Mappy.com dorénavant responsive !</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2015-07-09T00:00:00+02:00">
+                Thu 09 July 2015
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).</p>
+<p><img alt="Site petit écran" src="images/responsive/petitecran.png" />
+<img alt="Site écran moyen" src="images/responsive/moyenecran.png" />
+<img alt="Site grand écran" src="images/responsive/grandecran.png" /></p>
+<p>En effet, auparavant, les sites <a href="//fr.mappy.com">fr.mappy.com</a>, <a href="//fr-be.mappy.com">fr-be.mappy.com</a>, <a href="//nl-be.mappy.com">nl-be.mappy.com</a> et <a href="//en.mappy.com">en.mappy.com</a> étaient dédiés aux navigateurs de bureau et m.mappy.com aux navigateurs mobiles et tablettes.
+Ce billet a pour but de présenter le contexte et notre parcours vers cette orientation.</p>
+<h2>Historiquement 2 sites</h2>
+<p>Mappy a mis en ligne mobile il y a plus de 5 ans.
+D’abord via des technologies de type BkRender (pour les téléphones très limités de l’époque), le site a évolué à plusieurs reprises vers une version "HTML5" incorporant une base commune de code avec le site principal (notamment backbone et l’API de cartographie Mappy).</p>
+<h2>Réflexion autour du Responsive</h2>
+<p>Nos principales motivations au passage à un site responsive étaient :</p>
+<ul>
+<li>d’arrêter le double développement d’User-Stories à la fois sur le site fixe et mobile (et, ainsi, de livrer les futures User-Stories sur tous les supports),</li>
+<li>l’<a href="http://googlewebmastercentral.blogspot.fr/2015/04/faqs-april-21st-mobile-friendly.html">annonce de Google</a> favorisant les sites "mobile-friendly" alors que le site mobile était fermé aux robots,</li>
+<li>le fait de n’avoir qu’une unique base de code, afin de simplifier le développement de nouvelles fonctionnalités et la maintenance,</li>
+<li>d’offrir une version mobile pour les versions étrangères.</li>
+</ul>
+<p>Le passage à un site responsive soulève néanmoins quelques points de vigilance quant au processus actuel :</p>
+<ul>
+<li>chaque fonctionnalité doit être testée sur plus de support qu’auparavant,</li>
+<li>lors de la conception, certains points doivent être pris en compte (conception sur petit et grand écran, gestion du touch, image en haute définition, etc).</li>
+</ul>
+<p>Enfin, certaines fonctionnalités sont différentes entre le site fixe et le site mobile.
+L’itinéraire sur mobile par exemple, présente un écran affichant le sommaire de la feuille de route, écran inexistant sur la version fixe.</p>
+<p>Une preuve de concept a alors été réalisée pour déterminer la faisabilité technique d’un site reponsive.
+Cette preuve de concept a démontré qu’un résultat satisfaisant pouvait être atteint à un coût acceptable (environ 2 itérations de développement).</p>
+<h2>Implémentation</h2>
+<h3>"Responsive client" ou "dynamic server" ?</h3>
+<p>L’implémentation peut s’effectuer de 2 façons, éventuellement complémentaires :</p>
+<ul>
+<li>l’<strong>approche "responsive client"</strong> : le même code est envoyé par le serveur à tous les navigateurs, qu’ils soient mobiles ou non, et l’affichage des éléments graphiques est conditionné par des <code>media queries</code> CSS et des comportements différents éventuellement conditionnés par du code JavaScript ;</li>
+<li>l’<strong>approche "dynamic server"</strong> : un contenu HTML, CSS et JS différent est envoyé à chaque client en fonction du <code>User-Agent</code>.</li>
+</ul>
+<p>L’approche "dynamic server" a l’avantage de pouvoir servir un contenu allégé de façon bien plus simple qu’avec l’approche côté cliente (notamment pour les images). Cependant, elle a l’énorme inconvénient de servir un contenu différent en fonction du <code>User-Agent</code>, une pratique dangereuse en cas de <code>reverse-proxy</code> (à moins d’ajouter un entête <code>Vary: User-Agent</code> qui rend l’utilisation d’un reverse-proxy caduque). Enfin, certains navigateurs se disent iPhone, Android et Windows Phone comme c’est le cas pour <a href="https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx#code-snippet-11">Windows Phone 8.1</a> ce qui rend la tâche complexe.</p>
+<p>L’approche "responsive client", préconisée par les <a href="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/responsive-design#why-responsive-design">recommandations SEO</a> de Google, n’a pas ces inconvénients puisque le même contenu est servi à tous.
+Par contre, il est plus difficile de charger un contenu allégé en fonction du navigateur.</p>
+<h3>CSS</h3>
+<p>L’implémentation du site responsive s’effectue principalement via des "<a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries?redirectlocale=en-US&amp;redirectslug=CSS%2FMedia_queries">CSS media queries</a>" afin d’afficher ou masquer des éléments ou les ré-arranger en fonction de la taille d’écran :</p>
+<h4>Site grand écran</h4>
+<p><img alt="Zoning grand écran" src="images/responsive/zoning-fixe.jpg" /></p>
+<h4>Site petit écran</h4>
+<p><img alt="Zoning petit écran" src="images/responsive/zoning-mobile-home.jpg" />
+<img alt="Zoning petit écran" src="images/responsive/zoning-mobile-poi.jpg" />
+<img alt="Zoning petit écran" src="images/responsive/zoning-mobile-resultats.jpg" /></p>
+<p>Page d’accueil / écran de résultats / affichage d’un POI ou un itinéraire</p>
+<p>3 points de rupture principaux ont été définis pour :</p>
+<ul>
+<li>les petits écrans (par exemple les téléphones en portrait/paysage et tablette en portrait),</li>
+<li>les écrans moyens (par exemple les tablettes en mode paysage),</li>
+<li>et enfin les grands écrans (toutes les plus grandes définitions) où certains contenus sont plus aérés (taille des éléments, marge entre la barre gauche et la carte et le bord de l’écran, etc).</li>
+</ul>
+<p>Un point de détail, depuis le passage au responsive, notre vocabulaire a changé puisque nous parlons de petit ou grand écran plutôt que de fixe et mobile.</p>
+<h3>Optimisations graphiques</h3>
+<p>À la manière de <a href="https://fortawesome.github.io/Font-Awesome/icons/">Font Awesome</a>, une grande partie de nos icônes (catégories de commerce, outils de la carte, etc) utilise une police de caractère spéciale les aggrégeant. Cela permet de s’abstraire d’une version normale et haute densité de pixel ("retina").
+Cette technique se limite toutefois à des icônes d’une seule couleur donc nous conservons encore quelques sprites.</p>
+<h3>JavaScript</h3>
+<p>Certains cas minoritaires nécessitent l’utilisation de JavaScript pour adapter le comportement à la cible (notamment le choix des emplacements publicitaires à afficher ou les différences de comportement comme le cas du sommaire de la feuille de route évoqué plus haut).</p>
+<p>Néanmoins, la majorité des cas ne concerne que des adaptations au niveau des CSS.</p>
+<h2>Tests</h2>
+<p>Afin d’avoir un feedback rapide lors de nos développements mais également pour faciliter les tests manuels, nous avons opté pour quelques supports physiques de téléphones ou tablettes de type <a href="http://devicelab.vanamco.com/">devicelab</a> couplé à <a href="http://vanamco.com/ghostlab/">GhostLab</a> :</p>
+<p><img alt="Mur de &quot;devices&quot;" src="images/responsive/mur-devices.jpg" /></p>
+<p>Enfin, nos tests Selenium sont en cours d’évolution puisque nous comptons maintenent les lancer sous 2 formats (grand et petit écran).</p>
+<h2>Conclusion</h2>
+<p>Le passage au site "responsive" s’est passé sans accroc.</p>
+<p>Le travail a porté ses fruits, notamment sur 2 points :</p>
+<ul>
+<li>l’impact SEO suite à la mise en ligne du site reponsive a été largement positif avec une progression entre 20 et 30 % (également lié à la suppression du message d’avertissement dans les pages de résultats Google indiquant que le site n’était pas adapté au mobile suite au blocage des robots sur ce même domaine),</li>
+<li>l’unification du code simplifie le développement et allège les processus au quotidien (moins de livrables, moins d’environnements, moins de projets dont des briques communes, etc).</li>
+</ul>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="/pages/About.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/javascript.html">javascript</a></li>
+		<li><a href="/category/leaflet.html">leaflet</a></li>
+		<li><a href="/category/mapping.html">Mapping</a></li>
+		<li><a href="/category/panorama.html">panorama</a></li>
+		<li><a href="/category/press-releases.html">Press releases</a></li>
+		<li><a href="/category/web.html">web</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="/theme/js/libs/gumby.min.js"></script>
+  <script src="/theme/js/plugins.js"></script>
+
+</body>
+</html>
