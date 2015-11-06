@@ -1,0 +1,285 @@
+.mappy-outdoor-view {
+    position: relative;
+    font-family: 'Dosis', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.mappy-outdoor-view .address {
+    transition: opacity 0.5s linear;
+    opacity: 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.mappy-outdoor-view .address span {
+    display: inline-block;
+    margin-bottom: 10px;
+    background: rgba(255, 255, 255, .75);
+    padding: 5px 10px;
+    border-radius: 2px;
+}
+
+.mappy-outdoor-view .default-marker {
+    position: absolute;
+    background-image: url("images/poi.png");
+    background-repeat:no-repeat;
+    height: 55px;
+    min-width: 41px;
+}
+
+.mappy-outdoor-view .default-marker span {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: #fff;
+    margin-left: 20px;
+    padding: 5px;
+    position: relative;
+    top: -5px;
+}
+
+#mappy-outdoor-map {
+}
+
+.mappy-outdoor-view .fullscreen-button {
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor:pointer;
+}
+
+.mappy-outdoor-view .fullscreen-button .arrow {
+    fill:#777;
+}
+
+.mappy-outdoor-view .fullscreen-button .arrow:hover {
+    fill:#68d419;
+}
+
+.mappy-outdoor-view .fullscreen-button .background{
+    fill:white;
+}
+
+.positionMarker {
+    width: 18px;
+    height: 29px;
+}
+
+.positionMarker > div {
+    position: absolute;
+}
+
+.positionMarkerPicto {
+    background-image: url("images/upi.png");
+    background-repeat: no-repeat;
+    width: 18px;
+    height: 29px;
+}
+
+#positionMarkerFov {
+    background-image: url("images/fov.png");
+    width: 117px;
+    height: 61px;
+    left: -49px;
+    top: -35px;
+    transform-origin: 50% 90%;
+}
+
+#mappy-outdoor-map .leaflet-div-icon {
+    background: none;
+    border: none;
+}
+
+.mappy-debug-console {
+    padding: 15px;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50px;
+    left: 50px;
+    -webkit-user-select : initial;
+    -moz-user-select : initial;
+}
+
+/* Report Image button */
+.mappy-outdoor-view .report-image-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+}
+
+.mappy-outdoor-view .report-image-btn a {
+    padding: 5px;
+    color: #000;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 2px;
+    background-clip: padding-box;
+    font-size: 12px;
+    text-decoration: none;
+}
+
+.mappy-outdoor-view .report-image-btn a:hover {
+    text-decoration: underline;
+}
+
+/* Zoom bar */
+.mappy-outdoor-view .zoom-bar {
+    position: absolute;
+    bottom: 300px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border:1px solid rgba(200, 200, 200, .5);
+    box-shadow:0 0 7px rgba(0, 0, 0, .5);
+    border-radius:3px;
+    padding:8px 4px;
+}
+
+.mappy-outdoor-view .zoom-bar-plus, .mappy-outdoor-view .zoom-bar-minus {
+    font-family:'Helvetica', Arial;
+    padding: 5px;
+    background-color: #fff;
+    width: 12px;
+    font-size: 16px;
+    display: block;
+    text-align: center;
+    box-shadow:0 0 2px solid rgba(255, 255, 255, .4);
+    cursor: pointer;
+    width:7px;
+    height:7px;
+    border-radius:50% 50%;
+    color: #555;
+}
+
+.mappy-outdoor-view .zoom-bar-plus:hover, .mappy-outdoor-view .zoom-bar-minus:hover {
+    background:#68d419;
+    box-shadow:0 0 2px solid rgba(255, 255, 255, .2);
+}
+
+.mappy-outdoor-view .zoom-bar-plus span, .mappy-outdoor-view .zoom-bar-minus span {
+    display: block;
+    position:relative;
+    font-weight: bold;
+}
+
+.mappy-outdoor-view .zoom-bar-plus span {
+    top: -5px;
+    left: -1.2px;
+}
+
+.mappy-outdoor-view .zoom-bar-minus span {
+    top: -6px;
+    left: 0px;
+}
+
+@-moz-document url-prefix() {
+    .mappy-outdoor-view .zoom-bar-plus span {
+        top: -8px;
+    }
+
+    .mappy-outdoor-view .zoom-bar-minus span {
+        top: -8px;
+    }
+}
+
+.mappy-outdoor-view .zoom-bar-plus {
+    color: #000;
+}
+
+.mappy-outdoor-view .zoom-bar-minus {
+    color: #000;
+}
+
+.mappy-outdoor-view .zoom-bar-slider {
+    height: 150px;
+    background-color: rgba(255, 255, 255, 0.3);
+    position: relative;
+    width: 2px;
+    margin: auto;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    border:2px solid rgba(255, 255, 255, .5);
+}
+
+.mappy-outdoor-view .zoom-bar-knob {
+    position: absolute;
+    width: 100%;
+    height: 9px;
+    background-color: #fff;
+    cursor: pointer;
+    left: 0;
+    width: 12px;
+    left: -5px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+#mappy-outdoor-map .mappy-control-zoom.leaflet-control.mappy-control {
+    position:relative;
+    top:30px;
+}
+#mappy-outdoor-map .mappy-button-zoom-in span {
+    margin: 6px 7px;
+}
+#mappy-outdoor-map .mappy-button-zoom-out span {
+    margin: 6px 7px;
+}
+#mappy-outdoor-map .mappy-button {
+    width:29px;
+}
+#mappy-outdoor-map .mappy-button-zoom-in, #mappy-outdoor-map .mappy-button-zoom-out {
+    padding: 1px 0px;
+}
+
+.mappy-outdoor-view .fullscreen-button {
+    display: none;
+}
+
+.mappy-outdoor-view .mini-view {
+    position: absolute;
+    height: 150px;
+    width: 300px;
+    bottom: 20px;
+    right: 10px;
+    box-shadow:0 0 10px rgba(0, 0, 0, .3);
+    border:1px solid #fff;
+    z-index: 2;
+}
+.mappy-outdoor-view .mini-view .fullscreen-button {
+    display: block;
+    z-index: 2;
+}
+
+.mappy-outdoor-3d.hover {
+    cursor: pointer;
+}
+
+.mappy-outdoor-3d.panning {
+    cursor: move; /* for IE because it don’t know grabbing */
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
+/*
+ * When map is in fullscreen
+ * */
+.mappy-map-fullscreen #mappy-outdoor-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    width: auto;
+    z-index: 1;
+}
+
+.mappy-map-fullscreen.mappy-outdoor-view .zoom-bar,
+.mappy-map-fullscreen .mini-view .report-image-btn,
+.mappy-map-fullscreen .mini-view .address {
+    display: none;
+}
+
+img {
+  pointer-events: none;
+}
