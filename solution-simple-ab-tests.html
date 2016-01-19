@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Une solution simple pour les A/B test</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><img src="images/logo.png" /> Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/solution-simple-ab-tests.html" rel="bookmark"
+                   title="Permalink to Une solution simple pour les A/B test">Une solution simple pour les A/B test</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2016-01-19T00:00:00+01:00">
+                Tue 19 January 2016
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.</p>
+<p>Le principe est de proposer une variante pour une fonctionnalité pour une partie de l’audience et ce, pendant une période donnée.</p>
+<p>Exemples :</p>
+<ul>
+<li>changement de couleur d’un bouton,</li>
+<li>présentation de produits sous forme de grille plutôt que sous forme de liste.</li>
+</ul>
+<p>L’intérêt est ensuite de suivre les métriques (clics, taux de conversion, achats, etc) pour le groupe A (sans variante) et le groupe B (avec la variante).</p>
+<p><img alt="Exemple A/B test" src="images/web/AB-testing.png" />
+Source de l’image : <a href="https://fr.wikipedia.org/wiki/Test_A/B">Wikipedia</a></p>
+<p>A l’issue de la période, si les métriques pour la variante sont meilleures que la version normale, on transforme la variante en version par défaut.</p>
+<p>Il est tout à fait possible d’avoir plus qu’une variante que l’on partagera entre l’audience totale (33 % pour 2 variantes et la référence, 25 % pour 3, etc).</p>
+<p>Le but des A/B tests est de pouvoir tester ce qui fonctionne le mieux en condition réelle pour améliorer continuellement son produit.</p>
+<h2>Premier essai sur mappy.com</h2>
+<p>L’objectif de <a href="http://fr.mappy.com">Mappy</a> est de tester différentes variantes du site web, que cela soit purement graphique ou à travers des écrans/comportements différents.</p>
+<p>Nous avons initialement utilisé un outil externe fonctionnant via l’inclusion d’un JavaScript externe depuis le <a href="http://fr.mappy.com">site Mappy</a>.</p>
+<p>L’avantage d’une telle solution est qu’elle est facilement mise en place sur le site (une simple balise <code>script</code>) et que la création des tests peut se faire via l’outil externe en ligne (via du "drag and drop" ou via l’écriture de JavaScript directement dans l’outil).</p>
+<p>Le principal inconvénient d’une telle solution est qu’il est difficile de réaliser tous les A/B tests souhaités.</p>
+<p>En effet, il est difficile de se brancher sur des appels Ajax ou d’autres comportements et on en revient à "surveiller" des changements sur des éléments DOM.
+Cela n’est pas performant et on constate rapidement du "<a href="https://en.wikipedia.org/wiki/Flicker_%28screen%29#Software_artifacts">flickering</a>" (version initiale suivi de la variante après quelques millisecondes).</p>
+<p>Par ailleurs, l’inclusion d’un script externe est toujours délicate, notamment en terme de performances (requêtes, poids, etc) et de sécurité (non maîtrise du script inclus).</p>
+<h2>Une meilleure solution</h2>
+<p>Après avoir validé une preuve de concept, nous avons rapidement réalisé qu’il était trivial de gérer les tests A/B soi-même.</p>
+<p>Il s’agit simplement :</p>
+<ol>
+<li>d’héberger un fichier de configuration indiquant les tests, la répartition, etc,</li>
+<li>d’analyser ce fichier au chargement du site, de tirer un chiffre au hasard pour déterminer le test à appliquer,</li>
+<li>ensuite, pour chaque test, de faire les modifications dans le code pour afficher la variante (ou ne rien faire et afficher la référence).</li>
+</ol>
+<p>La partie métrique est également très importante mais nous utilisons simplement notre solution existante (AT Internet ou, pour notre service BI, ajoutons les identifiants d’A/B test et de variante aux requêtes d’API).</p>
+<p>Comme exemple, j’utiliserai notre 1er A/B test ayant consisté à proposer 4 couleurs de boutons différentes :</p>
+<p><img alt="A/B test sur les couleurs de bouton" src="images/web/abtest-buttons.jpg" /></p>
+<h3>1. Fichier de configuration</h3>
+<p>Mappy héberge le fichier de configuration des A/B tests sur <a href="http://ab.mappy.net/config.json">http://ab.mappy.net/config.json</a>.</p>
+<p>Voici le fichier de configuration pour le test sur les couleurs de boutons :</p>
+<div class="highlight"><pre><span class="p">[{</span>
+    <span class="s2">&quot;id&quot;</span><span class="o">:</span>     <span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">,</span>   <span class="c1">// Identifiant unique du test</span>
+    <span class="s2">&quot;from&quot;</span><span class="o">:</span>   <span class="s2">&quot;2015-12-18T00:00:00&quot;</span><span class="p">,</span> <span class="c1">// Date ou commence le test</span>
+    <span class="s2">&quot;to&quot;</span><span class="o">:</span>     <span class="s2">&quot;2016-01-01T00:00:00&quot;</span><span class="p">,</span> <span class="c1">// Date ou se termine le test</span>
+    <span class="s2">&quot;conditions&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;platforms&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;ge&quot;</span><span class="p">],</span> <span class="c1">// &quot;ge&quot; pour les grands ecrans, &quot;pe&quot; pour les mobiles</span>
+        <span class="s2">&quot;locales&quot;</span><span class="o">:</span> <span class="p">[</span><span class="s2">&quot;fr_FR&quot;</span><span class="p">]</span> <span class="c1">// sur quel site s applique le test : fr.mappy.com, fr-be,...</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;variants&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;reference&quot;</span><span class="p">,</span>   <span class="s2">&quot;from&quot;</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="s2">&quot;to&quot;</span><span class="o">:</span> <span class="mi">25</span>  <span class="p">},</span> <span class="c1">// version de référence,</span>
+        <span class="c1">// utilisé lorsque le chiffre du navigateur est entre 0 et 25 (exclus)</span>
+        <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;orangefonce&quot;</span><span class="p">,</span> <span class="s2">&quot;from&quot;</span><span class="o">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="o">:</span> <span class="mi">50</span>  <span class="p">},</span> <span class="c1">// 1ère variante, entre 25 et 50</span>
+        <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;rose&quot;</span><span class="p">,</span>        <span class="s2">&quot;from&quot;</span><span class="o">:</span> <span class="mi">50</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="o">:</span> <span class="mi">75</span>  <span class="p">},</span> <span class="c1">// etc</span>
+        <span class="p">{</span> <span class="s2">&quot;id&quot;</span><span class="o">:</span> <span class="s2">&quot;lavande&quot;</span><span class="p">,</span>     <span class="s2">&quot;from&quot;</span><span class="o">:</span> <span class="mi">75</span><span class="p">,</span> <span class="s2">&quot;to&quot;</span><span class="o">:</span> <span class="mi">100</span> <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}]</span>
+</pre></div>
+
+
+<h3>2. AbTestModel et AbTestCollection</h3>
+<p>Nous utilisons un modèle Backbone comme objet pour gérer chaque A/B test.
+Il s’agit de l’<code>AbTestModel</code>.</p>
+<p>Ce dernier charge la configuration et la valide (vérification de la présence des champs, que les totaux des variantes fassent 100 %, etc).</p>
+<p>Il offre également une méthode <code>isTargetted</code> qui retourne <code>true</code> si le test est éligible pour le navigateur courant (s’il répond aux critères).
+Cette méthode se décompose en 3 parties : <code>isTargettedByPlatform</code>, <code>isTargettedByLocale</code> et <code>isTargettedByDate</code>.</p>
+<p>Une autre méthode, <code>getVariant</code>, retourne l’une des variantes en ayant préalablement tiré un chiffre au hasard via <code>getRandomId</code>.</p>
+<p>Enfin, la méthode <code>start</code> est appelée lorsque l’on souhaite démarrer le test.
+Cette dernière change un état interne et se doit de lancer un appel de tag.</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Backbone</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">AbTestModel</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+    <span class="nx">parse</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">resp</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">resp</span><span class="p">.</span><span class="nx">from</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">from</span><span class="p">);</span> <span class="c1">// Conversion des dates</span>
+        <span class="nx">resp</span><span class="p">.</span><span class="nx">to</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nx">resp</span><span class="p">.</span><span class="nx">to</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">resp</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">validate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attributes</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Vérification des champs obligatoires</span>
+        <span class="kd">var</span> <span class="nx">mandatory</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;from&#39;</span><span class="p">,</span> <span class="s1">&#39;to&#39;</span><span class="p">,</span> <span class="s1">&#39;variants&#39;</span><span class="p">,</span> <span class="s1">&#39;conditions&#39;</span><span class="p">];</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">mandatory</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="o">!!</span><span class="nx">attributes</span><span class="p">[</span><span class="nx">attr</span><span class="p">];</span>
+        <span class="p">}))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s1">&#39;missing attribute in abtest configuration&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Vérification que le total des variantes fasse 100 %</span>
+        <span class="kd">var</span> <span class="nx">lastLimit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="nx">valid</span> <span class="o">=</span> <span class="kc">true</span><span class="p">,</span>
+            <span class="nx">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">variants</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">attr</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">attr</span><span class="p">.</span><span class="nx">from</span> <span class="o">!==</span> <span class="nx">lastLimit</span> <span class="o">||</span> <span class="o">!</span><span class="nx">attr</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">valid</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="nx">lastLimit</span> <span class="o">=</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">to</span><span class="p">;</span>
+
+            <span class="nx">sum</span> <span class="o">+=</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">to</span> <span class="o">-</span> <span class="nx">attr</span><span class="p">.</span><span class="nx">from</span><span class="p">;</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+        <span class="nx">valid</span> <span class="o">=</span> <span class="nx">sum</span> <span class="o">!==</span> <span class="mi">100</span> <span class="o">?</span> <span class="kc">false</span> <span class="o">:</span> <span class="nx">valid</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">valid</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s1">&#39;invalid abtest variants&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Vérification des conditions</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">conditions</span><span class="p">.</span><span class="nx">platforms</span> <span class="o">||</span> <span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">conditions</span><span class="p">.</span><span class="nx">platforms</span><span class="p">.</span><span class="nx">join</span> <span class="o">||</span>
+            <span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">conditions</span><span class="p">.</span><span class="nx">locales</span> <span class="o">||</span> <span class="o">!</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">conditions</span><span class="p">.</span><span class="nx">locales</span><span class="p">.</span><span class="nx">join</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s1">&#39;invalid abtest conditions&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Le navigateur courant correspond-il à la cible ?</span>
+    <span class="nx">isTargetted</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">isTargettedByDate</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">isTargettedByPlatform</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">isTargettedByLocale</span><span class="p">();</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Est-ce la bonne date ?</span>
+    <span class="nx">isTargettedByDate</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">now</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">();</span>
+        <span class="k">return</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;from&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nx">now</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;to&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nx">now</span><span class="p">);</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Est-ce la bonne taille d’écran (mobile ou navigateur de bureau) ?</span>
+    <span class="nx">isTargettedByPlatform</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;conditions&#39;</span><span class="p">).</span><span class="nx">platforms</span><span class="p">,</span> <span class="s1">&#39;ge&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span>
+            <span class="nx">parameters</span><span class="p">.</span><span class="nx">size</span> <span class="o">&gt;</span> <span class="nx">parameters</span><span class="p">.</span><span class="nx">sizes</span><span class="p">.</span><span class="nx">medium</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;conditions&#39;</span><span class="p">).</span><span class="nx">platforms</span><span class="p">,</span> <span class="s1">&#39;pe&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span>
+            <span class="nx">parameters</span><span class="p">.</span><span class="nx">size</span> <span class="o">&lt;=</span> <span class="nx">parameters</span><span class="p">.</span><span class="nx">sizes</span><span class="p">.</span><span class="nx">medium</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Est-ce le bon domaine ?</span>
+    <span class="nx">isTargettedByLocale</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;conditions&#39;</span><span class="p">).</span><span class="nx">locales</span><span class="p">,</span> <span class="nb">window</span><span class="p">.</span><span class="nx">parameters</span><span class="p">.</span><span class="nx">locale</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Tirage au sort d’une valeur qui permettra de déterminer la variante</span>
+    <span class="nx">getRandomId</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ab</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">)</span> <span class="o">||</span> <span class="s1">&#39;{}&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ab</span> <span class="o">||</span> <span class="nx">ab</span><span class="p">.</span><span class="nx">id</span> <span class="o">!==</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">ab</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="nx">id</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span>
+                <span class="nx">randomId</span><span class="o">:</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="p">};</span>
+            <span class="nx">localStorage</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;ab&#39;</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">ab</span><span class="p">));</span> <span class="c1">// Variante persistée dans le localStorage, afin de servir la même variante de visite en visite</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nx">ab</span><span class="p">.</span><span class="nx">randomId</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Quelle est la variante pour ce navigateur ?</span>
+    <span class="nx">getVariant</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">variant</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;variants&#39;</span><span class="p">),</span> <span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span>  <span class="k">this</span><span class="p">.</span><span class="nx">getRandomId</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="nx">v</span><span class="p">.</span><span class="nx">from</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">getRandomId</span><span class="p">()</span> <span class="o">&lt;</span> <span class="nx">v</span><span class="p">.</span><span class="nx">to</span><span class="p">;</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
+        <span class="k">return</span> <span class="nx">variant</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="c1">// Démarrage du test</span>
+    <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">this</span><span class="p">.</span><span class="nx">started</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// Envoi d’un tag à AT Internet pour signaler le début du test</span>
+            <span class="c1">// http://help.atinternet-solutions.com/FR/implementation/specific_tags/tg_abtesting_fr.htm</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">started</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Le fichier de configuration est un tableau d’objet JSON.</p>
+<p>Nous utilisons donc une collection Backbone, <code>AbTestCollection</code>, qui se charge de récupérer ce fichier via Ajax lors d’un appel sur la méthode <code>fetch</code> et d’instancier les modèles <code>AbTestModel</code>.</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>           <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">Backbone</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">AbTestModel</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../model/AbTestModel&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">AbTestCollection</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Collection</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+
+    <span class="nx">model</span><span class="o">:</span> <span class="nx">AbTestModel</span><span class="p">,</span> <span class="c1">// Model composant la collection</span>
+
+    <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;//abtest.mappy.net/config.json&#39;</span><span class="p">,</span>
+
+    <span class="c1">// Les collections Backbone héritent d’une méthode fetch, effectuant un appel Ajax sur la propriété url</span>
+
+    <span class="nx">init</span><span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+         <span class="c1">// Test en cours (il n’y en a toujours qu’un seul actif en même temps)</span>
+        <span class="kd">var</span> <span class="nx">currentTest</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">models</span><span class="p">,</span> <span class="nx">_</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">model</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">model</span><span class="p">.</span><span class="nx">isTargetted</span><span class="p">();</span>
+        <span class="p">},</span> <span class="k">this</span><span class="p">));</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nx">currentTest</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">current</span> <span class="o">=</span> <span class="nx">currentTest</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="nx">getVariant</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">testId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">current</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="nx">testId</span> <span class="o">||</span> <span class="k">this</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="nx">testId</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">getVariant</span><span class="p">();</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="p">},</span>
+
+    <span class="nx">start</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">testId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Appel de start sur le test pour le test en cours</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">current</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="o">===</span> <span class="nx">testId</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">start</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="p">});</span>
+</pre></div>
+
+
+<h3>3. Utilisation dans le code</h3>
+<p>Pour ce test qui consiste à proposer différentes couleurs de boutons, il suffit alors :</p>
+<ol>
+<li>D’instancier la collection pour déterminer le test actif,</li>
+<li>De récupérer la variante de test,</li>
+<li>D’ajouter une classe CSS sur le <code>body</code> qui surchargera les couleurs des boutons, ici dans un fichier <code>less</code>.</li>
+<li>De démarrer le test (consistant à envoyer un tag) dès qu’une variante (ou la référence) est affichée à l’utilisateur</li>
+</ol>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">variantBookingColor</span> <span class="o">=</span> <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">getVariant</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">variantBookingColor</span> <span class="o">&amp;&amp;</span> <span class="nx">variantBookingColor</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;ab-&quot;</span> <span class="o">+</span> <span class="nx">variantBookingColor</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="nt">body</span><span class="nc">.ab-orangefonce</span> <span class="nc">.button</span> <span class="p">{</span>
+    <span class="nb">background-color</span><span class="o">:</span> <span class="m">#f86312</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">body</span><span class="nc">.ab-rose</span> <span class="nc">.button</span> <span class="p">{</span>
+    <span class="nb">background-color</span><span class="o">:</span> <span class="m">#ea148c</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">body</span><span class="nc">.ab-lavande</span> <span class="nc">.button</span> <span class="p">{</span>
+    <span class="nb">background-color</span><span class="o">:</span> <span class="m">#8968d4</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Et voici le démarrage du test dès l’affichage d’une liste possédant les boutons.</p>
+<div class="highlight"><pre>    <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>En effet, concernant les statistiques, nous ne nous intéressons qu’aux personnes ayant vu la référence ou une variante et non tous les autres visiteurs.</p>
+<p>L’exemple ici est simpliste mais, en laissant la liberté côté JavaScript, il est possible de réaliser n’importe quel test.</p>
+<p>Par exemple, notre second A/B test propose 2 menus de catégorie différents (donc des modifications CSS mais également d’autres balises HTML et éventuellement une vue Backbone différente).
+Il est même possible, en ajoutant la variante aux paramètres des ressources JSON, de servir des contenus différents et donc d’étendre le test au code serveur.</p>
+<h2>Un nom, un logo : Loligo</h2>
+<p>Pour la petite histoire, ce mini-projet a été baptisé Loligo en honneur à l’espèce de Calamar <a href="https://en.wikipedia.org/wiki/Loligo_forbesii">Loligo Forbesii</a> et sa capacité de <a href="https://www.youtube.com/watch?v=pRrKzk1QmT4">camouflage</a>.</p>
+<p>Un logo a été réalisé pour l’occasion :</p>
+<p><img alt="logo de loligo" src="images/web/loligo.png" /></p>
+<h2>Pour conclure</h2>
+<p>La solution apportée répond pleinement à nos besoins et supprime les problématiques inhérentes à l’utilisation d’un service externe.
+Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="/pages/About.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/javascript.html">javascript</a></li>
+		<li><a href="/category/leaflet.html">leaflet</a></li>
+		<li><a href="/category/mapping.html">Mapping</a></li>
+		<li><a href="/category/panorama.html">panorama</a></li>
+		<li><a href="/category/press-releases.html">Press releases</a></li>
+		<li><a href="/category/web.html">web</a></li>
+		<li><a href="/category/webgl.html">webgl</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
