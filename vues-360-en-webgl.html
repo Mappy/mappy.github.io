@@ -98,7 +98,7 @@ Three.js permet, en quelques lignes de code, d’afficher une vue 3d sans avoir 
 En effet, lors d’un clic dans la scène 3d, nous récupèrons simplement un point (x,y) et il convient alors de trouver quel objet il croise (c’est le principe du <a href="https://fr.wikipedia.org/wiki/Raycasting">raycasting</a>).</p>
 <p>Pour cela, nous allons d’abord trouver le vecteur 3d entre ce point et la position de la caméra.
 Ensuite, Three.js nous propose le <a href="https://github.com/mrdoob/three.js/blob/master/src/core/Raycaster.js">Raycaster</a> qui permet ensuite de détecter une intersection avec un objet 3d.</p>
-<div class="highlight"><pre>var vector = getVectorFromEvent(event);
+<div class="highlight"><pre><span></span>var vector = getVectorFromEvent(event);
 var raycaster = new THREE.Raycaster(this.camera.position, vector);
 var intersectedObjects = raycaster.intersectObjects(objectsIn3dScene);
 </pre></div>
@@ -137,6 +137,7 @@ N’hésitez pas à nous contacter (deportalisation[AT]mappy.com) si une intégr
 
 <h4>Categories</h4>
 <ul>
+		<li><a href="/category/agility.html">agility</a></li>
 		<li><a href="/category/javascript.html">javascript</a></li>
 		<li><a href="/category/leaflet.html">leaflet</a></li>
 		<li><a href="/category/mapping.html">Mapping</a></li>

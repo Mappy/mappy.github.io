@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Mappy Labs</title><link>/</link><description></description><atom:link href="/feeds/mappy.rss.xml" rel="self"></atom:link><lastBuildDate>Tue, 19 Jan 2016 00:00:00 +0100</lastBuildDate><item><title>Une solution simple pour les A/B test</title><link>/solution-simple-ab-tests.html</link><description>&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
+<rss version="2.0"><channel><title>Mappy Labs</title><link>/</link><description></description><lastBuildDate>Fri, 08 Apr 2016 00:00:00 +0200</lastBuildDate><item><title>La Rétrospective de La Table Ronde</title><link>/agility.html</link><description>&lt;h2&gt;Enjeux de cette rétrospective&lt;/h2&gt;
+&lt;p&gt;Lorsqu'une équipe travaille depuis de très nombreuses itérations, la cérémonie de la rétrospective peut devenir fastidieuse :
+format toujours identique, impression de tourner en rond...
+Pour que cette réunion ne soit pas ressentie comme une corvée, il est important d'en renouveler régulièrement la forme, et, dans les limites du possible, le fond.&lt;/p&gt;
+&lt;p&gt;Cette variante de la Table Ronde a pour but d'essayer d'impliquer les membres de l'équipe au-delà de la réunion. A l'issue de la rétrospective, ils devront avoir formé des binômes de chevaliers en vue de réaliser une quête (et un trinôme si le nombre de participants est impair).
+(Et si les participants sont fans de Kaamelott, c'est encore mieux).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Chevaliers" src="images/agility/kaamelott.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;Préparation de la rétrospective&lt;/h2&gt;
+&lt;p&gt;Vous aurez besoin de :
+&lt;em&gt;   un tableau
+&lt;/em&gt;   des post-its et des feutres
+&lt;em&gt;   des papiers sur lesquels sont inscrits les noms de personnages de Kaamelott
+&lt;/em&gt;   une boîte / un chapeau pour y placer les papiers pliés en quatre
+*   un QCM portant sur la série Kaamelott&lt;/p&gt;
+&lt;p&gt;&lt;a href="resources/agility/QuizKaamelott.pdf"&gt;Exemple de QCM&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Déroulement de la rétrospective&lt;/h2&gt;
+&lt;p&gt;Sur un tableau blanc, préparer trois colonnes dans lesquelles les participants viendront placer leurs post-its :
++   &lt;em&gt;On en a gros !&lt;/em&gt; : Qu'est-ce qui ne va pas ?
++   &lt;em&gt;Le Graal&lt;/em&gt; : le but à atteindre (au niveau de l'équipe, ou au niveau personnel)
++   &lt;em&gt;Excalibur&lt;/em&gt; : ce qui peut aider l'équipe à atteindre le Graal'&lt;/p&gt;
+&lt;p&gt;Distribuer le QCM aux participants, qui ont toute la durée de la rétrospective pour le remplir. Eventuellement, proposer une récompense pour celui qui a le plus de bonnes réponses, mais le but est principalement d'instaurer une aura de bonne humeur généralisée. Comme ce sont des questions à choix multiples, même les personnes ne connaissant pas la série peuvent répondre correctement.&lt;/p&gt;
+&lt;p&gt;Ensuite, la réunion se déroule de manière classique : une fois tous les post-its placés au tableau, on vote pour les sujets dont on veut débattre durant le temps qu'il reste. Avant de lancer les discussions, chacun pioche un personnage de Kammelott et on forme des binômes de chevaliers (par exemple : Perceval et Karadoc, Yvain et Gauvain, Guethenoc et Roparz'h, Merlin et Elias...).
+Chaque binôme devra trouver une quête à réaliser pour la quête du Graal, avant la prochaine rétrospective, que ce soit pour aider l’équipe à atteindre un des Graals déterminés pendant la réunion, ou pour faciliter le travail de l’équipe, améliorer l’ambiance...&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Fri, 08 Apr 2016 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2016-04-08:agility.html</guid><category>Agilite</category><category>Retrospective</category></item><item><title>Une solution simple pour les A/B test</title><link>/solution-simple-ab-tests.html</link><description>&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
 &lt;p&gt;Le principe est de proposer une variante pour une fonctionnalité pour une partie de l’audience et ce, pendant une période donnée.&lt;/p&gt;
 &lt;p&gt;Exemples :&lt;/p&gt;
 &lt;ul&gt;
@@ -34,7 +56,7 @@ Cela n’est pas performant et on constate rapidement du "&lt;a href="https://en
 &lt;h3&gt;1. Fichier de configuration&lt;/h3&gt;
 &lt;p&gt;Mappy héberge le fichier de configuration des A/B tests sur &lt;a href="http://ab.mappy.net/config.json"&gt;http://ab.mappy.net/config.json&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Voici le fichier de configuration pour le test sur les couleurs de boutons :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="c1"&gt;// Identifiant unique du test&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;   &lt;span class="s2"&gt;&amp;quot;2015-12-18T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou commence le test&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;2016-01-01T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou se termine le test&lt;/span&gt;
@@ -62,7 +84,7 @@ Cette méthode se décompose en 3 parties : &lt;code&gt;isTargettedByPlatform&lt
 &lt;p&gt;Une autre méthode, &lt;code&gt;getVariant&lt;/code&gt;, retourne l’une des variantes en ayant préalablement tiré un chiffre au hasard via &lt;code&gt;getRandomId&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Enfin, la méthode &lt;code&gt;start&lt;/code&gt; est appelée lorsque l’on souhaite démarrer le test.
 Cette dernière change un état interne et se doit de lancer un appel de tag.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;exports&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
@@ -173,7 +195,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 
 &lt;p&gt;Le fichier de configuration est un tableau d’objet JSON.&lt;/p&gt;
 &lt;p&gt;Nous utilisons donc une collection Backbone, &lt;code&gt;AbTestCollection&lt;/code&gt;, qui se charge de récupérer ce fichier via Ajax lors d’un appel sur la méthode &lt;code&gt;fetch&lt;/code&gt; et d’instancier les modèles &lt;code&gt;AbTestModel&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;           &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;           &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;../model/AbTestModel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -222,14 +244,14 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 &lt;li&gt;D’ajouter une classe CSS sur le &lt;code&gt;body&lt;/code&gt; qui surchargera les couleurs des boutons, ici dans un fichier &lt;code&gt;less&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;De démarrer le test (consistant à envoyer un tag) dès qu’une variante (ou la référence) est affichée à l’utilisateur&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ab-&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-orangefonce&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-orangefonce&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nb"&gt;background-color&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#f86312&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-rose&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -242,7 +264,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 
 
 &lt;p&gt;Et voici le démarrage du test dès l’affichage d’une liste possédant les boutons.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -256,7 +278,7 @@ Il est même possible, en ajoutant la variante aux paramètres des ressources JS
 &lt;p&gt;&lt;img alt="logo de loligo" src="images/web/loligo.png" /&gt;&lt;/p&gt;
 &lt;h2&gt;Pour conclure&lt;/h2&gt;
 &lt;p&gt;La solution apportée répond pleinement à nos besoins et supprime les problématiques inhérentes à l’utilisation d’un service externe.
-Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 19 Jan 2016 00:00:00 +0100</pubDate><guid>tag:,2016-01-19:solution-simple-ab-tests.html</guid><category>French</category><category>JavaScript</category><category>ab</category><category>test</category></item><item><title>Vues 360 en WebGL</title><link>/vues-360-en-webgl.html</link><description>&lt;p&gt;Le site &lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; offre depuis 2011 des &lt;a href="http://fr.mappy.com/#/436/M1/TSearch/Sparis/N1090.14493,12.34393,2.34821,48.85369/Z7/"&gt;vues 360°&lt;/a&gt; des &lt;a href="http://widgets.mappy.com/360view/documentation/#coverage"&gt;320 villes&lt;/a&gt; plus grandes villes de France :&lt;/p&gt;
+Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 19 Jan 2016 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2016-01-19:solution-simple-ab-tests.html</guid><category>French</category><category>JavaScript</category><category>ab</category><category>test</category></item><item><title>Vues 360 en WebGL</title><link>/vues-360-en-webgl.html</link><description>&lt;p&gt;Le site &lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; offre depuis 2011 des &lt;a href="http://fr.mappy.com/#/436/M1/TSearch/Sparis/N1090.14493,12.34393,2.34821,48.85369/Z7/"&gt;vues 360°&lt;/a&gt; des &lt;a href="http://widgets.mappy.com/360view/documentation/#coverage"&gt;320 villes&lt;/a&gt; plus grandes villes de France :&lt;/p&gt;
 &lt;iframe src="http://widgets.mappy.com/360view?key=techblog&amp;lat=48.85369&amp;lng=2.34821" width="100%" height="400" scrolling="no"&gt;&lt;/iframe&gt;
 
 &lt;h2&gt;MappyCar&lt;/h2&gt;
@@ -299,7 +321,7 @@ Three.js permet, en quelques lignes de code, d’afficher une vue 3d sans avoir 
 En effet, lors d’un clic dans la scène 3d, nous récupèrons simplement un point (x,y) et il convient alors de trouver quel objet il croise (c’est le principe du &lt;a href="https://fr.wikipedia.org/wiki/Raycasting"&gt;raycasting&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Pour cela, nous allons d’abord trouver le vecteur 3d entre ce point et la position de la caméra.
 Ensuite, Three.js nous propose le &lt;a href="https://github.com/mrdoob/three.js/blob/master/src/core/Raycaster.js"&gt;Raycaster&lt;/a&gt; qui permet ensuite de détecter une intersection avec un objet 3d.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var vector = getVectorFromEvent(event);
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var vector = getVectorFromEvent(event);
 var raycaster = new THREE.Raycaster(this.camera.position, vector);
 var intersectedObjects = raycaster.intersectObjects(objectsIn3dScene);
 &lt;/pre&gt;&lt;/div&gt;
@@ -322,7 +344,7 @@ Nous n’avons pas pu résister à l'envie de &lt;a href="http://cdn.rawgit.com/
 &lt;h2&gt;Un dernier mot sur l’intégration des vues sur votre site&lt;/h2&gt;
 &lt;p&gt;&lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; propose plusieurs &lt;a href="http://corporate.mappy.com/faq/integrez-mappy/"&gt;modes d’intégration&lt;/a&gt; pour ses cartes ou sa vue 360.
 L’un des modes se présente sous la forme d’un widget (tel que l’exemple en haut de cette page).
-N’hésitez pas à nous contacter (deportalisation[AT]mappy.com) si une intégration sur votre site ou vos applications mobiles vous intéresse.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 05 Nov 2015 00:00:00 +0100</pubDate><guid>tag:,2015-11-05:vues-360-en-webgl.html</guid><category>French</category><category>JavaScript</category><category>WebGL</category><category>three.js</category></item><item><title>Mappy.com dorénavant responsive !</title><link>/mappy-responsive.html</link><description>&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
+N’hésitez pas à nous contacter (deportalisation[AT]mappy.com) si une intégration sur votre site ou vos applications mobiles vous intéresse.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 05 Nov 2015 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2015-11-05:vues-360-en-webgl.html</guid><category>French</category><category>JavaScript</category><category>WebGL</category><category>three.js</category></item><item><title>Mappy.com dorénavant responsive !</title><link>/mappy-responsive.html</link><description>&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Site petit écran" src="images/responsive/petitecran.png" /&gt;
 &lt;img alt="Site écran moyen" src="images/responsive/moyenecran.png" /&gt;
 &lt;img alt="Site grand écran" src="images/responsive/grandecran.png" /&gt;&lt;/p&gt;
@@ -390,8 +412,8 @@ Cette technique se limite toutefois à des icônes d’une seule couleur donc no
 &lt;ul&gt;
 &lt;li&gt;l’impact SEO suite à la mise en ligne du site reponsive a été largement positif avec une progression entre 20 et 30 % (également lié à la suppression du message d’avertissement dans les pages de résultats Google indiquant que le site n’était pas adapté au mobile suite au blocage des robots sur ce même domaine),&lt;/li&gt;
 &lt;li&gt;l’unification du code simplifie le développement et allège les processus au quotidien (moins de livrables, moins d’environnements, moins de projets dont des briques communes, etc).&lt;/li&gt;
-&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 09 Jul 2015 00:00:00 +0200</pubDate><guid>tag:,2015-07-09:mappy-responsive.html</guid><category>French</category><category>JavaScript</category><category>responsive</category></item><item><title>Meet Up Enterprise Search Paris</title><link>/Meet%20Up%20Enterprise%20Search%20Paris.html</link><description>&lt;p&gt;Voici la présentation effectuée par Mappy lors du dernier &lt;a href="http://www.meetup.com/Enterprise-Search-Paris/events/220773793/"&gt;Meet Up Enterprise Search Paris&lt;/a&gt; impeccablement organisé par &lt;a href="http://www.francelabs.com/"&gt;France Labs&lt;/a&gt; au NUMA.&lt;/p&gt;
-&lt;iframe src="//slides.com/solrmappy/deck/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 +0200</pubDate><guid>tag:,2015-04-08:Meet Up Enterprise Search Paris.html</guid><category>Solr</category><category>OpenSource</category><category>MeetUp</category></item><item><title>JavaScript : de Q aux promesses natives</title><link>/javascript-de-Q-aux-promesses-natives.html</link><description>&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
+&lt;/ul&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 09 Jul 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2015-07-09:mappy-responsive.html</guid><category>French</category><category>JavaScript</category><category>responsive</category></item><item><title>Meet Up Enterprise Search Paris</title><link>/Meet%20Up%20Enterprise%20Search%20Paris.html</link><description>&lt;p&gt;Voici la présentation effectuée par Mappy lors du dernier &lt;a href="http://www.meetup.com/Enterprise-Search-Paris/events/220773793/"&gt;Meet Up Enterprise Search Paris&lt;/a&gt; impeccablement organisé par &lt;a href="http://www.francelabs.com/"&gt;France Labs&lt;/a&gt; au NUMA.&lt;/p&gt;
+&lt;iframe src="//slides.com/solrmappy/deck/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2015-04-08:Meet Up Enterprise Search Paris.html</guid><category>Solr</category><category>OpenSource</category><category>MeetUp</category></item><item><title>JavaScript : de Q aux promesses natives</title><link>/javascript-de-Q-aux-promesses-natives.html</link><description>&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
 &lt;h1&gt;Boucle d’événement ?&lt;/h1&gt;
 &lt;p&gt;Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (&lt;code&gt;timeout&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
 L’avantage principal est le fait que les entrées/sorties sont non bloquantes.&lt;/p&gt;
@@ -401,7 +423,7 @@ L’avantage principal est le fait que les entrées/sorties sont non bloquantes.
 &lt;p&gt;Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
 Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les &lt;a href="https://nodejs.org/api/fs.html"&gt;API FileSystem de node&lt;/a&gt;), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les &lt;code&gt;callbacks&lt;/code&gt; de succès et d'erreur.&lt;/p&gt;
 &lt;p&gt;Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;action1(function (v1) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;action1(function (v1) {
     action2(v1, function(v2) {
         action3(v2, function(v3) {
             action4(v3, function(v4) {
@@ -415,7 +437,7 @@ Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentP
 
 &lt;p&gt;On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).&lt;/p&gt;
 &lt;p&gt;Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var addresses = [];
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var addresses = [];
 geocode(&amp;#39;Paris&amp;#39;, function(result) {
     addresses.push(result);
     geocode(&amp;#39;Lyon&amp;#39;, function(result) {
@@ -432,7 +454,7 @@ geocode(&amp;#39;Paris&amp;#39;, function(result) {
 &lt;h1&gt;Les promesses&lt;/h1&gt;
 &lt;p&gt;Le terme &lt;code&gt;promise&lt;/code&gt; a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des &lt;code&gt;futurs&lt;/code&gt; (&lt;code&gt;futures&lt;/code&gt;) ou &lt;code&gt;délais&lt;/code&gt; (&lt;code&gt;delays&lt;/code&gt;) que l’on retrouve notamment en &lt;code&gt;Dart&lt;/code&gt;, en &lt;code&gt;Python&lt;/code&gt;, en &lt;code&gt;Java&lt;/code&gt; (&lt;code&gt;java.util.concurrent.Future&lt;/code&gt;), en &lt;code&gt;Scala&lt;/code&gt;, &lt;a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations"&gt;etc&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;action1()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;action1()
 .then(action2)
 .then(action3)
 .then(action4)
@@ -443,7 +465,7 @@ geocode(&amp;#39;Paris&amp;#39;, function(result) {
 
 
 &lt;p&gt;et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var addresses = [];
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var addresses = [];
 geocode(&amp;#39;Paris&amp;#39;)
 .then(function(result) {
     addresses.push(result);
@@ -468,7 +490,7 @@ Parmi les &lt;a href="http://microjs.com/#promise"&gt;multiples alternatives&lt;
 Néanmoins, Q a été choisie par rapport aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery principalement pour sa gestion des exceptions plus fine  (plus de &lt;a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling"&gt;détails sur le site de Q&lt;/a&gt;).
 Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compatibles avec la spécification &lt;a href="https://promisesaplus.com/"&gt;Promise/A+&lt;/a&gt;, donc sujets à plus de travail en cas de changement de librairie (voici la liste de &lt;a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md"&gt;librairie et leur compatibilité face à la spécification&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via &lt;code&gt;Q&lt;/code&gt; :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Q.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Q.all([
     geocode(&amp;#39;Paris&amp;#39;),
     geocode(&amp;#39;Lyon&amp;#39;)
 ])
@@ -480,7 +502,7 @@ Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compat
 
 &lt;p&gt;Le &lt;code&gt;fail&lt;/code&gt; s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.&lt;/p&gt;
 &lt;p&gt;Voici l’implémentation d’une fonction, par exemple &lt;code&gt;geocode&lt;/code&gt; :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="n"&gt;deferred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;defer&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
     &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;Lancement&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="n"&gt;une&lt;/span&gt; &lt;span class="n"&gt;requ&lt;/span&gt;&lt;span class="err"&gt;ê&lt;/span&gt;&lt;span class="n"&gt;te&lt;/span&gt; &lt;span class="n"&gt;Ajax&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;
     &lt;span class="n"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
@@ -506,7 +528,7 @@ Cette version commence par ailleurs a être supportée par les principaux naviga
 Bien sûr, nous utilisons un polyfill (&lt;a href="https://github.com/jakearchibald/es6-promise"&gt;es6-promise&lt;/a&gt;) pour les navigateurs incompatibles, Internet Explorer en tête.
 Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.js"&gt;rsvp.js&lt;/a&gt;, une implémentation plus complète.&lt;/p&gt;
 &lt;p&gt;Voici comment on déclarerait la fonction geocode avec une promesse native :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="n"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;resolve&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
         &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;Lancement&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="n"&gt;une&lt;/span&gt; &lt;span class="n"&gt;requ&lt;/span&gt;&lt;span class="err"&gt;ê&lt;/span&gt;&lt;span class="n"&gt;te&lt;/span&gt; &lt;span class="n"&gt;Ajax&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;
         &lt;span class="n"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
@@ -521,7 +543,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;geocode()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;geocode()
 .then(function (result) {
 }).catch (function (error) {
 });
@@ -529,7 +551,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;Le &lt;code&gt;catch&lt;/code&gt; est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;geocode()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;geocode()
 .then(function (result) {
 }).then(undefined, function (error) {
 });
@@ -538,7 +560,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 &lt;p&gt;Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le &lt;a href="http://jsfiddle.net/2ve41szc/"&gt;premier&lt;/a&gt; avec l’utilisation du &lt;code&gt;catch&lt;/code&gt;, le &lt;a href="http://jsfiddle.net/2ve41szc/1/"&gt;second&lt;/a&gt; avec la deuxième forme.&lt;/p&gt;
 &lt;p&gt;Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var promise = Promise.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var promise = Promise.all([
     requete1,
     requete2
 ]).then(function () {
@@ -548,7 +570,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;Nous avons donc, avec notre exemple d'itinéraire habituel :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Promise.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Promise.all([
     geocode(&amp;#39;Paris&amp;#39;),
     geocode(&amp;#39;Lyon&amp;#39;)
 ])
@@ -561,7 +583,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 &lt;h1&gt;Et demain ?&lt;/h1&gt;
 &lt;p&gt;Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.&lt;/p&gt;
 &lt;p&gt;Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé &lt;code&gt;await&lt;/code&gt; permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;async function itinerary() {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;async function itinerary() {
   let paris     = await geocode(&amp;#39;Paris&amp;#39;);
   let lyon      = await geocode(&amp;#39;Lyon&amp;#39;);
   let itinerary = await computeItinerary([paris, lyon]);
@@ -572,7 +594,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 &lt;p&gt;Notez le mot clé &lt;code&gt;async&lt;/code&gt; en début de fonction, pour signaler que la méthode utilise un &lt;code&gt;await&lt;/code&gt;.
 Si vous êtes téméraire, le bout de code ci-dessus est déjà utilisable dans votre code source via l’utilisation d’un transpileur comme &lt;a href="https://babeljs.io/"&gt;Babel&lt;/a&gt; (programme transformant un code ES6 ou ES7 en code ES5, bien plus supporté parmi les navigateurs actuels).
-D’ailleurs, si vous souhaitez tenter l’expérience, cet &lt;a href="http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html"&gt;article (en anglais), sur le blog de pouchdb&lt;/a&gt;, en parle plus en détails.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 +0200</pubDate><guid>tag:,2015-04-08:javascript-de-Q-aux-promesses-natives.html</guid><category>French</category><category>JavaScript</category></item><item><title>Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</title><link>/leaflet-active-area.html</link><description>&lt;h1&gt;Un plugin Leaflet pour le site mappy.com&lt;/h1&gt;
+D’ailleurs, si vous souhaitez tenter l’expérience, cet &lt;a href="http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html"&gt;article (en anglais), sur le blog de pouchdb&lt;/a&gt;, en parle plus en détails.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 08 Apr 2015 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2015-04-08:javascript-de-Q-aux-promesses-natives.html</guid><category>French</category><category>JavaScript</category></item><item><title>Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</title><link>/leaflet-active-area.html</link><description>&lt;h1&gt;Un plugin Leaflet pour le site mappy.com&lt;/h1&gt;
 &lt;p&gt;Lors de la mise en place de Leaflet sur mappy.com, (comme présenté dans un &lt;a href="/mappy-com-migre-vers-leaflet.html"&gt;billet précédent&lt;/a&gt;), nous avons eu l'occasion de développer un plugin Leaflet, proposé en open-source.&lt;/p&gt;
 &lt;h3&gt;Mise en avant de la carte&lt;/h3&gt;
 &lt;p&gt;L’un des objectifs de cette nouvelle version fût de mettre en avant la carte dans l’interface, qui n'occupait qu’une petite partie de l’interface de la version précédente. Ainsi, sur les pages de fiche POI ou sur la feuille de route, la carte occupe tout l’écran, du haut en bas de l’écran.&lt;/p&gt;
@@ -594,7 +616,7 @@ Cela est plus visible lorsque l’on rend transparents ces éléments HTML comme
 &lt;p&gt;Le principe est de définir une classe CSS, positionnée de façon absolue, qui sera prise en compte comme zone active de la carte. Ainsi, le centre de la carte sera le centre de cette zone et l’ensemble des marqueurs ou tracés y seront placés.&lt;/p&gt;
 &lt;h3&gt;Disponible sous license Apache 2.0&lt;/h3&gt;
 &lt;p&gt;Il nous a paru évident, utilisant une API open-source utilisée et développée par une énorme communité de développeurs, de proposer ce plugin en open-source. Il est disponible sur &lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;github&lt;/a&gt; et référencé dans &lt;a href="http://leafletjs.com/plugins.html#other-plugins-and-libraries"&gt;“la page des plugins”&lt;/a&gt; du site leaflet.&lt;/p&gt;
-&lt;p&gt;A ce jour, nous avons même reçu la contribution de plusieurs développeurs hors Mappy avec l'ouverture - et l'acceptation - de 4 pull requests, la création puis la résolution de plusieurs issues. N'hésitez pas à contribuer !&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Mon, 16 Feb 2015 00:00:00 +0100</pubDate><guid>tag:,2015-02-16:leaflet-active-area.html</guid><category>Leaflet</category><category>OpenSource</category><category>French</category><category>JavaScript</category></item><item><title>mappy.com migre vers Leaflet</title><link>/mappy-com-migre-vers-leaflet.html</link><description>&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
+&lt;p&gt;A ce jour, nous avons même reçu la contribution de plusieurs développeurs hors Mappy avec l'ouverture - et l'acceptation - de 4 pull requests, la création puis la résolution de plusieurs issues. N'hésitez pas à contribuer !&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Mon, 16 Feb 2015 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2015-02-16:leaflet-active-area.html</guid><category>Leaflet</category><category>OpenSource</category><category>French</category><category>JavaScript</category></item><item><title>mappy.com migre vers Leaflet</title><link>/mappy-com-migre-vers-leaflet.html</link><description>&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
 &lt;p&gt;En mai 2014, une nouvelle version du site Mappy a vu le jour :&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Version 4" src="images/leaflet/hp-v4.png" /&gt;&lt;/p&gt;
 &lt;p&gt;Précédente version (4)&lt;/p&gt;
@@ -615,7 +637,7 @@ Cela est plus visible lorsque l’on rend transparents ces éléments HTML comme
 &lt;p&gt;Depuis cette migration à Leaflet, nous avons apporté quelques contributions sous la forme de “&lt;a href="https://github.com/Leaflet/Leaflet/pull/3038"&gt;pull request&lt;/a&gt;” ou de nouveau plugin (&lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;leaflet-active-area&lt;/a&gt;, un prochain article le présentera en détail).&lt;/p&gt;
 &lt;h2&gt;A l’avenir&lt;/h2&gt;
 &lt;p&gt;Au final, ce passage à Leaflet ne nous apporte que des avantages et nous avons hâte de proposer d’autres “pull requests” ou plugins.&lt;/p&gt;
-&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 04 Feb 2015 00:00:00 +0100</pubDate><guid>tag:,2015-02-04:mappy-com-migre-vers-leaflet.html</guid><category>Leaflet</category><category>OpenSource</category><category>French</category><category>JavaScript</category></item><item><title>PyLR, an OpenLR decoder in python</title><link>/PyLR,%20an%20OpenLR%20decoder%20in%20python.html</link><description>&lt;h1&gt;PyLR, an OpenLR decoder in python&lt;/h1&gt;
+&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 04 Feb 2015 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2015-02-04:mappy-com-migre-vers-leaflet.html</guid><category>Leaflet</category><category>OpenSource</category><category>French</category><category>JavaScript</category></item><item><title>PyLR, an OpenLR decoder in python</title><link>/PyLR,%20an%20OpenLR%20decoder%20in%20python.html</link><description>&lt;h1&gt;PyLR, an OpenLR decoder in python&lt;/h1&gt;
 &lt;p&gt;Here, at Mappy, we have decided to release our implementation of the &lt;a href="http://www.openlr.org"&gt;OpenLR&lt;/a&gt; specification.&lt;/p&gt;
 &lt;p&gt;To make a story short, OpenLR is an open source  software project launched by TomTom in september 2009. This is an attempt to provide a location referencing method that works between digital maps of different vendors or versions.&lt;/p&gt;
 &lt;p&gt;We use traffic informations from 10 countries in Europe in &lt;a href="http://datex2.easyway-its.eu/content/datex"&gt;DATEX&lt;/a&gt; format, location reference was provided using the &lt;a href="https://en.wikipedia.org/wiki/Traffic_message_channel"&gt;TMC&lt;/a&gt; reference system.
@@ -630,7 +652,7 @@ For information, our implementation fail to decode less than 1% of the collected
 &lt;p&gt;PyLR implement a decoder from the binary/base64 data representation (xml is not handled at the moment). It implements also a decoder that use an abstract representationof the targeted map.&lt;/p&gt;
 &lt;p&gt;At the moment, PyLR is not really usable out of the box: you still need to implement a concrete database and a shortest path algorithm for playing with the library.&lt;/p&gt;
 &lt;p&gt;As stated before, it is a work in progress, we have plan to provide more tools for testing and playing around with the lib: stay tuned !!!!&lt;/p&gt;
-&lt;p&gt;PyLR is available on &lt;a href="https://github.com/Mappy/PyLR"&gt;github&lt;/a&gt; and is released under the Apache licence, version 2.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 04 Dec 2014 00:00:00 +0100</pubDate><guid>tag:,2014-12-04:PyLR, an OpenLR decoder in python.html</guid><category>OpenLR</category><category>Python</category><category>OpenSource</category><category>English</category></item><item><title>Android StreetView-like 360 panorama with OpenGl</title><link>/Android%20StreetView-like%20360%20panorama.html</link><description>&lt;p&gt;&lt;a href="http://mappy.com"&gt;Mappy&lt;/a&gt; offers StreetView-like immersive experience to explore France cities. The web interface uses a &lt;a href="http://fr.mappy.com/#/40/M1/TSearch/Snotre+dame+paris/N42.63223,-2.96266,2.35218,48.85267/Z10/"&gt;Flash player to display the cubic projections of "360" panorama images&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;PyLR is available on &lt;a href="https://github.com/Mappy/PyLR"&gt;github&lt;/a&gt; and is released under the Apache licence, version 2.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Thu, 04 Dec 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2014-12-04:PyLR, an OpenLR decoder in python.html</guid><category>OpenLR</category><category>Python</category><category>OpenSource</category><category>English</category></item><item><title>Android StreetView-like 360 panorama with OpenGl</title><link>/Android%20StreetView-like%20360%20panorama.html</link><description>&lt;p&gt;&lt;a href="http://mappy.com"&gt;Mappy&lt;/a&gt; offers StreetView-like immersive experience to explore France cities. The web interface uses a &lt;a href="http://fr.mappy.com/#/40/M1/TSearch/Snotre+dame+paris/N42.63223,-2.96266,2.35218,48.85267/Z10/"&gt;Flash player to display the cubic projections of "360" panorama images&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Mappy 360 Web player" src="images/mappy_panorama_web_flash_player.png" /&gt;&lt;/p&gt;
 &lt;p&gt;To provide the same feature on Android devices, we looked at existing solutions. Two we came accross were :&lt;/p&gt;
 &lt;ul&gt;
@@ -697,7 +719,7 @@ For information, our implementation fail to decode less than 1% of the collected
 It refers to &lt;a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to-state-this-is-my-first.html"&gt;Gregory Beauchamp "Ray picking on Android"&lt;/a&gt; article.&lt;/p&gt;
 &lt;p&gt;We adaptated the code to take the picking out of the OpenGL thread. In &lt;code&gt;PanoramicLib&lt;/code&gt;, we notify the &lt;code&gt;Activy&lt;/code&gt; on way arrow click to load next panorama view. This has to run on the UI thread. &lt;/p&gt;
 &lt;p&gt;In Ivan Schuetz example, ray intersect computing is done in &lt;code&gt;ExampleGLRenderer.onDrawFrame(GL10 gl)&lt;/code&gt; &lt;a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLRenderer.java"&gt;(source)&lt;/a&gt;, calling &lt;code&gt;ExampleGLObject.draw(GL10 gl, Ray ray)&lt;/code&gt; on each scene object. Intersections are logged to Android LogCat from there &lt;a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLObject.java"&gt;(source)&lt;/a&gt;. It runs on the OpenGL thread because it requires the OpenGL context to grab projection and modelview matrixes to compute ray and projected objects coordinates.&lt;/p&gt;
-&lt;p&gt;To handle intersection computing on the UI thread, we saved the current OpenGL matrixes in a member of each &lt;code&gt;ArrowMesh&lt;/code&gt; instance, on each draw, using &lt;code&gt;MatrixGrabber&lt;/code&gt; class &lt;a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/MatrixGrabber.java"&gt;(source)&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Mon, 04 Aug 2014 00:00:00 +0200</pubDate><guid>tag:,2014-08-04:Android StreetView-like 360 panorama.html</guid><category>Android</category><category>panorama</category><category>360</category><category>ray-picking</category><category>OpenGL</category><category>English</category></item><item><title>Super flexible GeoAutoComplete with Solr</title><link>/Super%20flexible%20GeoAutoComplete%20with%20Solr.html</link><description>&lt;h1&gt;Super flexible GeoAutoComplete with Solr&lt;/h1&gt;
+&lt;p&gt;To handle intersection computing on the UI thread, we saved the current OpenGL matrixes in a member of each &lt;code&gt;ArrowMesh&lt;/code&gt; instance, on each draw, using &lt;code&gt;MatrixGrabber&lt;/code&gt; class &lt;a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/MatrixGrabber.java"&gt;(source)&lt;/a&gt;.&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Mon, 04 Aug 2014 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2014-08-04:Android StreetView-like 360 panorama.html</guid><category>Android</category><category>panorama</category><category>360</category><category>ray-picking</category><category>OpenGL</category><category>English</category></item><item><title>Super flexible GeoAutoComplete with Solr</title><link>/Super%20flexible%20GeoAutoComplete%20with%20Solr.html</link><description>&lt;h1&gt;Super flexible GeoAutoComplete with Solr&lt;/h1&gt;
 &lt;p&gt;In an inspiring article &lt;a href="http://www.cominvent.com/2012/01/25/super-flexible-autocomplete-with-solr/"&gt;Cominvent AS&lt;/a&gt; presented us how to use &lt;a href="https://lucene.apache.org/solr/"&gt;Solr&lt;/a&gt; power to implement autocomplete feature. We are going to present you how to add a geographical component to this suggestion.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Download and unpack Solr if you have not already &lt;a href="http://www.apache.org/dyn/closer.cgi/lucene/solr/"&gt;http://www.apache.org/dyn/closer.cgi/lucene/solr/&lt;/a&gt;&lt;/li&gt;
@@ -708,13 +730,13 @@ It refers to &lt;a href="http://android-raypick.blogspot.de/2012/04/first-i-want
 &lt;p&gt;As ranking factor, we use a combination of the population of the countries and cities, the textual relevancy and, that is the main point of our article, the proximity to the center of the map we display.
 As the use of population and text relevancy has been explained in &lt;a href="http://www.cominvent.com/2012/01/25/super-flexible-autocomplete-with-solr/"&gt;Cominvent As&lt;/a&gt; article, let's focus on the geographical part of the score.
 First we need to store the coordinates for each city and country. Thus we add longitude (lng) and latitude (lat) fields in our schema.xml&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;field&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;lng&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;float&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;indexed=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;stored=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;omitNorms=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;required=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;field&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;lng&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;float&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;indexed=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;stored=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;omitNorms=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;required=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
 &lt;span class="nt"&gt;&amp;lt;field&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;lat&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;float&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;indexed=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;stored=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;omitNorms=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;required=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Then we need to modify solrconfig.xml&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;requestHandler&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;solr.SearchHandler&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;acgeo&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;default=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;requestHandler&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;solr.SearchHandler&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;acgeo&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;default=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;true&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;lt;lst&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;defaults&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
         &lt;span class="nt"&gt;&amp;lt;str&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;defType&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;edismax&lt;span class="nt"&gt;&amp;lt;/str&amp;gt;&lt;/span&gt;
         &lt;span class="nt"&gt;&amp;lt;str&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;rows&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;10&lt;span class="nt"&gt;&amp;lt;/str&amp;gt;&lt;/span&gt;
@@ -749,7 +771,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 &lt;p&gt;Now that our Solr is prepared to manage request with coordinates, we obviously have to send it.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ajax&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;ajax&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
       &lt;span class="s1"&gt;&amp;#39;url&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http://localhost:8983/solr/acgeo/select?&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
       &lt;span class="s1"&gt;&amp;#39;delay&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
       &lt;span class="s1"&gt;&amp;#39;dataType&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;jsonp&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -768,12 +790,12 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 &lt;p&gt;Even if Solr &lt;a href="http://wiki.apache.org/solr/FunctionQuery"&gt;FunctionQuery&lt;/a&gt; gives us a set of possibility, it may not fit our particular needs. In that case we can easily extend the list of available functions by writing our own in Java. Let's implement a &lt;code&gt;geoboost&lt;/code&gt; function that is equal to &lt;code&gt;1&lt;/code&gt; inside a given bounding box, and that is decreasing until &lt;code&gt;epsilon&lt;/code&gt; outside the bounding box. The decreasing speed is configurable via parameter &lt;code&gt;mu&lt;/code&gt; (A plot of this function is available &lt;a href="/images/geoboost.png"&gt;here&lt;/a&gt;)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;geoboost(epsilon, mu, lat_min, lng_min, lat_max, lng_max)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;geoboost(epsilon, mu, lat_min, lng_min, lat_max, lng_max)
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;We have to write a parser (i.e. a class implementing &lt;a href="http://wiki.apache.org/solr/SolrPlugins#ValueSourceParser"&gt;org.apache.solr.search.ValueSourceParser&lt;/a&gt; that reads the value from the left to the right)&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GeoBoostValueParser&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;ValueSourceParser&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GeoBoostValueParser&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;ValueSourceParser&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
 
     &lt;span class="nd"&gt;@Override&lt;/span&gt;
     &lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="n"&gt;ValueSource&lt;/span&gt; &lt;span class="nf"&gt;parse&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FunctionQParser&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="kd"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;SyntaxError&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
@@ -792,7 +814,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 &lt;p&gt;And the class that does the real job, where the result is returned by &lt;code&gt;public FunctionValues getValues()&lt;/code&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GeoBoostFunction&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;ValueSource&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;public&lt;/span&gt; &lt;span class="kd"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;GeoBoostFunction&lt;/span&gt; &lt;span class="kd"&gt;extends&lt;/span&gt; &lt;span class="n"&gt;ValueSource&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
   &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="n"&gt;ValueSource&lt;/span&gt; &lt;span class="n"&gt;lat&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lng&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
   &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;latmin&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lngmin&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;latmax&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;lngmax&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
   &lt;span class="kd"&gt;protected&lt;/span&gt; &lt;span class="kt"&gt;float&lt;/span&gt; &lt;span class="n"&gt;eps&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="o"&gt;;&lt;/span&gt;
@@ -817,7 +839,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 &lt;p&gt;Once the function and parser are written and compiled, we register the function in the sorlconfig.xml by adding the path to our *.jar and specifying our parser.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;config&amp;gt;&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;config&amp;gt;&lt;/span&gt;
     ...
     &lt;span class="nt"&gt;&amp;lt;lib&lt;/span&gt; &lt;span class="na"&gt;path=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;lib/lbs-geoboost.jar&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;lt;valueSourceParser&lt;/span&gt; &lt;span class="na"&gt;name=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;geoboost&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;com.mappy.lbs.solr.search.function.GeoBoostValueParser&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
@@ -828,7 +850,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 &lt;p&gt;Now we can run and test our configuration.&lt;/p&gt;
 &lt;p&gt;Using the default bounding box value (0,0,0,0) &lt;code&gt;http://127.0.0.1:8983/solr/acgeo/select?q=pa&amp;amp;wt=json&amp;amp;&lt;/code&gt; leads to&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;responseHeader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;responseHeader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;status&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;QTime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;21&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;quot;response&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;numFound&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;97&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -851,7 +873,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 &lt;p&gt;Using a bounding box around Paris &lt;code&gt;http://127.0.0.1:8983/solr/acgeo/select?q=pa&amp;amp;wt=json&amp;amp;lat_min=48&amp;amp;lat_max=48.5&amp;amp;lng_min=2&amp;amp;lng_max=2.5&lt;/code&gt; leads to&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;responseHeader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;responseHeader&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;status&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;QTime&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;},&lt;/span&gt;
      &lt;span class="nt"&gt;&amp;quot;response&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nt"&gt;&amp;quot;numFound&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;97&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
@@ -870,7 +892,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
              &lt;span class="p"&gt;]&lt;/span&gt;
         &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 25 Feb 2014 00:00:00 +0100</pubDate><guid>tag:,2014-02-25:Super flexible GeoAutoComplete with Solr.html</guid><category>Solr</category><category>OpenSource</category><category>English</category></item><item><title>Mappy et Oslandia vers l'OpenSource</title><link>/Mappy%20et%20Oslandia%20vers%20l'OpenSource.html</link><description>&lt;p&gt;Paris, le 11 février 2014. &lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 25 Feb 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2014-02-25:Super flexible GeoAutoComplete with Solr.html</guid><category>Solr</category><category>OpenSource</category><category>English</category></item><item><title>Mappy et Oslandia vers l'OpenSource</title><link>/Mappy%20et%20Oslandia%20vers%20l'OpenSource.html</link><description>&lt;p&gt;Paris, le 11 février 2014. &lt;/p&gt;
 &lt;p&gt;Depuis plus de deux ans, Oslandia accompagne Mappy dans sa transition vers l’OpenSource. La première étape est symbolisée par le projet de migration des bases de données Oracle du backoffice cartographique vers PostGIS. Celui-ci vient notamment d’être finalisé et fonctionne actuellement en production.&lt;/p&gt;
 &lt;p&gt;Mappy propose des services de calcul d’itinéraire et de cartographie. Supportant plusieurs milliards de requêtes par mois, la plateforme LBS (Location Based Services) est au cœur de l’activité de Mappy et sert de socle aux nouveaux produits tel que le Web To Store.&lt;/p&gt;
 &lt;p&gt;Oslandia travaille conjointement avec Mappy pour migrer cette plateforme cartographique d’une solution développée en interne, vers une solution basée entièrement sur des logiciels libres, afin de préparer les défis techniques et opérationnels à venir.&lt;/p&gt;
@@ -904,10 +926,10 @@ First we need to store the coordinates for each city and country. Thus we add lo
 &lt;p&gt;Mappy est une filiale à 100% de Solocal Group. &lt;a href="http://www.mappy.com"&gt;http://www.mappy.com&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;À propos d’Oslandia&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Oslandia est une ENL (Entreprise du Numérique Libre) Française spécialisée en systèmes d’information géographique (SIG) Open Source, et particulièrement en bases de données spatiales, Web Services OGC et SIG bureautiques. Oslandia propose une offre de service complète : conseil, audit, développement, support, formation.&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://www.oslandia.com"&gt;http://www.oslandia.com&lt;/a&gt; &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 11 Feb 2014 00:00:00 +0100</pubDate><guid>tag:,2014-02-11:Mappy et Oslandia vers l'OpenSource.html</guid><category>French</category><category>Mapnik</category><category>PostGIS</category><category>OpenSource</category></item><item><title>FOSS4G 2013 : Mappy-ing OpenSource</title><link>/FOSS4G%202013%20:%20Mappy-ing%20Open%20Source.html</link><description>&lt;p&gt;&lt;img alt="Foss4g2013" src="images/foss4g2013.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.oslandia.com"&gt;http://www.oslandia.com&lt;/a&gt; &lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Tue, 11 Feb 2014 00:00:00 +0100</pubDate><guid isPermaLink="false">tag:,2014-02-11:Mappy et Oslandia vers l'OpenSource.html</guid><category>French</category><category>Mapnik</category><category>PostGIS</category><category>OpenSource</category></item><item><title>FOSS4G 2013 : Mappy-ing OpenSource</title><link>/FOSS4G%202013%20:%20Mappy-ing%20Open%20Source.html</link><description>&lt;p&gt;&lt;img alt="Foss4g2013" src="images/foss4g2013.png" /&gt;&lt;/p&gt;
 &lt;p&gt;The presentation of our work on map service at &lt;a href="http://2013.foss4g.org/"&gt;Foss4G2013&lt;/a&gt; in Notthingham&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Abstract&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="www.mappy.com"&gt;Mappy&lt;/a&gt; is an online mapping company based in France and fully-owned by Solocal Group (&lt;a href="www.pagesjaunes.fr"&gt;PagesJaunes&lt;/a&gt;). Mappy was the pioneer in online mapping in France, and holds a significant market share in France and Belgium (about 10 millions monthly users). The company has developed an home-made LBS platform since 1998. The mapping service delivers 100 millions tiles a day. At the beginning of 2012, Mappy decided to redesign its core mapping service to meet new business challenges. The company needed a more standard and open source solution. Developers and product managers have fallen in love with &lt;a href="www.mapnik.org"&gt;Mapnik&lt;/a&gt; (some for code and performance, others for the map display quality). The team made the decision to build the new mapping service around Mapnik and others open source tools like PostGIS. The project was challenging : we switched from a MSSqlServer database/home made mapping engine/Windows architecture to a postgis database/mapnik engine/Linux one. During the development, we've seen and appreciated the energy around Mapnik and we started to gradually dive into code and contribute to some features. This talk will present a feedback on the overhaul : the functional and technical challenges, the decision to contribute to Mapnik project, the release of this service, its performance and the future roadmap.&lt;/p&gt;
 &lt;iframe src="http://www.slideshare.net/slideshow/embed_code/26407067" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen&gt; &lt;/iframe&gt;
 
-&lt;p&gt;&lt;div style="margin-bottom:5px"&gt; &lt;strong&gt; &lt;a href="https://www.slideshare.net/AudreyMalherbe/foss42013-mappying-opensource" title="Foss4G2013 Mappy-ing Open Source" target="_blank"&gt;&lt;/div&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 25 Sep 2013 00:00:00 +0200</pubDate><guid>tag:,2013-09-25:FOSS4G 2013 : Mappy-ing Open Source.html</guid><category>English</category><category>Mapnik</category><category>PostGIS</category><category>OpenSource</category></item></channel></rss>
+&lt;p&gt;&lt;div style="margin-bottom:5px"&gt; &lt;strong&gt; &lt;a href="https://www.slideshare.net/AudreyMalherbe/foss42013-mappying-opensource" title="Foss4G2013 Mappy-ing Open Source" target="_blank"&gt;&lt;/div&gt;&lt;/p&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Mappy</dc:creator><pubDate>Wed, 25 Sep 2013 00:00:00 +0200</pubDate><guid isPermaLink="false">tag:,2013-09-25:FOSS4G 2013 : Mappy-ing Open Source.html</guid><category>English</category><category>Mapnik</category><category>PostGIS</category><category>OpenSource</category></item></channel></rss>

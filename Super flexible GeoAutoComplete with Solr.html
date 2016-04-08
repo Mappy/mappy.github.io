@@ -66,13 +66,13 @@
 <p>As ranking factor, we use a combination of the population of the countries and cities, the textual relevancy and, that is the main point of our article, the proximity to the center of the map we display.
 As the use of population and text relevancy has been explained in <a href="http://www.cominvent.com/2012/01/25/super-flexible-autocomplete-with-solr/">Cominvent As</a> article, let's focus on the geographical part of the score.
 First we need to store the coordinates for each city and country. Thus we add longitude (lng) and latitude (lat) fields in our schema.xml</p>
-<div class="highlight"><pre><span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;lng&quot;</span> <span class="na">type=</span><span class="s">&quot;float&quot;</span> <span class="na">indexed=</span><span class="s">&quot;true&quot;</span> <span class="na">stored=</span><span class="s">&quot;true&quot;</span> <span class="na">omitNorms=</span><span class="s">&quot;true&quot;</span> <span class="na">required=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;lng&quot;</span> <span class="na">type=</span><span class="s">&quot;float&quot;</span> <span class="na">indexed=</span><span class="s">&quot;true&quot;</span> <span class="na">stored=</span><span class="s">&quot;true&quot;</span> <span class="na">omitNorms=</span><span class="s">&quot;true&quot;</span> <span class="na">required=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
 <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;lat&quot;</span> <span class="na">type=</span><span class="s">&quot;float&quot;</span> <span class="na">indexed=</span><span class="s">&quot;true&quot;</span> <span class="na">stored=</span><span class="s">&quot;true&quot;</span> <span class="na">omitNorms=</span><span class="s">&quot;true&quot;</span> <span class="na">required=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
 </pre></div>
 
 
 <p>Then we need to modify solrconfig.xml</p>
-<div class="highlight"><pre><span class="nt">&lt;requestHandler</span> <span class="na">class=</span><span class="s">&quot;solr.SearchHandler&quot;</span> <span class="na">name=</span><span class="s">&quot;acgeo&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span> <span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;requestHandler</span> <span class="na">class=</span><span class="s">&quot;solr.SearchHandler&quot;</span> <span class="na">name=</span><span class="s">&quot;acgeo&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span> <span class="nt">&gt;</span>
     <span class="nt">&lt;lst</span> <span class="na">name=</span><span class="s">&quot;defaults&quot;</span><span class="nt">&gt;</span>
         <span class="nt">&lt;str</span> <span class="na">name=</span><span class="s">&quot;defType&quot;</span><span class="nt">&gt;</span>edismax<span class="nt">&lt;/str&gt;</span>
         <span class="nt">&lt;str</span> <span class="na">name=</span><span class="s">&quot;rows&quot;</span><span class="nt">&gt;</span>10<span class="nt">&lt;/str&gt;</span>
@@ -107,7 +107,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>Now that our Solr is prepared to manage request with coordinates, we obviously have to send it.</p>
-<div class="highlight"><pre><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+<div class="highlight"><pre><span></span><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
       <span class="s1">&#39;url&#39;</span><span class="o">:</span> <span class="s1">&#39;http://localhost:8983/solr/acgeo/select?&#39;</span><span class="p">,</span>
       <span class="s1">&#39;delay&#39;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
       <span class="s1">&#39;dataType&#39;</span><span class="o">:</span> <span class="s2">&quot;jsonp&quot;</span><span class="p">,</span>
@@ -126,12 +126,12 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>Even if Solr <a href="http://wiki.apache.org/solr/FunctionQuery">FunctionQuery</a> gives us a set of possibility, it may not fit our particular needs. In that case we can easily extend the list of available functions by writing our own in Java. Let's implement a <code>geoboost</code> function that is equal to <code>1</code> inside a given bounding box, and that is decreasing until <code>epsilon</code> outside the bounding box. The decreasing speed is configurable via parameter <code>mu</code> (A plot of this function is available <a href="/images/geoboost.png">here</a>)</p>
-<div class="highlight"><pre>geoboost(epsilon, mu, lat_min, lng_min, lat_max, lng_max)
+<div class="highlight"><pre><span></span>geoboost(epsilon, mu, lat_min, lng_min, lat_max, lng_max)
 </pre></div>
 
 
 <p>We have to write a parser (i.e. a class implementing <a href="http://wiki.apache.org/solr/SolrPlugins#ValueSourceParser">org.apache.solr.search.ValueSourceParser</a> that reads the value from the left to the right)</p>
-<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeoBoostValueParser</span> <span class="kd">extends</span> <span class="n">ValueSourceParser</span> <span class="o">{</span>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeoBoostValueParser</span> <span class="kd">extends</span> <span class="n">ValueSourceParser</span> <span class="o">{</span>
 
     <span class="nd">@Override</span>
     <span class="kd">public</span> <span class="n">ValueSource</span> <span class="nf">parse</span><span class="o">(</span><span class="n">FunctionQParser</span> <span class="n">fp</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">SyntaxError</span> <span class="o">{</span>
@@ -150,7 +150,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>And the class that does the real job, where the result is returned by <code>public FunctionValues getValues()</code></p>
-<div class="highlight"><pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeoBoostFunction</span> <span class="kd">extends</span> <span class="n">ValueSource</span> <span class="o">{</span>
+<div class="highlight"><pre><span></span><span class="kd">public</span> <span class="kd">class</span> <span class="nc">GeoBoostFunction</span> <span class="kd">extends</span> <span class="n">ValueSource</span> <span class="o">{</span>
   <span class="kd">protected</span> <span class="n">ValueSource</span> <span class="n">lat</span><span class="o">,</span> <span class="n">lng</span><span class="o">;</span>
   <span class="kd">protected</span> <span class="kt">float</span> <span class="n">latmin</span><span class="o">,</span> <span class="n">lngmin</span><span class="o">,</span> <span class="n">latmax</span><span class="o">,</span> <span class="n">lngmax</span><span class="o">;</span>
   <span class="kd">protected</span> <span class="kt">float</span> <span class="n">eps</span><span class="o">,</span> <span class="n">mu</span><span class="o">;</span>
@@ -175,7 +175,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>Once the function and parser are written and compiled, we register the function in the sorlconfig.xml by adding the path to our *.jar and specifying our parser.</p>
-<div class="highlight"><pre><span class="nt">&lt;config&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;config&gt;</span>
     ...
     <span class="nt">&lt;lib</span> <span class="na">path=</span><span class="s">&quot;lib/lbs-geoboost.jar&quot;</span> <span class="nt">/&gt;</span>
     <span class="nt">&lt;valueSourceParser</span> <span class="na">name=</span><span class="s">&quot;geoboost&quot;</span> <span class="na">class=</span><span class="s">&quot;com.mappy.lbs.solr.search.function.GeoBoostValueParser&quot;</span> <span class="nt">/&gt;</span>
@@ -186,7 +186,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 <p>Now we can run and test our configuration.</p>
 <p>Using the default bounding box value (0,0,0,0) <code>http://127.0.0.1:8983/solr/acgeo/select?q=pa&amp;wt=json&amp;</code> leads to</p>
-<div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;responseHeader&quot;</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;responseHeader&quot;</span><span class="p">:</span>
     <span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;QTime&quot;</span><span class="p">:</span><span class="mi">21</span><span class="p">},</span>
     <span class="nt">&quot;response&quot;</span><span class="p">:</span>
         <span class="p">{</span><span class="nt">&quot;numFound&quot;</span><span class="p">:</span><span class="mi">97</span><span class="p">,</span>
@@ -209,7 +209,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 
 <p>Using a bounding box around Paris <code>http://127.0.0.1:8983/solr/acgeo/select?q=pa&amp;wt=json&amp;lat_min=48&amp;lat_max=48.5&amp;lng_min=2&amp;lng_max=2.5</code> leads to</p>
-<div class="highlight"><pre><span class="p">{</span><span class="nt">&quot;responseHeader&quot;</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;responseHeader&quot;</span><span class="p">:</span>
     <span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;QTime&quot;</span><span class="p">:</span><span class="mi">8</span><span class="p">},</span>
      <span class="nt">&quot;response&quot;</span><span class="p">:</span>
         <span class="p">{</span><span class="nt">&quot;numFound&quot;</span><span class="p">:</span><span class="mi">97</span><span class="p">,</span>
@@ -244,6 +244,7 @@ First we need to store the coordinates for each city and country. Thus we add lo
 
 <h4>Categories</h4>
 <ul>
+		<li><a href="/category/agility.html">agility</a></li>
 		<li><a href="/category/javascript.html">javascript</a></li>
 		<li><a href="/category/leaflet.html">leaflet</a></li>
 		<li><a href="/category/mapping.html">Mapping</a></li>

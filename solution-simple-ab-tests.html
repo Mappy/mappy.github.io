@@ -90,7 +90,7 @@ Cela n’est pas performant et on constate rapidement du "<a href="https://en.wi
 <h3>1. Fichier de configuration</h3>
 <p>Mappy héberge le fichier de configuration des A/B tests sur <a href="http://ab.mappy.net/config.json">http://ab.mappy.net/config.json</a>.</p>
 <p>Voici le fichier de configuration pour le test sur les couleurs de boutons :</p>
-<div class="highlight"><pre><span class="p">[{</span>
+<div class="highlight"><pre><span></span><span class="p">[{</span>
     <span class="s2">&quot;id&quot;</span><span class="o">:</span>     <span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">,</span>   <span class="c1">// Identifiant unique du test</span>
     <span class="s2">&quot;from&quot;</span><span class="o">:</span>   <span class="s2">&quot;2015-12-18T00:00:00&quot;</span><span class="p">,</span> <span class="c1">// Date ou commence le test</span>
     <span class="s2">&quot;to&quot;</span><span class="o">:</span>     <span class="s2">&quot;2016-01-01T00:00:00&quot;</span><span class="p">,</span> <span class="c1">// Date ou se termine le test</span>
@@ -118,7 +118,7 @@ Cette méthode se décompose en 3 parties : <code>isTargettedByPlatform</code>, 
 <p>Une autre méthode, <code>getVariant</code>, retourne l’une des variantes en ayant préalablement tiré un chiffre au hasard via <code>getRandomId</code>.</p>
 <p>Enfin, la méthode <code>start</code> est appelée lorsque l’on souhaite démarrer le test.
 Cette dernière change un état interne et se doit de lancer un appel de tag.</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_</span>         <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">Backbone</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
 
 <span class="kd">var</span> <span class="nx">AbTestModel</span> <span class="o">=</span> <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Backbone</span><span class="p">.</span><span class="nx">Model</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
@@ -229,7 +229,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.</p
 
 <p>Le fichier de configuration est un tableau d’objet JSON.</p>
 <p>Nous utilisons donc une collection Backbone, <code>AbTestCollection</code>, qui se charge de récupérer ce fichier via Ajax lors d’un appel sur la méthode <code>fetch</code> et d’instancier les modèles <code>AbTestModel</code>.</p>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">_</span>           <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_</span>           <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;underscore&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">Backbone</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;backbone&#39;</span><span class="p">);</span>
 <span class="kd">var</span> <span class="nx">AbTestModel</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;../model/AbTestModel&#39;</span><span class="p">);</span>
 
@@ -278,14 +278,14 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.</p
 <li>D’ajouter une classe CSS sur le <code>body</code> qui surchargera les couleurs des boutons, ici dans un fichier <code>less</code>.</li>
 <li>De démarrer le test (consistant à envoyer un tag) dès qu’une variante (ou la référence) est affichée à l’utilisateur</li>
 </ol>
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">variantBookingColor</span> <span class="o">=</span> <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">getVariant</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">variantBookingColor</span> <span class="o">=</span> <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">getVariant</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
 <span class="k">if</span> <span class="p">(</span><span class="nx">variantBookingColor</span> <span class="o">&amp;&amp;</span> <span class="nx">variantBookingColor</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s2">&quot;ab-&quot;</span> <span class="o">+</span> <span class="nx">variantBookingColor</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<div class="highlight"><pre><span class="nt">body</span><span class="nc">.ab-orangefonce</span> <span class="nc">.button</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="nt">body</span><span class="nc">.ab-orangefonce</span> <span class="nc">.button</span> <span class="p">{</span>
     <span class="nb">background-color</span><span class="o">:</span> <span class="m">#f86312</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="nt">body</span><span class="nc">.ab-rose</span> <span class="nc">.button</span> <span class="p">{</span>
@@ -298,7 +298,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.</p
 
 
 <p>Et voici le démarrage du test dès l’affichage d’une liste possédant les boutons.</p>
-<div class="highlight"><pre>    <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span>    <span class="nx">Mappy</span><span class="p">.</span><span class="nx">abTestCollection</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s2">&quot;AB01-couleur-resa&quot;</span><span class="p">);</span>
 </pre></div>
 
 
@@ -328,6 +328,7 @@ Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion
 
 <h4>Categories</h4>
 <ul>
+		<li><a href="/category/agility.html">agility</a></li>
 		<li><a href="/category/javascript.html">javascript</a></li>
 		<li><a href="/category/leaflet.html">leaflet</a></li>
 		<li><a href="/category/mapping.html">Mapping</a></li>

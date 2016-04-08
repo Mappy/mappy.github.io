@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/web/rss.xml" rel="self"></link><id>/</id><updated>2016-01-19T00:00:00+01:00</updated><entry><title>Une solution simple pour les A/B test</title><link href="/solution-simple-ab-tests.html" rel="alternate"></link><updated>2016-01-19T00:00:00+01:00</updated><author><name>Mappy</name></author><id>tag:,2016-01-19:solution-simple-ab-tests.html</id><summary type="html">&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/web/rss.xml" rel="self"></link><id>/</id><updated>2016-01-19T00:00:00+01:00</updated><entry><title>Une solution simple pour les A/B test</title><link href="/solution-simple-ab-tests.html" rel="alternate"></link><published>2016-01-19T00:00:00+01:00</published><author><name>Mappy</name></author><id>tag:,2016-01-19:solution-simple-ab-tests.html</id><summary type="html">&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
 &lt;p&gt;Le principe est de proposer une variante pour une fonctionnalité pour une partie de l’audience et ce, pendant une période donnée.&lt;/p&gt;
 &lt;p&gt;Exemples :&lt;/p&gt;
 &lt;ul&gt;
@@ -34,7 +34,7 @@ Cela n’est pas performant et on constate rapidement du "&lt;a href="https://en
 &lt;h3&gt;1. Fichier de configuration&lt;/h3&gt;
 &lt;p&gt;Mappy héberge le fichier de configuration des A/B tests sur &lt;a href="http://ab.mappy.net/config.json"&gt;http://ab.mappy.net/config.json&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Voici le fichier de configuration pour le test sur les couleurs de boutons :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="c1"&gt;// Identifiant unique du test&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;   &lt;span class="s2"&gt;&amp;quot;2015-12-18T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou commence le test&lt;/span&gt;
     &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;2016-01-01T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou se termine le test&lt;/span&gt;
@@ -62,7 +62,7 @@ Cette méthode se décompose en 3 parties : &lt;code&gt;isTargettedByPlatform&lt
 &lt;p&gt;Une autre méthode, &lt;code&gt;getVariant&lt;/code&gt;, retourne l’une des variantes en ayant préalablement tiré un chiffre au hasard via &lt;code&gt;getRandomId&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Enfin, la méthode &lt;code&gt;start&lt;/code&gt; est appelée lorsque l’on souhaite démarrer le test.
 Cette dernière change un état interne et se doit de lancer un appel de tag.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;exports&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
@@ -173,7 +173,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 
 &lt;p&gt;Le fichier de configuration est un tableau d’objet JSON.&lt;/p&gt;
 &lt;p&gt;Nous utilisons donc une collection Backbone, &lt;code&gt;AbTestCollection&lt;/code&gt;, qui se charge de récupérer ce fichier via Ajax lors d’un appel sur la méthode &lt;code&gt;fetch&lt;/code&gt; et d’instancier les modèles &lt;code&gt;AbTestModel&lt;/code&gt;.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;           &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;           &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;../model/AbTestModel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 
@@ -222,14 +222,14 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 &lt;li&gt;D’ajouter une classe CSS sur le &lt;code&gt;body&lt;/code&gt; qui surchargera les couleurs des boutons, ici dans un fichier &lt;code&gt;less&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;De démarrer le test (consistant à envoyer un tag) dès qu’une variante (ou la référence) est affichée à l’utilisateur&lt;/li&gt;
 &lt;/ol&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ab-&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-orangefonce&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-orangefonce&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="nb"&gt;background-color&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#f86312&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-rose&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
@@ -242,7 +242,7 @@ Cette dernière change un état interne et se doit de lancer un appel de tag.&lt
 
 
 &lt;p&gt;Et voici le démarrage du test dès l’affichage d’une liste possédant les boutons.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;    &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -256,7 +256,7 @@ Il est même possible, en ajoutant la variante aux paramètres des ressources JS
 &lt;p&gt;&lt;img alt="logo de loligo" src="images/web/loligo.png" /&gt;&lt;/p&gt;
 &lt;h2&gt;Pour conclure&lt;/h2&gt;
 &lt;p&gt;La solution apportée répond pleinement à nos besoins et supprime les problématiques inhérentes à l’utilisation d’un service externe.
-Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</summary><category term="French"></category><category term="JavaScript"></category><category term="ab"></category><category term="test"></category></entry><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><updated>2015-07-09T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-07-09:mappy-responsive.html</id><summary type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
+Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</summary><category term="French"></category><category term="JavaScript"></category><category term="ab"></category><category term="test"></category></entry><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><published>2015-07-09T00:00:00+02:00</published><author><name>Mappy</name></author><id>tag:,2015-07-09:mappy-responsive.html</id><summary type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Site petit écran" src="images/responsive/petitecran.png" /&gt;
 &lt;img alt="Site écran moyen" src="images/responsive/moyenecran.png" /&gt;
 &lt;img alt="Site grand écran" src="images/responsive/grandecran.png" /&gt;&lt;/p&gt;

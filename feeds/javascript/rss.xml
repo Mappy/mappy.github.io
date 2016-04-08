@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/javascript/rss.xml" rel="self"></link><id>/</id><updated>2015-04-08T00:00:00+02:00</updated><entry><title>JavaScript : de Q aux promesses natives</title><link href="/javascript-de-Q-aux-promesses-natives.html" rel="alternate"></link><updated>2015-04-08T00:00:00+02:00</updated><author><name>Mappy</name></author><id>tag:,2015-04-08:javascript-de-Q-aux-promesses-natives.html</id><summary type="html">&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/javascript/rss.xml" rel="self"></link><id>/</id><updated>2015-04-08T00:00:00+02:00</updated><entry><title>JavaScript : de Q aux promesses natives</title><link href="/javascript-de-Q-aux-promesses-natives.html" rel="alternate"></link><published>2015-04-08T00:00:00+02:00</published><author><name>Mappy</name></author><id>tag:,2015-04-08:javascript-de-Q-aux-promesses-natives.html</id><summary type="html">&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
 &lt;h1&gt;Boucle d’événement ?&lt;/h1&gt;
 &lt;p&gt;Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (&lt;code&gt;timeout&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
 L’avantage principal est le fait que les entrées/sorties sont non bloquantes.&lt;/p&gt;
@@ -9,7 +9,7 @@ L’avantage principal est le fait que les entrées/sorties sont non bloquantes.
 &lt;p&gt;Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
 Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les &lt;a href="https://nodejs.org/api/fs.html"&gt;API FileSystem de node&lt;/a&gt;), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les &lt;code&gt;callbacks&lt;/code&gt; de succès et d'erreur.&lt;/p&gt;
 &lt;p&gt;Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;action1(function (v1) {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;action1(function (v1) {
     action2(v1, function(v2) {
         action3(v2, function(v3) {
             action4(v3, function(v4) {
@@ -23,7 +23,7 @@ Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentP
 
 &lt;p&gt;On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).&lt;/p&gt;
 &lt;p&gt;Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var addresses = [];
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var addresses = [];
 geocode(&amp;#39;Paris&amp;#39;, function(result) {
     addresses.push(result);
     geocode(&amp;#39;Lyon&amp;#39;, function(result) {
@@ -40,7 +40,7 @@ geocode(&amp;#39;Paris&amp;#39;, function(result) {
 &lt;h1&gt;Les promesses&lt;/h1&gt;
 &lt;p&gt;Le terme &lt;code&gt;promise&lt;/code&gt; a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des &lt;code&gt;futurs&lt;/code&gt; (&lt;code&gt;futures&lt;/code&gt;) ou &lt;code&gt;délais&lt;/code&gt; (&lt;code&gt;delays&lt;/code&gt;) que l’on retrouve notamment en &lt;code&gt;Dart&lt;/code&gt;, en &lt;code&gt;Python&lt;/code&gt;, en &lt;code&gt;Java&lt;/code&gt; (&lt;code&gt;java.util.concurrent.Future&lt;/code&gt;), en &lt;code&gt;Scala&lt;/code&gt;, &lt;a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations"&gt;etc&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;action1()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;action1()
 .then(action2)
 .then(action3)
 .then(action4)
@@ -51,7 +51,7 @@ geocode(&amp;#39;Paris&amp;#39;, function(result) {
 
 
 &lt;p&gt;et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var addresses = [];
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var addresses = [];
 geocode(&amp;#39;Paris&amp;#39;)
 .then(function(result) {
     addresses.push(result);
@@ -76,7 +76,7 @@ Parmi les &lt;a href="http://microjs.com/#promise"&gt;multiples alternatives&lt;
 Néanmoins, Q a été choisie par rapport aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery principalement pour sa gestion des exceptions plus fine  (plus de &lt;a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling"&gt;détails sur le site de Q&lt;/a&gt;).
 Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compatibles avec la spécification &lt;a href="https://promisesaplus.com/"&gt;Promise/A+&lt;/a&gt;, donc sujets à plus de travail en cas de changement de librairie (voici la liste de &lt;a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md"&gt;librairie et leur compatibilité face à la spécification&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via &lt;code&gt;Q&lt;/code&gt; :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Q.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Q.all([
     geocode(&amp;#39;Paris&amp;#39;),
     geocode(&amp;#39;Lyon&amp;#39;)
 ])
@@ -88,7 +88,7 @@ Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compat
 
 &lt;p&gt;Le &lt;code&gt;fail&lt;/code&gt; s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.&lt;/p&gt;
 &lt;p&gt;Voici l’implémentation d’une fonction, par exemple &lt;code&gt;geocode&lt;/code&gt; :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="n"&gt;deferred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;defer&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
     &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;Lancement&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="n"&gt;une&lt;/span&gt; &lt;span class="n"&gt;requ&lt;/span&gt;&lt;span class="err"&gt;ê&lt;/span&gt;&lt;span class="n"&gt;te&lt;/span&gt; &lt;span class="n"&gt;Ajax&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;
     &lt;span class="n"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
@@ -114,7 +114,7 @@ Cette version commence par ailleurs a être supportée par les principaux naviga
 Bien sûr, nous utilisons un polyfill (&lt;a href="https://github.com/jakearchibald/es6-promise"&gt;es6-promise&lt;/a&gt;) pour les navigateurs incompatibles, Internet Explorer en tête.
 Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.js"&gt;rsvp.js&lt;/a&gt;, une implémentation plus complète.&lt;/p&gt;
 &lt;p&gt;Voici comment on déclarerait la fonction geocode avec une promesse native :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;var&lt;/span&gt; &lt;span class="nt"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nt"&gt;function&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;address&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="n"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;resolve&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
         &lt;span class="o"&gt;//&lt;/span&gt; &lt;span class="n"&gt;Lancement&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="err"&gt;’&lt;/span&gt;&lt;span class="n"&gt;une&lt;/span&gt; &lt;span class="n"&gt;requ&lt;/span&gt;&lt;span class="err"&gt;ê&lt;/span&gt;&lt;span class="n"&gt;te&lt;/span&gt; &lt;span class="n"&gt;Ajax&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;etc&lt;/span&gt;
         &lt;span class="n"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
@@ -129,7 +129,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;geocode()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;geocode()
 .then(function (result) {
 }).catch (function (error) {
 });
@@ -137,7 +137,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;Le &lt;code&gt;catch&lt;/code&gt; est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;geocode()
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;geocode()
 .then(function (result) {
 }).then(undefined, function (error) {
 });
@@ -146,7 +146,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 &lt;p&gt;Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le &lt;a href="http://jsfiddle.net/2ve41szc/"&gt;premier&lt;/a&gt; avec l’utilisation du &lt;code&gt;catch&lt;/code&gt;, le &lt;a href="http://jsfiddle.net/2ve41szc/1/"&gt;second&lt;/a&gt; avec la deuxième forme.&lt;/p&gt;
 &lt;p&gt;Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;var promise = Promise.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var promise = Promise.all([
     requete1,
     requete2
 ]).then(function () {
@@ -156,7 +156,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 
 
 &lt;p&gt;Nous avons donc, avec notre exemple d'itinéraire habituel :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;Promise.all([
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Promise.all([
     geocode(&amp;#39;Paris&amp;#39;),
     geocode(&amp;#39;Lyon&amp;#39;)
 ])
@@ -169,7 +169,7 @@ Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.
 &lt;h1&gt;Et demain ?&lt;/h1&gt;
 &lt;p&gt;Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.&lt;/p&gt;
 &lt;p&gt;Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé &lt;code&gt;await&lt;/code&gt; permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;async function itinerary() {
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;async function itinerary() {
   let paris     = await geocode(&amp;#39;Paris&amp;#39;);
   let lyon      = await geocode(&amp;#39;Lyon&amp;#39;);
   let itinerary = await computeItinerary([paris, lyon]);
