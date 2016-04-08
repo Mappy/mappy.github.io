@@ -65,30 +65,30 @@ L’avantage principal est le fait que les entrées/sorties sont non bloquantes.
 <p>Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
 Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les <a href="https://nodejs.org/api/fs.html">API FileSystem de node</a>), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les <code>callbacks</code> de succès et d'erreur.</p>
 <p>Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :</p>
-<div class="highlight"><pre><span></span>action1(function (v1) {
-    action2(v1, function(v2) {
-        action3(v2, function(v3) {
-            action4(v3, function(v4) {
-                // Traitement de v4
-            });
-        });
-    });
-});
+<div class="highlight"><pre><span></span><span class="nx">action1</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">v1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">action2</span><span class="p">(</span><span class="nx">v1</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v2</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">action3</span><span class="p">(</span><span class="nx">v2</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v3</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">action4</span><span class="p">(</span><span class="nx">v3</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">v4</span><span class="p">)</span> <span class="p">{</span>
+                <span class="c1">// Traitement de v4</span>
+            <span class="p">});</span>
+        <span class="p">});</span>
+    <span class="p">});</span>
+<span class="p">});</span>
 </pre></div>
 
 
 <p>On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).</p>
 <p>Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :</p>
-<div class="highlight"><pre><span></span>var addresses = [];
-geocode(&#39;Paris&#39;, function(result) {
-    addresses.push(result);
-    geocode(&#39;Lyon&#39;, function(result) {
-        addresses.push(result);
-        computeItinerary(addresses, function(itinerary) {
-            displayItinerary(itinerary);
-        }, errorCallback);
-    }, errorCallback);
-}, errorCallback);
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">addresses</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+        <span class="nx">computeItinerary</span><span class="p">(</span><span class="nx">addresses</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">displayItinerary</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">);</span>
+        <span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
+    <span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
+<span class="p">},</span> <span class="nx">errorCallback</span><span class="p">);</span>
 </pre></div>
 
 
@@ -96,33 +96,33 @@ geocode(&#39;Paris&#39;, function(result) {
 <h1>Les promesses</h1>
 <p>Le terme <code>promise</code> a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des <code>futurs</code> (<code>futures</code>) ou <code>délais</code> (<code>delays</code>) que l’on retrouve notamment en <code>Dart</code>, en <code>Python</code>, en <code>Java</code> (<code>java.util.concurrent.Future</code>), en <code>Scala</code>, <a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations">etc</a>.</p>
 <p>Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :</p>
-<div class="highlight"><pre><span></span>action1()
-.then(action2)
-.then(action3)
-.then(action4)
-.then(function(v4) {
-    // Traintement de v4
-});
+<div class="highlight"><pre><span></span><span class="nx">action1</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action2</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action3</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">action4</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">v4</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Traintement de v4</span>
+<span class="p">});</span>
 </pre></div>
 
 
 <p>et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :</p>
-<div class="highlight"><pre><span></span>var addresses = [];
-geocode(&#39;Paris&#39;)
-.then(function(result) {
-    addresses.push(result);
-})
-.then(function() {
-    return geocode(&#39;Lyon&#39;))
-})
-.then(function(result) {
-    addresses.push(result);
-})
-.then(function() {
-    return computeItinerary(addresses);
-})
-.then(displayItinerary)
-.fail(errorCallback);
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">addresses</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">))</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">addresses</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">computeItinerary</span><span class="p">(</span><span class="nx">addresses</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">displayItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">errorCallback</span><span class="p">);</span>
 </pre></div>
 
 
@@ -132,29 +132,29 @@ Parmi les <a href="http://microjs.com/#promise">multiples alternatives</a>, nous
 Néanmoins, Q a été choisie par rapport aux <code>Deferred</code> de jQuery principalement pour sa gestion des exceptions plus fine  (plus de <a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling">détails sur le site de Q</a>).
 Par ailleurs, les <code>Deferred</code> de jQuery ne sont pas compatibles avec la spécification <a href="https://promisesaplus.com/">Promise/A+</a>, donc sujets à plus de travail en cas de changement de librairie (voici la liste de <a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md">librairie et leur compatibilité face à la spécification</a>).</p>
 <p>Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via <code>Q</code> :</p>
-<div class="highlight"><pre><span></span>Q.all([
-    geocode(&#39;Paris&#39;),
-    geocode(&#39;Lyon&#39;)
-])
-.then(computeItinerary)
-.then(displayItinerary)
-.fail(errorCallback);
+<div class="highlight"><pre><span></span><span class="nx">Q</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">),</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">computeItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">displayItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">fail</span><span class="p">(</span><span class="nx">errorCallback</span><span class="p">);</span>
 </pre></div>
 
 
 <p>Le <code>fail</code> s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.</p>
 <p>Voici l’implémentation d’une fonction, par exemple <code>geocode</code> :</p>
-<div class="highlight"><pre><span></span><span class="nt">var</span> <span class="nt">geocode</span> <span class="o">=</span> <span class="nt">function</span> <span class="o">(</span><span class="nt">address</span><span class="o">)</span> <span class="p">{</span>
-    <span class="n">var</span> <span class="n">deferred</span> <span class="o">=</span> <span class="n">Q</span><span class="o">.</span><span class="n">defer</span><span class="p">();</span>
-    <span class="o">//</span> <span class="n">Lancement</span> <span class="n">d</span><span class="err">’</span><span class="n">une</span> <span class="n">requ</span><span class="err">ê</span><span class="n">te</span> <span class="n">Ajax</span><span class="o">,</span> <span class="n">etc</span>
-    <span class="n">setTimeout</span><span class="p">(</span><span class="n">function</span><span class="p">()</span> <span class="err">{</span>
-        <span class="n">deferred</span><span class="o">.</span><span class="n">resolve</span><span class="p">(</span><span class="err">{</span> <span class="n">coordinates</span><span class="o">:</span> <span class="cp">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="cp">]</span> <span class="p">}</span><span class="o">);</span>
-        <span class="o">//</span> <span class="nt">et</span><span class="o">,</span> <span class="nt">en</span> <span class="nt">cas</span> <span class="nt">d</span><span class="err">’</span><span class="nt">erreur</span> <span class="o">:</span>
-        <span class="o">//</span> <span class="nt">deferred</span><span class="nc">.reject</span><span class="o">(</span><span class="s1">&#39;erreur&#39;</span><span class="o">);</span>
-    <span class="err">}</span><span class="o">,</span> <span class="nt">250</span><span class="o">);</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">geocode</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">Q</span><span class="p">.</span><span class="nx">defer</span><span class="p">();</span>
+    <span class="c1">// Lancement d’une requête Ajax, etc</span>
+    <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">deferred</span><span class="p">.</span><span class="nx">resolve</span><span class="p">({</span> <span class="nx">coordinates</span><span class="o">:</span> <span class="p">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="p">]</span> <span class="p">});</span>
+        <span class="c1">// et, en cas d’erreur :</span>
+        <span class="c1">// deferred.reject(&#39;erreur&#39;);</span>
+    <span class="p">},</span> <span class="mi">250</span><span class="p">);</span>
 
-    <span class="nt">return</span> <span class="nt">deferred</span><span class="nc">.promise</span><span class="o">;</span>
-<span class="err">}</span><span class="o">;</span>
+    <span class="k">return</span> <span class="nx">deferred</span><span class="p">.</span><span class="nx">promise</span><span class="p">;</span>
+<span class="p">};</span>
 </pre></div>
 
 
@@ -170,67 +170,67 @@ Cette version commence par ailleurs a être supportée par les principaux naviga
 Bien sûr, nous utilisons un polyfill (<a href="https://github.com/jakearchibald/es6-promise">es6-promise</a>) pour les navigateurs incompatibles, Internet Explorer en tête.
 Ce polyfill est un sous-ensemble de <a href="https://github.com/tildeio/rsvp.js">rsvp.js</a>, une implémentation plus complète.</p>
 <p>Voici comment on déclarerait la fonction geocode avec une promesse native :</p>
-<div class="highlight"><pre><span></span><span class="nt">var</span> <span class="nt">geocode</span> <span class="o">=</span> <span class="nt">function</span> <span class="o">(</span><span class="nt">address</span><span class="o">)</span> <span class="p">{</span>
-    <span class="n">var</span> <span class="n">promise</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Promise</span><span class="p">(</span><span class="n">function</span> <span class="p">(</span><span class="n">resolve</span><span class="o">,</span> <span class="n">reject</span><span class="p">)</span> <span class="err">{</span>
-        <span class="o">//</span> <span class="n">Lancement</span> <span class="n">d</span><span class="err">’</span><span class="n">une</span> <span class="n">requ</span><span class="err">ê</span><span class="n">te</span> <span class="n">Ajax</span><span class="o">,</span> <span class="n">etc</span>
-        <span class="n">setTimeout</span><span class="p">(</span><span class="n">function</span><span class="p">()</span> <span class="err">{</span>
-            <span class="n">resolve</span><span class="p">(</span><span class="err">{</span> <span class="n">coordinates</span><span class="o">:</span> <span class="cp">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="cp">]</span> <span class="p">}</span><span class="o">);</span>
-            <span class="o">//</span> <span class="nt">et</span><span class="o">,</span> <span class="nt">en</span> <span class="nt">cas</span> <span class="nt">d</span><span class="err">’</span><span class="nt">erreur</span> <span class="o">:</span>
-            <span class="o">//</span> <span class="nt">reject</span><span class="o">(</span><span class="s1">&#39;erreur&#39;</span><span class="o">);</span>
-        <span class="err">}</span><span class="o">,</span> <span class="nt">250</span><span class="o">);</span>
-    <span class="err">}</span><span class="o">);</span>
-    <span class="nt">return</span> <span class="nt">promise</span><span class="o">;</span>
-<span class="err">}</span><span class="o">;</span>
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">geocode</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// Lancement d’une requête Ajax, etc</span>
+        <span class="nx">setTimeout</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="nx">resolve</span><span class="p">({</span> <span class="nx">coordinates</span><span class="o">:</span> <span class="p">[</span> <span class="mf">48.856898</span><span class="p">,</span> <span class="mf">2.350843</span> <span class="p">]</span> <span class="p">});</span>
+            <span class="c1">// et, en cas d’erreur :</span>
+            <span class="c1">// reject(&#39;erreur&#39;);</span>
+        <span class="p">},</span> <span class="mi">250</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="k">return</span> <span class="nx">promise</span><span class="p">;</span>
+<span class="p">};</span>
 </pre></div>
 
 
 <p>L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :</p>
-<div class="highlight"><pre><span></span>geocode()
-.then(function (result) {
-}).catch (function (error) {
-});
+<div class="highlight"><pre><span></span><span class="nx">geocode</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}).</span><span class="k">catch</span> <span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">});</span>
 </pre></div>
 
 
 <p>Le <code>catch</code> est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :</p>
-<div class="highlight"><pre><span></span>geocode()
-.then(function (result) {
-}).then(undefined, function (error) {
-});
+<div class="highlight"><pre><span></span><span class="nx">geocode</span><span class="p">()</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">}).</span><span class="nx">then</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">});</span>
 </pre></div>
 
 
 <p>Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le <a href="http://jsfiddle.net/2ve41szc/">premier</a> avec l’utilisation du <code>catch</code>, le <a href="http://jsfiddle.net/2ve41szc/1/">second</a> avec la deuxième forme.</p>
 <p>Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :</p>
-<div class="highlight"><pre><span></span>var promise = Promise.all([
-    requete1,
-    requete2
-]).then(function () {
-    // Une fois les 2 promesses requete1 et requete2 résolues...
-});
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">promise</span> <span class="o">=</span> <span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+    <span class="nx">requete1</span><span class="p">,</span>
+    <span class="nx">requete2</span>
+<span class="p">]).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Une fois les 2 promesses requete1 et requete2 résolues...</span>
+<span class="p">});</span>
 </pre></div>
 
 
 <p>Nous avons donc, avec notre exemple d'itinéraire habituel :</p>
-<div class="highlight"><pre><span></span>Promise.all([
-    geocode(&#39;Paris&#39;),
-    geocode(&#39;Lyon&#39;)
-])
-.then(computeItinerary)
-.then(displayItinerary)
-.then(undefined, errorCallback);
+<div class="highlight"><pre><span></span><span class="nb">Promise</span><span class="p">.</span><span class="nx">all</span><span class="p">([</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">),</span>
+    <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">)</span>
+<span class="p">])</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">computeItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">displayItinerary</span><span class="p">)</span>
+<span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kc">undefined</span><span class="p">,</span> <span class="nx">errorCallback</span><span class="p">);</span>
 </pre></div>
 
 
 <h1>Et demain ?</h1>
 <p>Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.</p>
 <p>Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé <code>await</code> permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :</p>
-<div class="highlight"><pre><span></span>async function itinerary() {
-  let paris     = await geocode(&#39;Paris&#39;);
-  let lyon      = await geocode(&#39;Lyon&#39;);
-  let itinerary = await computeItinerary([paris, lyon]);
-  displayItinerary(itinerary);
-}
+<div class="highlight"><pre><span></span><span class="nx">async</span> <span class="kd">function</span> <span class="nx">itinerary</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">paris</span>     <span class="o">=</span> <span class="nx">await</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Paris&#39;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">lyon</span>      <span class="o">=</span> <span class="nx">await</span> <span class="nx">geocode</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">);</span>
+  <span class="kd">let</span> <span class="nx">itinerary</span> <span class="o">=</span> <span class="nx">await</span> <span class="nx">computeItinerary</span><span class="p">([</span><span class="nx">paris</span><span class="p">,</span> <span class="nx">lyon</span><span class="p">]);</span>
+  <span class="nx">displayItinerary</span><span class="p">(</span><span class="nx">itinerary</span><span class="p">);</span>
+<span class="p">}</span>
 </pre></div>
 
 
