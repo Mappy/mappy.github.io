@@ -51,7 +51,7 @@
                 Thu 05 November 2015
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+                By <a class="url fn" href="/author/paulgreg.html">paulgreg</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
@@ -60,7 +60,7 @@
 
 <h2>MappyCar</h2>
 <p>En effet, 2 voitures surnommées "MappyCar" (<a href="https://twitter.com/earthmine02">@earthmine02</a>, <a href="https://twitter.com/earthmine07">@earthmine07</a>) parcourent les rues des villes de France pour prendre des photos sous plusieurs angles.</p>
-<p><img alt="Mappy Car" src="images/webgl/mappy-car.jpg" /></p>
+<p><img alt="Mappy Car" src="images/webgl/mappy-car.jpg"></p>
 <h2>Historiquement...</h2>
 <p>Historiquement, le composant chargé d’afficher les vues sur le site <a href="http://fr.mappy.com">fr.mappy.com</a> fût développé en Flash.</p>
 <p>Il était grand temps de mettre ce composant à jour en adoptant des technologies modernes pour afficher de la 3d au sein du navigateur, j’ai nommé <a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API">WebGL</a>.</p>
@@ -70,10 +70,10 @@
 Ils enregistrent également différents paramètres tels que les coordonnées GPS, l’altitude, le tangage (pitch), l’orientation (yaw) et le roulis (roll).</p>
 <p>Les photos sont ensuites assemblées afin d'obtenir 6 images.
 Ces 6 images seront projetées à l’intérieur d’un cube. Ce cube est alors appelé "skybox".</p>
-<p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png" /></p>
+<p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png"></p>
 <h2>Scène 3d</h2>
 <p>L’astuce est alors de créer une scène 3d composée de ce cube et d’une caméra au centre.</p>
-<p><img alt="Cube faces layout" src="images/panoramic_cube_02.png" /></p>
+<p><img alt="Cube faces layout" src="images/panoramic_cube_02.png"></p>
 <p>La caméra peut bouger à l’intérieur du cube sur 2 axes afin de pivoter horizontalement et verticalement, donnant l’effet de regarder autour de soi.</p>
 <h2>Déplacement</h2>
 <p>Il y a plusieurs façons de se déplacer d'une vue à l'autre :</p>
@@ -86,7 +86,7 @@ Ces 6 images seront projetées à l’intérieur d’un cube. Ce cube est alors 
 <h2>Chargement progressif</h2>
 <p>Afin d'avoir un rendu le plus rapide possible et pour éviter à l'utilisateur de bloquer sur un fond noir lorsque sa connexion est lente, la vue charge d'abord un cube avec des images de basse qualité, donc très légères.
 Lorsque cette première "skybox" est affichée, la vue va charger des images de meilleure qualité. En fonction de la taille d’écran ou de la résolution, chaque face du cube sera composée d'une ou de plusieurs images (1, 4 ou 16 images par face) afin d’avoir un rendu net sur tous les supports.</p>
-<p><img alt="différentes résolutions" src="images/panoramic_cube_03.png" /></p>
+<p><img alt="différentes résolutions" src="images/panoramic_cube_03.png"></p>
 <h2>Three.js</h2>
 <p>Plutôt que de réinventer la roue, nous nous sommes rapidement orientés vers <a href="http://threejs.org/">three.js</a>, une excellente librairie 3d.
 Three.js permet, en quelques lignes de code, d’afficher une vue 3d sans avoir à manipuler l’API WebGL de plus bas niveau.</p>
@@ -116,7 +116,7 @@ CSS3DRenderer est en pratique moins performant que WebGL mais permet d’offrir 
 Ils sont accessibles en JavaScript via <a href="https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation">API DeviceOrientations</a>.
 Nous n’avons pas pu résister à l'envie de <a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/deviceorientation.html">connecter cette API à la vue pour la piloter avec son téléphone</a>.</p>
 <p>Enfin, si vous disposez d’un <a href="https://www.google.com/get/cardboard/">cardboard</a> (boîte en carton où l’on peut insérer son téléphone), vous pouvez chausser vos lunettes et <a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/cardboard.html">visualiser les vues 360 en réalité augmentée</a>.</p>
-<p><img alt="virtual reality" src="images/webgl/virtual-reality.png" /></p>
+<p><img alt="virtual reality" src="images/webgl/virtual-reality.png"></p>
 <p>Three.js implémente cette fonctionnalité via <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/effects/StereoEffect.js">StereoEffect</a> et <a href="https://github.com/mrdoob/three.js/blob/master/examples/js/controls/DeviceOrientationControls.js">DeviceOrientationControls</a>. Je vous invite à lire ce <a href="http://www.sitepoint.com/bringing-vr-to-web-google-cardboard-three-js/">très bon article</a> si le sujet vous intéresse.</p>
 <h2>Un dernier mot sur l’intégration des vues sur votre site</h2>
 <p><a href="http://fr.mappy.com">Mappy</a> propose plusieurs <a href="http://corporate.mappy.com/faq/integrez-mappy/">modes d’intégration</a> pour ses cartes ou sa vue 360.
@@ -132,7 +132,6 @@ N’hésitez pas à nous contacter (deportalisation[AT]mappy.com) si une intégr
 <h4>Pages</h4>
 
  <ul>
-      <li><a href="/pages/About.html">About</a></li>
   </ul>
 
 <h4>Categories</h4>

@@ -51,7 +51,7 @@
                 Wed 08 April 2015
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+                By <a class="url fn" href="/author/paulgreg.html">paulgreg</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
@@ -59,7 +59,7 @@
 <h1>Boucle d’événement ?</h1>
 <p>Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (<code>timeout</code>, <code>click</code>, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
 L’avantage principal est le fait que les entrées/sorties sont non bloquantes.</p>
-<p><img alt="Event loop" src="images/javascript/event-loop.png" /></p>
+<p><img alt="Event loop" src="images/javascript/event-loop.png"></p>
 <p>Si vous souhaitez en savoir plus sur la boucle d’événement, je vous recommande vivement cette présentation de <a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ">Philip Roberts « What the heck is the event loop anyway? »</a> présentée lors de la JSConf EU 2014 ou alors cette page sur la <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/EventLoop">gestion de la concurrence et boucle des événements</a> sur <a href="https://developer.mozilla.org/fr/">MDN</a>.</p>
 <h1>Code asynchrone</h1>
 <p>Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
@@ -164,7 +164,7 @@ La fonction <code>computeItinerary</code> consomme les résultats des 2 autres p
 <h1>Maintenant : les promesses natives</h1>
 <p>Les promesses ont fait leur bonhomme de chemin dans les spécifications d’ECMAScript puisqu’elles font maintenant partie de la version 6 de la norme (ES6).
 Cette version commence par ailleurs a être supportée par les principaux navigateurs du marché avec Firefox 31+, Chrome 41+, Opera 28+, Safari 7.1+ et iOS 8 :</p>
-<p><img alt="support des promesses natives" src="images/javascript/es6-promise-support.png" /></p>
+<p><img alt="support des promesses natives" src="images/javascript/es6-promise-support.png"></p>
 <p><a href="https://kangax.github.io/compat-table/es6/#Promise">Table de compatibilité d’ECMAScript 6</a></p>
 <p>Pour ces raisons, il nous a semblé intéressant de délaisser la librairie Q au profit des promesses ES6 natives.
 Bien sûr, nous utilisons un polyfill (<a href="https://github.com/jakearchibald/es6-promise">es6-promise</a>) pour les navigateurs incompatibles, Internet Explorer en tête.
@@ -247,7 +247,6 @@ D’ailleurs, si vous souhaitez tenter l’expérience, cet <a href="http://pouc
 <h4>Pages</h4>
 
  <ul>
-      <li><a href="/pages/About.html">About</a></li>
   </ul>
 
 <h4>Categories</h4>

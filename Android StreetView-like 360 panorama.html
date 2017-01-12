@@ -51,12 +51,12 @@
                 Mon 04 August 2014
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/mappy.html">Mappy</a>
+                By <a class="url fn" href="/author/johnfrommappy.html">JohnFromMappy</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
               <p><a href="http://mappy.com">Mappy</a> offers StreetView-like immersive experience to explore France cities. The web interface uses a <a href="http://fr.mappy.com/#/40/M1/TSearch/Snotre+dame+paris/N42.63223,-2.96266,2.35218,48.85267/Z10/">Flash player to display the cubic projections of "360" panorama images</a>.</p>
-<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_web_flash_player.png" /></p>
+<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_web_flash_player.png"></p>
 <p>To provide the same feature on Android devices, we looked at existing solutions. Two we came accross were :</p>
 <ul>
 <li><a href="http://krpano.com/">krpano HTML5 Viewer</a> works in modern mobile browsers (<a href="http://krpano.com/docu/html5/#supportedsystems">supported browsers, WebViews</a>).</li>
@@ -68,20 +68,20 @@
 <li><strong>StreetView-like gesture control (rotate, zoom)</strong>, while <a href="https://github.com/zarelaky/panoramagl-android">PanoramaGL</a> handles "Pan-Rotate" as a speed vector we felt not as easy to control. It may be configurable but we didn't find out how.</li>
 <li><strong>Click on 3D way arrows</strong>, while PanoramaGL provides hotspots with visual feedback on click. Still, these are 2D bitmap layers inside textures, as far as we understood.</li>
 </ol>
-<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_android_01.png" />
-<img alt="Mappy 360 Web player" src="images/mappy_panorama_android_02.png" /></p>
+<p><img alt="Mappy 360 Web player" src="images/mappy_panorama_android_01.png">
+<img alt="Mappy 360 Web player" src="images/mappy_panorama_android_02.png"></p>
 <blockquote>
 <p>Available on Google Play, <a href="https://play.google.com/store/apps/details?id=com.mappy.app">Mappy for Android</a>.</p>
 </blockquote>
 <p>Let's describe the main technical aspects we implemented building our own <em>PanoramicLib</em>. </p>
 <h1>Cubic projection</h1>
 <p>To display 360 panoramas with cubic projection, we texture the inner faces of a simple cube mesh (6 square faces, 2 triangles each).</p>
-<p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png" />
-<img alt="Cube faces layout" src="images/panoramic_cube_02.png" />
-<img alt="Cube rotation angles names" src="images/panoramic_cube_04.png" /></p>
+<p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png">
+<img alt="Cube faces layout" src="images/panoramic_cube_02.png">
+<img alt="Cube rotation angles names" src="images/panoramic_cube_04.png"></p>
 <p>In the OpenGL 3D space, both cube and camera center are (x=0, y=0, z=0). The camera rotates on itself, using pitch and yaw angles. This is important because the cubic projected textures are valid only if seen from the cube center. Zoom is done just by changing the Field Of View angle (the cube mesh is not scaled).</p>
-<p><img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_05.png" />
-<img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_06.png" /></p>
+<p><img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_05.png">
+<img alt="*PanoramicLib* sample using &quot;target&quot; textures" src="images/panoramic_cube_06.png"></p>
 <blockquote>
 <p><em>PanoramicLib</em> sample using "target" textures for debugging</p>
 </blockquote>
@@ -92,7 +92,7 @@
 </ul>
 <h1>Progressive resolution loading</h1>
 <p>Our panorama images are provided through Web services. For faster loading, low resolution bitmaps (128 * 128) are first downloaded. Higher resolutions are progressively downloaded, updating the cube faces to sharper textures. For high resolutions, faces are divided in multiple tiles of 512 * 512 pixels. </p>
-<p><img alt="Multiple bitmap tiles per face possibilities" src="images/panoramic_cube_03.png" /></p>
+<p><img alt="Multiple bitmap tiles per face possibilities" src="images/panoramic_cube_03.png"></p>
 <p>Ideally, using tiles would lower the amount of downloaded data because client application could :</p>
 <ul>
 <li>Download tiles only for visible faces,</li>
@@ -114,7 +114,7 @@
 <p><em>"Picking is the task of determining which screen-rendered object a user has clicked on."</em> <a href="http://en.wikipedia.org/wiki/Picking">(Wikipedia)</a></p>
 </blockquote>
 <p>The idea with ray-picking is to compute a 3D ray between the camera and the point the user clicked. For each polygon in the scene, you test if the ray intersects it, resolving the <a href="http://en.wikipedia.org/wiki/Line%E2%80%93plane_intersection">"line-plane intersection" equation</a>. The closest intersected polygon belongs to the clicked object.</p>
-<p><img alt="Ray picking diagram" src="images/ray_picking_01.png" /></p>
+<p><img alt="Ray picking diagram" src="images/ray_picking_01.png"></p>
 <blockquote>
 <p>Image from <a href="http://oivdoc90.vsg3d.com/content/88-picking">VSG, Visualization Science Group - Open Inventor Mentor, 2nd Edition - Volume I</a></p>
 </blockquote>
@@ -133,7 +133,6 @@ It refers to <a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to
 <h4>Pages</h4>
 
  <ul>
-      <li><a href="/pages/About.html">About</a></li>
   </ul>
 
 <h4>Categories</h4>

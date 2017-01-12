@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs - web</title><link href="/" rel="alternate"></link><link href="/feeds/web/rss.xml" rel="self"></link><id>/</id><updated>2016-01-19T00:00:00+01:00</updated><entry><title>Une solution simple pour les A/B test</title><link href="/solution-simple-ab-tests.html" rel="alternate"></link><published>2016-01-19T00:00:00+01:00</published><updated>2016-01-19T00:00:00+01:00</updated><author><name>paulgreg</name></author><id>tag:None,2016-01-19:/solution-simple-ab-tests.html</id><summary type="html">&lt;p&gt;Une solution simple d’A/B test pour les applications web.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs - paulgreg</title><link href="/" rel="alternate"></link><link href="/feeds/paulgreg.atom.xml" rel="self"></link><id>/</id><updated>2016-04-08T00:00:00+02:00</updated><entry><title>La Rétrospective de La Table Ronde</title><link href="/agility.html" rel="alternate"></link><published>2016-04-08T00:00:00+02:00</published><updated>2016-04-08T00:00:00+02:00</updated><author><name>paulgreg</name></author><id>tag:None,2016-04-08:/agility.html</id><summary type="html">&lt;p&gt;Une variante de rétrospective agile&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Enjeux de cette rétrospective&lt;/h2&gt;
+&lt;p&gt;Lorsqu'une équipe travaille depuis de très nombreuses itérations, la cérémonie de la rétrospective peut devenir fastidieuse :
+format toujours identique, impression de tourner en rond...
+Pour que cette réunion ne soit pas ressentie comme une corvée, il est important d'en renouveler régulièrement la forme, et, dans les limites du possible, le fond.&lt;/p&gt;
+&lt;p&gt;Cette variante de la Table Ronde a pour but d'essayer d'impliquer les membres de l'équipe au-delà de la réunion. A l'issue de la rétrospective, ils devront avoir formé des binômes de chevaliers en vue de réaliser une quête (et un trinôme si le nombre de participants est impair).
+(Et si les participants sont fans de Kaamelott, c'est encore mieux).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Chevaliers" src="images/agility/kaamelott.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Préparation de la rétrospective&lt;/h2&gt;
+&lt;p&gt;Vous aurez besoin de :
+&lt;em&gt;   un tableau
+&lt;/em&gt;   des post-its et des feutres
+&lt;em&gt;   des papiers sur lesquels sont inscrits les noms de personnages de Kaamelott
+&lt;/em&gt;   une boîte / un chapeau pour y placer les papiers pliés en quatre
+*   un QCM portant sur la série Kaamelott&lt;/p&gt;
+&lt;p&gt;&lt;a href="resources/agility/QuizKaamelott.pdf"&gt;Exemple de QCM&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Déroulement de la rétrospective&lt;/h2&gt;
+&lt;p&gt;Sur un tableau blanc, préparer trois colonnes dans lesquelles les participants viendront placer leurs post-its :
++   &lt;em&gt;On en a gros !&lt;/em&gt; : Qu'est-ce qui ne va pas ?
++   &lt;em&gt;Le Graal&lt;/em&gt; : le but à atteindre (au niveau de l'équipe, ou au niveau personnel)
++   &lt;em&gt;Excalibur&lt;/em&gt; : ce qui peut aider l'équipe à atteindre le Graal'&lt;/p&gt;
+&lt;p&gt;Distribuer le QCM aux participants, qui ont toute la durée de la rétrospective pour le remplir. Eventuellement, proposer une récompense pour celui qui a le plus de bonnes réponses, mais le but est principalement d'instaurer une aura de bonne humeur généralisée. Comme ce sont des questions à choix multiples, même les personnes ne connaissant pas la série peuvent répondre correctement.&lt;/p&gt;
+&lt;p&gt;Ensuite, la réunion se déroule de manière classique : une fois tous les post-its placés au tableau, on vote pour les sujets dont on veut débattre durant le temps qu'il reste. Avant de lancer les discussions, chacun pioche un personnage de Kammelott et on forme des binômes de chevaliers (par exemple : Perceval et Karadoc, Yvain et Gauvain, Guethenoc et Roparz'h, Merlin et Elias...).
+Chaque binôme devra trouver une quête à réaliser pour la quête du Graal, avant la prochaine rétrospective, que ce soit pour aider l’équipe à atteindre un des Graals déterminés pendant la réunion, ou pour faciliter le travail de l’équipe, améliorer l’ambiance...&lt;/p&gt;</content><category term="Agilite"></category><category term="Retrospective"></category></entry><entry><title>Une solution simple pour les A/B test</title><link href="/solution-simple-ab-tests.html" rel="alternate"></link><published>2016-01-19T00:00:00+01:00</published><updated>2016-01-19T00:00:00+01:00</updated><author><name>paulgreg</name></author><id>tag:None,2016-01-19:/solution-simple-ab-tests.html</id><summary type="html">&lt;p&gt;Une solution simple d’A/B test pour les applications web.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
 &lt;p&gt;Le principe est de proposer une variante pour une fonctionnalité pour une partie de l’audience et ce, pendant une période donnée.&lt;/p&gt;
 &lt;p&gt;Exemples :&lt;/p&gt;
 &lt;ul&gt;
@@ -256,7 +278,73 @@ Il est même possible, en ajoutant la variante aux paramètres des ressources JS
 &lt;p&gt;&lt;img alt="logo de loligo" src="images/web/loligo.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Pour conclure&lt;/h2&gt;
 &lt;p&gt;La solution apportée répond pleinement à nos besoins et supprime les problématiques inhérentes à l’utilisation d’un service externe.
-Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="ab"></category><category term="test"></category></entry><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><published>2015-07-09T00:00:00+02:00</published><updated>2015-07-09T00:00:00+02:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-07-09:/mappy-responsive.html</id><summary type="html">&lt;p&gt;Explications du remplacement du site Mappy et du site mobile par un unique site responsive.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
+Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="ab"></category><category term="test"></category></entry><entry><title>Vues 360 en WebGL</title><link href="/vues-360-en-webgl.html" rel="alternate"></link><published>2015-11-05T00:00:00+01:00</published><updated>2015-11-05T00:00:00+01:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-11-05:/vues-360-en-webgl.html</id><summary type="html">&lt;p&gt;Cet article présente la migration des vues 360 depuis Flash vers WebGL&lt;/p&gt;</summary><content type="html">&lt;p&gt;Le site &lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; offre depuis 2011 des &lt;a href="http://fr.mappy.com/#/436/M1/TSearch/Sparis/N1090.14493,12.34393,2.34821,48.85369/Z7/"&gt;vues 360°&lt;/a&gt; des &lt;a href="http://widgets.mappy.com/360view/documentation/#coverage"&gt;320 villes&lt;/a&gt; plus grandes villes de France :&lt;/p&gt;
+&lt;iframe src="http://widgets.mappy.com/360view?key=techblog&amp;lat=48.85369&amp;lng=2.34821" width="100%" height="400" scrolling="no"&gt;&lt;/iframe&gt;
+
+&lt;h2&gt;MappyCar&lt;/h2&gt;
+&lt;p&gt;En effet, 2 voitures surnommées "MappyCar" (&lt;a href="https://twitter.com/earthmine02"&gt;@earthmine02&lt;/a&gt;, &lt;a href="https://twitter.com/earthmine07"&gt;@earthmine07&lt;/a&gt;) parcourent les rues des villes de France pour prendre des photos sous plusieurs angles.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Mappy Car" src="images/webgl/mappy-car.jpg"&gt;&lt;/p&gt;
+&lt;h2&gt;Historiquement...&lt;/h2&gt;
+&lt;p&gt;Historiquement, le composant chargé d’afficher les vues sur le site &lt;a href="http://fr.mappy.com"&gt;fr.mappy.com&lt;/a&gt; fût développé en Flash.&lt;/p&gt;
+&lt;p&gt;Il était grand temps de mettre ce composant à jour en adoptant des technologies modernes pour afficher de la 3d au sein du navigateur, j’ai nommé &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API"&gt;WebGL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Mais avant de nous plonger dans WebGL, une présentation des vues 360 s’impose.&lt;/p&gt;
+&lt;h2&gt;Explications des prises de vue 360&lt;/h2&gt;
+&lt;p&gt;Les véhicules Mappy sont équipés de 8 appareils photos orientés de chaque côté de la voiture et prennent des photos régulièrement de façon synchronisée pendant le déplacement.
+Ils enregistrent également différents paramètres tels que les coordonnées GPS, l’altitude, le tangage (pitch), l’orientation (yaw) et le roulis (roll).&lt;/p&gt;
+&lt;p&gt;Les photos sont ensuites assemblées afin d'obtenir 6 images.
+Ces 6 images seront projetées à l’intérieur d’un cube. Ce cube est alors appelé "skybox".&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Scène 3d&lt;/h2&gt;
+&lt;p&gt;L’astuce est alors de créer une scène 3d composée de ce cube et d’une caméra au centre.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Cube faces layout" src="images/panoramic_cube_02.png"&gt;&lt;/p&gt;
+&lt;p&gt;La caméra peut bouger à l’intérieur du cube sur 2 axes afin de pivoter horizontalement et verticalement, donnant l’effet de regarder autour de soi.&lt;/p&gt;
+&lt;h2&gt;Déplacement&lt;/h2&gt;
+&lt;p&gt;Il y a plusieurs façons de se déplacer d'une vue à l'autre :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;En utilisant les flèches, on peut se déplacer vers la vue la plus proche dans la direction souhaitée.&lt;/li&gt;
+&lt;li&gt;En cliquant sur le sol, on va chercher s'il existe une vue proche à ce point et l'afficher.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le déplacement d'une vue à l'autre consiste simplement à charger les images formant la nouvelle "skybox" (le cube dans lequel se trouve la caméra) et à effacer les précédentes.&lt;/p&gt;
+&lt;p&gt;Il est également possible de zoomer dans la vue. Pour cela, nous avons joué sur l'angle de vision (on l’appelle &lt;a href="https://en.wikipedia.org/wiki/Field_of_view"&gt;field of view&lt;/a&gt; en anglais).&lt;/p&gt;
+&lt;h2&gt;Chargement progressif&lt;/h2&gt;
+&lt;p&gt;Afin d'avoir un rendu le plus rapide possible et pour éviter à l'utilisateur de bloquer sur un fond noir lorsque sa connexion est lente, la vue charge d'abord un cube avec des images de basse qualité, donc très légères.
+Lorsque cette première "skybox" est affichée, la vue va charger des images de meilleure qualité. En fonction de la taille d’écran ou de la résolution, chaque face du cube sera composée d'une ou de plusieurs images (1, 4 ou 16 images par face) afin d’avoir un rendu net sur tous les supports.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="différentes résolutions" src="images/panoramic_cube_03.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Three.js&lt;/h2&gt;
+&lt;p&gt;Plutôt que de réinventer la roue, nous nous sommes rapidement orientés vers &lt;a href="http://threejs.org/"&gt;three.js&lt;/a&gt;, une excellente librairie 3d.
+Three.js permet, en quelques lignes de code, d’afficher une vue 3d sans avoir à manipuler l’API WebGL de plus bas niveau.&lt;/p&gt;
+&lt;p&gt;Voici un exemple de "skybox" basique où la caméra tourne sur elle-même :&lt;/p&gt;
+&lt;iframe width="100%" height="700" src="//jsfiddle.net/053ng6gm/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"&gt;&lt;/iframe&gt;
+
+&lt;h2&gt;Interaction avec les objets&lt;/h2&gt;
+&lt;p&gt;Savoir sur quel élément a cliqué l’utilisateur dans un moteur 3d est plus compliqué que simplement ajouter un "listener" sur un élément HTML.
+En effet, lors d’un clic dans la scène 3d, nous récupèrons simplement un point (x,y) et il convient alors de trouver quel objet il croise (c’est le principe du &lt;a href="https://fr.wikipedia.org/wiki/Raycasting"&gt;raycasting&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Pour cela, nous allons d’abord trouver le vecteur 3d entre ce point et la position de la caméra.
+Ensuite, Three.js nous propose le &lt;a href="https://github.com/mrdoob/three.js/blob/master/src/core/Raycaster.js"&gt;Raycaster&lt;/a&gt; qui permet ensuite de détecter une intersection avec un objet 3d.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var vector = getVectorFromEvent(event);
+var raycaster = new THREE.Raycaster(this.camera.position, vector);
+var intersectedObjects = raycaster.intersectObjects(objectsIn3dScene);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Support navigateurs&lt;/h2&gt;
+&lt;p&gt;WebGL est supporté dans tous les &lt;a href="http://caniuse.com/#search=webgl"&gt;navigateurs modernes&lt;/a&gt;, y compris IE11.
+Cependant, nous nous sommes rapidement rendus compte que certaines tablettes ou téléphones Android, bien que récents, ne supportent pas WebGL.
+Par ailleurs, WebGL peut être désactivé en fonction des &lt;a href="https://www.khronos.org/webgl/wiki/BlacklistsAndWhitelists"&gt;pilotes installés (ou non) sur la machine&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Par conséquent, nous avons également utilisé un système de rendu alternatif proposé par Three.js, le &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js"&gt;CSS3DRenderer.js&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ce dernier utilise les &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"&gt;transformations CSS 3d&lt;/a&gt; qui sont elles &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"&gt;supportées de façon un peu plus large&lt;/a&gt;.
+CSS3DRenderer est en pratique moins performant que WebGL mais permet d’offrir un support minimal sur ces périphèriques ainsi que sur IE 10.&lt;/p&gt;
+&lt;h2&gt;Réalité augmentée et cardBoard&lt;/h2&gt;
+&lt;p&gt;Les téléphones et tablettes modernes possèdent des capteurs d’orientations.
+Ils sont accessibles en JavaScript via &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation"&gt;API DeviceOrientations&lt;/a&gt;.
+Nous n’avons pas pu résister à l'envie de &lt;a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/deviceorientation.html"&gt;connecter cette API à la vue pour la piloter avec son téléphone&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Enfin, si vous disposez d’un &lt;a href="https://www.google.com/get/cardboard/"&gt;cardboard&lt;/a&gt; (boîte en carton où l’on peut insérer son téléphone), vous pouvez chausser vos lunettes et &lt;a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/cardboard.html"&gt;visualiser les vues 360 en réalité augmentée&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="virtual reality" src="images/webgl/virtual-reality.png"&gt;&lt;/p&gt;
+&lt;p&gt;Three.js implémente cette fonctionnalité via &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/effects/StereoEffect.js"&gt;StereoEffect&lt;/a&gt; et &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/controls/DeviceOrientationControls.js"&gt;DeviceOrientationControls&lt;/a&gt;. Je vous invite à lire ce &lt;a href="http://www.sitepoint.com/bringing-vr-to-web-google-cardboard-three-js/"&gt;très bon article&lt;/a&gt; si le sujet vous intéresse.&lt;/p&gt;
+&lt;h2&gt;Un dernier mot sur l’intégration des vues sur votre site&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; propose plusieurs &lt;a href="http://corporate.mappy.com/faq/integrez-mappy/"&gt;modes d’intégration&lt;/a&gt; pour ses cartes ou sa vue 360.
+L’un des modes se présente sous la forme d’un widget (tel que l’exemple en haut de cette page).
+N’hésitez pas à nous contacter (deportalisation[AT]mappy.com) si une intégration sur votre site ou vos applications mobiles vous intéresse.&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="WebGL"></category><category term="three.js"></category></entry><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><published>2015-07-09T00:00:00+02:00</published><updated>2015-07-09T00:00:00+02:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-07-09:/mappy-responsive.html</id><summary type="html">&lt;p&gt;Explications du remplacement du site Mappy et du site mobile par un unique site responsive.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Site petit écran" src="images/responsive/petitecran.png"&gt;
 &lt;img alt="Site écran moyen" src="images/responsive/moyenecran.png"&gt;
 &lt;img alt="Site grand écran" src="images/responsive/grandecran.png"&gt;&lt;/p&gt;
@@ -324,4 +412,228 @@ Cette technique se limite toutefois à des icônes d’une seule couleur donc no
 &lt;ul&gt;
 &lt;li&gt;l’impact SEO suite à la mise en ligne du site reponsive a été largement positif avec une progression entre 20 et 30 % (également lié à la suppression du message d’avertissement dans les pages de résultats Google indiquant que le site n’était pas adapté au mobile suite au blocage des robots sur ce même domaine),&lt;/li&gt;
 &lt;li&gt;l’unification du code simplifie le développement et allège les processus au quotidien (moins de livrables, moins d’environnements, moins de projets dont des briques communes, etc).&lt;/li&gt;
-&lt;/ul&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="responsive"></category></entry></feed>
+&lt;/ul&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="responsive"></category></entry><entry><title>JavaScript : de Q aux promesses natives</title><link href="/javascript-de-Q-aux-promesses-natives.html" rel="alternate"></link><published>2015-04-08T00:00:00+02:00</published><updated>2015-04-08T00:00:00+02:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-04-08:/javascript-de-Q-aux-promesses-natives.html</id><summary type="html">&lt;p&gt;Cet article présente pourquoi le site Mappy a d’abord utilisé la librairie &lt;a href="https://github.com/kriskowal/q"&gt;Q&lt;/a&gt; avant de migrer vers des promesses natives.&lt;/p&gt;</summary><content type="html">&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
+&lt;h1&gt;Boucle d’événement ?&lt;/h1&gt;
+&lt;p&gt;Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (&lt;code&gt;timeout&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
+L’avantage principal est le fait que les entrées/sorties sont non bloquantes.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Event loop" src="images/javascript/event-loop.png"&gt;&lt;/p&gt;
+&lt;p&gt;Si vous souhaitez en savoir plus sur la boucle d’événement, je vous recommande vivement cette présentation de &lt;a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ"&gt;Philip Roberts « What the heck is the event loop anyway? »&lt;/a&gt; présentée lors de la JSConf EU 2014 ou alors cette page sur la &lt;a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/EventLoop"&gt;gestion de la concurrence et boucle des événements&lt;/a&gt; sur &lt;a href="https://developer.mozilla.org/fr/"&gt;MDN&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Code asynchrone&lt;/h1&gt;
+&lt;p&gt;Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
+Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les &lt;a href="https://nodejs.org/api/fs.html"&gt;API FileSystem de node&lt;/a&gt;), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les &lt;code&gt;callbacks&lt;/code&gt; de succès et d'erreur.&lt;/p&gt;
+&lt;p&gt;Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;action1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;action2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;action3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;action4&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="c1"&gt;// Traitement de v4&lt;/span&gt;
+            &lt;span class="p"&gt;});&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).&lt;/p&gt;
+&lt;p&gt;Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;C’est là qu’interviennent les promesses, qui sont une des façons de “remettre à plat” cette pyramide.&lt;/p&gt;
+&lt;h1&gt;Les promesses&lt;/h1&gt;
+&lt;p&gt;Le terme &lt;code&gt;promise&lt;/code&gt; a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des &lt;code&gt;futurs&lt;/code&gt; (&lt;code&gt;futures&lt;/code&gt;) ou &lt;code&gt;délais&lt;/code&gt; (&lt;code&gt;delays&lt;/code&gt;) que l’on retrouve notamment en &lt;code&gt;Dart&lt;/code&gt;, en &lt;code&gt;Python&lt;/code&gt;, en &lt;code&gt;Java&lt;/code&gt; (&lt;code&gt;java.util.concurrent.Future&lt;/code&gt;), en &lt;code&gt;Scala&lt;/code&gt;, &lt;a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations"&gt;etc&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;action1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Traintement de v4&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Une première approche avec Q&lt;/h1&gt;
+&lt;p&gt;Sur le site Mappy, les appels asynchrones ont étés migrés vers des promesses en avril 2013 en utilisant la librairie &lt;a href="https://github.com/kriskowal/q"&gt;Q&lt;/a&gt;.
+Parmi les &lt;a href="http://microjs.com/#promise"&gt;multiples alternatives&lt;/a&gt;, nous nous sommes intéressés aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery, notamment car elles étaient déjà incluses sur le site.
+Néanmoins, Q a été choisie par rapport aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery principalement pour sa gestion des exceptions plus fine  (plus de &lt;a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling"&gt;détails sur le site de Q&lt;/a&gt;).
+Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compatibles avec la spécification &lt;a href="https://promisesaplus.com/"&gt;Promise/A+&lt;/a&gt;, donc sujets à plus de travail en cas de changement de librairie (voici la liste de &lt;a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md"&gt;librairie et leur compatibilité face à la spécification&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via &lt;code&gt;Q&lt;/code&gt; :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le &lt;code&gt;fail&lt;/code&gt; s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.&lt;/p&gt;
+&lt;p&gt;Voici l’implémentation d’une fonction, par exemple &lt;code&gt;geocode&lt;/code&gt; :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;address&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;deferred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;defer&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="c1"&gt;// Lancement d’une requête Ajax, etc&lt;/span&gt;
+    &lt;span class="nx"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;deferred&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;coordinates&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="mf"&gt;48.856898&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.350843&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+        &lt;span class="c1"&gt;// et, en cas d’erreur :&lt;/span&gt;
+        &lt;span class="c1"&gt;// deferred.reject(&amp;#39;erreur&amp;#39;);&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;deferred&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;promise&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Les méthodes &lt;code&gt;geocode&lt;/code&gt;, &lt;code&gt;computeItinerary&lt;/code&gt; et &lt;code&gt;displayItinerary&lt;/code&gt; renvoient l’attribut &lt;code&gt;promise&lt;/code&gt; d’un objet &lt;code&gt;deferred&lt;/code&gt; renvoyé via un appel à &lt;a href="https://github.com/kriskowal/q#using-deferreds"&gt;&lt;code&gt;Q.defer()&lt;/code&gt;&lt;/a&gt; (aucun rapport avec la librairie de jQuery). En cas de succès, la méthode &lt;code&gt;resolve&lt;/code&gt; de l’objet &lt;code&gt;deferred&lt;/code&gt; sera invoqué et la méthode &lt;code&gt;reject&lt;/code&gt; en cas d’erreur.&lt;/p&gt;
+&lt;p&gt;En plus d’être plus lisible, ce code est également optimisé puisque les 2 requêtes de géocodage sont lancées en parallèles via &lt;a href="https://github.com/kriskowal/q#combination"&gt;&lt;code&gt;Q.all&lt;/code&gt;&lt;/a&gt;.
+La fonction &lt;code&gt;computeItinerary&lt;/code&gt; consomme les résultats des 2 autres promesses précédentes et retourne une valeur, consommé par la méthode &lt;code&gt;displayItinerary&lt;/code&gt;.&lt;/p&gt;
+&lt;h1&gt;Maintenant : les promesses natives&lt;/h1&gt;
+&lt;p&gt;Les promesses ont fait leur bonhomme de chemin dans les spécifications d’ECMAScript puisqu’elles font maintenant partie de la version 6 de la norme (ES6).
+Cette version commence par ailleurs a être supportée par les principaux navigateurs du marché avec Firefox 31+, Chrome 41+, Opera 28+, Safari 7.1+ et iOS 8 :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="support des promesses natives" src="images/javascript/es6-promise-support.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kangax.github.io/compat-table/es6/#Promise"&gt;Table de compatibilité d’ECMAScript 6&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Pour ces raisons, il nous a semblé intéressant de délaisser la librairie Q au profit des promesses ES6 natives.
+Bien sûr, nous utilisons un polyfill (&lt;a href="https://github.com/jakearchibald/es6-promise"&gt;es6-promise&lt;/a&gt;) pour les navigateurs incompatibles, Internet Explorer en tête.
+Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.js"&gt;rsvp.js&lt;/a&gt;, une implémentation plus complète.&lt;/p&gt;
+&lt;p&gt;Voici comment on déclarerait la fonction geocode avec une promesse native :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;address&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// Lancement d’une requête Ajax, etc&lt;/span&gt;
+        &lt;span class="nx"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;coordinates&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="mf"&gt;48.856898&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.350843&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+            &lt;span class="c1"&gt;// et, en cas d’erreur :&lt;/span&gt;
+            &lt;span class="c1"&gt;// reject(&amp;#39;erreur&amp;#39;);&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le &lt;code&gt;catch&lt;/code&gt; est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;undefined&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le &lt;a href="http://jsfiddle.net/2ve41szc/"&gt;premier&lt;/a&gt; avec l’utilisation du &lt;code&gt;catch&lt;/code&gt;, le &lt;a href="http://jsfiddle.net/2ve41szc/1/"&gt;second&lt;/a&gt; avec la deuxième forme.&lt;/p&gt;
+&lt;p&gt;Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;requete1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nx"&gt;requete2&lt;/span&gt;
+&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Une fois les 2 promesses requete1 et requete2 résolues...&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Nous avons donc, avec notre exemple d'itinéraire habituel :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;undefined&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Et demain ?&lt;/h1&gt;
+&lt;p&gt;Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.&lt;/p&gt;
+&lt;p&gt;Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé &lt;code&gt;await&lt;/code&gt; permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;paris&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;lyon&lt;/span&gt;      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;itinerary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nx"&gt;paris&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;lyon&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+  &lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notez le mot clé &lt;code&gt;async&lt;/code&gt; en début de fonction, pour signaler que la méthode utilise un &lt;code&gt;await&lt;/code&gt;.
+Si vous êtes téméraire, le bout de code ci-dessus est déjà utilisable dans votre code source via l’utilisation d’un transpileur comme &lt;a href="https://babeljs.io/"&gt;Babel&lt;/a&gt; (programme transformant un code ES6 ou ES7 en code ES5, bien plus supporté parmi les navigateurs actuels).
+D’ailleurs, si vous souhaitez tenter l’expérience, cet &lt;a href="http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html"&gt;article (en anglais), sur le blog de pouchdb&lt;/a&gt;, en parle plus en détails.&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category></entry><entry><title>Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</title><link href="/leaflet-active-area.html" rel="alternate"></link><published>2015-02-16T00:00:00+01:00</published><updated>2015-02-16T00:00:00+01:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-02-16:/leaflet-active-area.html</id><summary type="html">&lt;p&gt;Ce plugin leaflet permet de définir une zone utile où seront placés marqueurs et tracés n’occupant qu’une partie de la carte.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Un plugin Leaflet pour le site mappy.com&lt;/h1&gt;
+&lt;p&gt;Lors de la mise en place de Leaflet sur mappy.com, (comme présenté dans un &lt;a href="/mappy-com-migre-vers-leaflet.html"&gt;billet précédent&lt;/a&gt;), nous avons eu l'occasion de développer un plugin Leaflet, proposé en open-source.&lt;/p&gt;
+&lt;h3&gt;Mise en avant de la carte&lt;/h3&gt;
+&lt;p&gt;L’un des objectifs de cette nouvelle version fût de mettre en avant la carte dans l’interface, qui n'occupait qu’une petite partie de l’interface de la version précédente. Ainsi, sur les pages de fiche POI ou sur la feuille de route, la carte occupe tout l’écran, du haut en bas de l’écran.&lt;/p&gt;
+&lt;p&gt;Cela est surtout visible sur les grandes résolutions, où chaque bord laisse place à la carte comme le témoignent les captures d’écran suivantes :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Itinéraire" src="images/leaflet-active-area/iti.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;amp;opt.cost=time&amp;amp;opt.notoll=0&amp;amp;opt.infotraffic=0&amp;amp;opt.gascost=1.558&amp;amp;opt.gas=petrol&amp;amp;opt.compensation=0&amp;amp;routeidx=0"&gt;Feuille de route d’un itinéraire&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fiche POI" src="images/leaflet-active-area/poi.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7"&gt;Fiche POI&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Comme on peut le voir sur les images ci-dessus, et vu que la carte occupe presque tout l’écran, les informations - marqueurs et polyline - ne sont pas centrées. Le centre de la carte correspond au centre de l’écran, caché derrière les éléments HTML.
+Cela est plus visible lorsque l’on rend transparents ces éléments HTML comme le montrent les captures suivantes :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Itinéraire avec fond transparent" src="images/leaflet-active-area/iti-transparent.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;amp;opt.cost=time&amp;amp;opt.notoll=0&amp;amp;opt.infotraffic=0&amp;amp;opt.gascost=1.558&amp;amp;opt.gas=petrol&amp;amp;opt.compensation=0&amp;amp;routeidx=0"&gt;Feuille de route d’un itinéraire avec fond transparent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fiche POI avec fond transparent" src="images/leaflet-active-area/poi-transparent.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7"&gt;Fiche POI avec fond transparent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Les appels à l’API Leaflet (centrage de la carte, centrage de la vue en fonction de marqueurs, d’un itinéraire) vont naturellement avoir pour centre de la carte le centre de l’écran si celle-ci en occupe la quasi-totalité.&lt;/p&gt;
+&lt;h3&gt;Le plugin Leaflet-active-area&lt;/h3&gt;
+&lt;p&gt;Afin de pouvoir afficher des marqueurs ou un itinéraire de façon excentrée, nous avons développé un plugin Leaflet pour abstraire ce comportement.&lt;/p&gt;
+&lt;p&gt;Il s’agit du plugin &lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;Leaflet-active-area&lt;/a&gt; qui, comme le montre la &lt;a href="http://techblog.mappy.com/Leaflet-active-area/examples/index.html"&gt;page d’exemple&lt;/a&gt;, permet d’appeler les méthodes usuelles de Leaflet telles que setView, setZoom, fitBounds tout en "centrant" la carte à partir d’une autre zone.&lt;/p&gt;
+&lt;p&gt;Le principe est de définir une classe CSS, positionnée de façon absolue, qui sera prise en compte comme zone active de la carte. Ainsi, le centre de la carte sera le centre de cette zone et l’ensemble des marqueurs ou tracés y seront placés.&lt;/p&gt;
+&lt;h3&gt;Disponible sous license Apache 2.0&lt;/h3&gt;
+&lt;p&gt;Il nous a paru évident, utilisant une API open-source utilisée et développée par une énorme communité de développeurs, de proposer ce plugin en open-source. Il est disponible sur &lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;github&lt;/a&gt; et référencé dans &lt;a href="http://leafletjs.com/plugins.html#other-plugins-and-libraries"&gt;“la page des plugins”&lt;/a&gt; du site leaflet.&lt;/p&gt;
+&lt;p&gt;A ce jour, nous avons même reçu la contribution de plusieurs développeurs hors Mappy avec l'ouverture - et l'acceptation - de 4 pull requests, la création puis la résolution de plusieurs issues. N'hésitez pas à contribuer !&lt;/p&gt;</content><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry><entry><title>mappy.com migre vers Leaflet</title><link href="/mappy-com-migre-vers-leaflet.html" rel="alternate"></link><published>2015-02-04T00:00:00+01:00</published><updated>2015-02-04T00:00:00+01:00</updated><author><name>paulgreg</name></author><id>tag:None,2015-02-04:/mappy-com-migre-vers-leaflet.html</id><summary type="html">&lt;p&gt;mappy.com utilise dorénavant l’API OpenSource Leaflet plutôt que son API cartographique “maison”.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
+&lt;p&gt;En mai 2014, une nouvelle version du site Mappy a vu le jour :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 4" src="images/leaflet/hp-v4.png"&gt;&lt;/p&gt;
+&lt;p&gt;Précédente version (4)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 5" src="images/leaflet/hp-v5.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nouvelle version (5)&lt;/p&gt;
+&lt;p&gt;Cette version a entraîné bon nombre de refactoring technique (comme un passage à Backbone par exemple) dont le plus impactant fût la décision de remplacer l’API cartographique JavaScript historique par &lt;a href="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Leaflet est une API de cartographie JavaScript OpenSource parmi les plus connues et actives. Utilisée par de nombreux sites importants, aussi bien généralistes (Flickr, Foursquare, Pinterest) que spécialistes de la cartographie (Mapbox, OpenStreetMap), elle dispose de plus de 175 contributeurs.&lt;/p&gt;
+&lt;h2&gt;La compatibilité de la cartographie Mappy avec Leaflet&lt;/h2&gt;
+&lt;p&gt;Notre plateforme cartographique dispose de certaines spécificités par rapport aux standards actuels :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;une projection &lt;a href="http://spatialreference.org/ref/esri/world-gall-stereographic/"&gt;Gall&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;des tuiles de 384 pixels de large (au lieu des 256 généralement utilisés par les autres acteurs cartographique),&lt;/li&gt;
+&lt;li&gt;13 niveaux de zoom, avec un facteur 3 entre chaque niveau (au lieu de 20 niveaux et d'un facteur x2).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Elles ont été intégrées sous la forme d’un plugin Leaflet, inspiré du plugin &lt;a href="https://www.mapbox.com/developers/api/"&gt;Mapbox&lt;/a&gt;. Ce plugin étend l’API Leaflet et intègre également d’autres méthodes pour effectuer des recherches géographiques, des recherches géographiques inversées (Retrouver une adresse depuis des coordonnées) et enfin des recherches d’itinéraires via les services de Mappy.&lt;/p&gt;
+&lt;p&gt;Utilisée aujourd’hui par le site &lt;a href="http://www.mappy.com"&gt;fixe&lt;/a&gt;, le site &lt;a href="http://m.mappy.com"&gt;mobile&lt;/a&gt; et le widget, cette API est également distribuée aux partenaires. Si vous êtes intéressés, je vous invite à consulter &lt;a href="http://corporate.mappy.com/faq/integrez-mappy/"&gt;la page dédiée à intégration de nos services dans vos produits&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Contributions&lt;/h2&gt;
+&lt;p&gt;Depuis cette migration à Leaflet, nous avons apporté quelques contributions sous la forme de “&lt;a href="https://github.com/Leaflet/Leaflet/pull/3038"&gt;pull request&lt;/a&gt;” ou de nouveau plugin (&lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;leaflet-active-area&lt;/a&gt;, un prochain article le présentera en détail).&lt;/p&gt;
+&lt;h2&gt;A l’avenir&lt;/h2&gt;
+&lt;p&gt;Au final, ce passage à Leaflet ne nous apporte que des avantages et nous avons hâte de proposer d’autres “pull requests” ou plugins.&lt;/p&gt;
+&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</content><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry></feed>
