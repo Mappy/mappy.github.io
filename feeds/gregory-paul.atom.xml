@@ -1,9 +1,603 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs</title><link href="/" rel="alternate"></link><link href="/feeds/gregory-paul.atom.xml" rel="self"></link><id>/</id><updated>2015-02-04T00:00:00+01:00</updated><entry><title>mappy.com migre vers Leaflet</title><link href="/mappy-com-migre-vers-leaflet.html" rel="alternate"></link><updated>2015-02-04T00:00:00+01:00</updated><author><name>Michael Cellier</name></author><id>tag:,2015-02-04:mappy-com-migre-vers-leaflet.html</id><summary type="html">&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs - Grégory Paul</title><link href="/" rel="alternate"></link><link href="/feeds/gregory-paul.atom.xml" rel="self"></link><id>/</id><updated>2016-01-19T00:00:00+01:00</updated><entry><title>Une solution simple pour les A/B test</title><link href="/solution-simple-ab-tests.html" rel="alternate"></link><published>2016-01-19T00:00:00+01:00</published><updated>2016-01-19T00:00:00+01:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2016-01-19:/solution-simple-ab-tests.html</id><summary type="html">&lt;p&gt;Une solution simple d’A/B test pour les applications web.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Les A/B tests sont aujourd’hui une pratique courante sur les applications web et mobile.&lt;/p&gt;
+&lt;p&gt;Le principe est de proposer une variante pour une fonctionnalité pour une partie de l’audience et ce, pendant une période donnée.&lt;/p&gt;
+&lt;p&gt;Exemples :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;changement de couleur d’un bouton,&lt;/li&gt;
+&lt;li&gt;présentation de produits sous forme de grille plutôt que sous forme de liste.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;L’intérêt est ensuite de suivre les métriques (clics, taux de conversion, achats, etc) pour le groupe A (sans variante) et le groupe B (avec la variante).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Exemple A/B test" src="images/web/AB-testing.png"&gt;
+Source de l’image : &lt;a href="https://fr.wikipedia.org/wiki/Test_A/B"&gt;Wikipedia&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;A l’issue de la période, si les métriques pour la variante sont meilleures que la version normale, on transforme la variante en version par défaut.&lt;/p&gt;
+&lt;p&gt;Il est tout à fait possible d’avoir plus qu’une variante que l’on partagera entre l’audience totale (33 % pour 2 variantes et la référence, 25 % pour 3, etc).&lt;/p&gt;
+&lt;p&gt;Le but des A/B tests est de pouvoir tester ce qui fonctionne le mieux en condition réelle pour améliorer continuellement son produit.&lt;/p&gt;
+&lt;h2&gt;Premier essai sur mappy.com&lt;/h2&gt;
+&lt;p&gt;L’objectif de &lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; est de tester différentes variantes du site web, que cela soit purement graphique ou à travers des écrans/comportements différents.&lt;/p&gt;
+&lt;p&gt;Nous avons initialement utilisé un outil externe fonctionnant via l’inclusion d’un JavaScript externe depuis le &lt;a href="http://fr.mappy.com"&gt;site Mappy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;L’avantage d’une telle solution est qu’elle est facilement mise en place sur le site (une simple balise &lt;code&gt;script&lt;/code&gt;) et que la création des tests peut se faire via l’outil externe en ligne (via du "drag and drop" ou via l’écriture de JavaScript directement dans l’outil).&lt;/p&gt;
+&lt;p&gt;Le principal inconvénient d’une telle solution est qu’il est difficile de réaliser tous les A/B tests souhaités.&lt;/p&gt;
+&lt;p&gt;En effet, il est difficile de se brancher sur des appels Ajax ou d’autres comportements et on en revient à "surveiller" des changements sur des éléments DOM.
+Cela n’est pas performant et on constate rapidement du "&lt;a href="https://en.wikipedia.org/wiki/Flicker_%28screen%29#Software_artifacts"&gt;flickering&lt;/a&gt;" (version initiale suivi de la variante après quelques millisecondes).&lt;/p&gt;
+&lt;p&gt;Par ailleurs, l’inclusion d’un script externe est toujours délicate, notamment en terme de performances (requêtes, poids, etc) et de sécurité (non maîtrise du script inclus).&lt;/p&gt;
+&lt;h2&gt;Une meilleure solution&lt;/h2&gt;
+&lt;p&gt;Après avoir validé une preuve de concept, nous avons rapidement réalisé qu’il était trivial de gérer les tests A/B soi-même.&lt;/p&gt;
+&lt;p&gt;Il s’agit simplement :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;d’héberger un fichier de configuration indiquant les tests, la répartition, etc,&lt;/li&gt;
+&lt;li&gt;d’analyser ce fichier au chargement du site, de tirer un chiffre au hasard pour déterminer le test à appliquer,&lt;/li&gt;
+&lt;li&gt;ensuite, pour chaque test, de faire les modifications dans le code pour afficher la variante (ou ne rien faire et afficher la référence).&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;La partie métrique est également très importante mais nous utilisons simplement notre solution existante (AT Internet ou, pour notre service BI, ajoutons les identifiants d’A/B test et de variante aux requêtes d’API).&lt;/p&gt;
+&lt;p&gt;Comme exemple, j’utiliserai notre 1er A/B test ayant consisté à proposer 4 couleurs de boutons différentes :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A/B test sur les couleurs de bouton" src="images/web/abtest-buttons.jpg"&gt;&lt;/p&gt;
+&lt;h3&gt;1. Fichier de configuration&lt;/h3&gt;
+&lt;p&gt;Mappy héberge le fichier de configuration des A/B tests sur &lt;a href="http://ab.mappy.net/config.json"&gt;http://ab.mappy.net/config.json&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Voici le fichier de configuration pour le test sur les couleurs de boutons :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;[{&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="c1"&gt;// Identifiant unique du test&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;   &lt;span class="s2"&gt;&amp;quot;2015-12-18T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou commence le test&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;2016-01-01T00:00:00&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Date ou se termine le test&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;conditions&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;platforms&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ge&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="c1"&gt;// &amp;quot;ge&amp;quot; pour les grands ecrans, &amp;quot;pe&amp;quot; pour les mobiles&lt;/span&gt;
+        &lt;span class="s2"&gt;&amp;quot;locales&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;fr_FR&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="c1"&gt;// sur quel site s applique le test : fr.mappy.com, fr-be,...&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="s2"&gt;&amp;quot;variants&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;reference&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;   &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;  &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="c1"&gt;// version de référence,&lt;/span&gt;
+        &lt;span class="c1"&gt;// utilisé lorsque le chiffre du navigateur est entre 0 et 25 (exclus)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;orangefonce&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;  &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="c1"&gt;// 1ère variante, entre 25 et 50&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;rose&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;        &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;75&lt;/span&gt;  &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="c1"&gt;// etc&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;id&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;lavande&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;     &lt;span class="s2"&gt;&amp;quot;from&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;75&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;to&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;}]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;2. AbTestModel et AbTestCollection&lt;/h3&gt;
+&lt;p&gt;Nous utilisons un modèle Backbone comme objet pour gérer chaque A/B test.
+Il s’agit de l’&lt;code&gt;AbTestModel&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Ce dernier charge la configuration et la valide (vérification de la présence des champs, que les totaux des variantes fassent 100 %, etc).&lt;/p&gt;
+&lt;p&gt;Il offre également une méthode &lt;code&gt;isTargetted&lt;/code&gt; qui retourne &lt;code&gt;true&lt;/code&gt; si le test est éligible pour le navigateur courant (s’il répond aux critères).
+Cette méthode se décompose en 3 parties : &lt;code&gt;isTargettedByPlatform&lt;/code&gt;, &lt;code&gt;isTargettedByLocale&lt;/code&gt; et &lt;code&gt;isTargettedByDate&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Une autre méthode, &lt;code&gt;getVariant&lt;/code&gt;, retourne l’une des variantes en ayant préalablement tiré un chiffre au hasard via &lt;code&gt;getRandomId&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Enfin, la méthode &lt;code&gt;start&lt;/code&gt; est appelée lorsque l’on souhaite démarrer le test.
+Cette dernière change un état interne et se doit de lancer un appel de tag.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;         &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;exports&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+
+    &lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;from&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Conversion des dates&lt;/span&gt;
+        &lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;resp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="nx"&gt;validate&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// Vérification des champs obligatoires&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;mandatory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;from&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;to&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;variants&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;conditions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;every&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;mandatory&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;!!&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="p"&gt;}))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;missing attribute in abtest configuration&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Vérification que le total des variantes fasse 100 %&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;lastLimit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nx"&gt;valid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="nx"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;each&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;variants&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="o"&gt;!==&lt;/span&gt; &lt;span class="nx"&gt;lastLimit&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="nx"&gt;valid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+            &lt;span class="nx"&gt;lastLimit&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+            &lt;span class="nx"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="nx"&gt;attr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;from&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;valid&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;sum&lt;/span&gt; &lt;span class="o"&gt;!==&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;valid&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;valid&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;invalid abtest variants&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="c1"&gt;// Vérification des conditions&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;conditions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;platforms&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;conditions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;platforms&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;join&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt;
+            &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;conditions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;locales&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;attributes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;conditions&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;locales&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;join&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;invalid abtest conditions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Le navigateur courant correspond-il à la cible ?&lt;/span&gt;
+    &lt;span class="nx"&gt;isTargetted&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isTargettedByDate&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isTargettedByPlatform&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isTargettedByLocale&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Est-ce la bonne date ?&lt;/span&gt;
+    &lt;span class="nx"&gt;isTargettedByDate&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;now&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;from&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;now&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;to&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;now&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Est-ce la bonne taille d’écran (mobile ou navigateur de bureau) ?&lt;/span&gt;
+    &lt;span class="nx"&gt;isTargettedByPlatform&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;indexOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;conditions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;platforms&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ge&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+            &lt;span class="nx"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;size&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;sizes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;medium&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;indexOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;conditions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;platforms&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pe&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;
+            &lt;span class="nx"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;size&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="nx"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;sizes&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;medium&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;false&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Est-ce le bon domaine ?&lt;/span&gt;
+    &lt;span class="nx"&gt;isTargettedByLocale&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;indexOf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;conditions&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;locales&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;window&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parameters&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;locale&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Tirage au sort d’une valeur qui permettra de déterminer la variante&lt;/span&gt;
+    &lt;span class="nx"&gt;getRandomId&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ab&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;parse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;localStorage&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ab&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;ab&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nx"&gt;ab&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt; &lt;span class="o"&gt;!==&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;ab&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                &lt;span class="nx"&gt;randomId&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;floor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;random&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="p"&gt;};&lt;/span&gt;
+            &lt;span class="nx"&gt;localStorage&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;set&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ab&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;JSON&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;stringify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ab&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt; &lt;span class="c1"&gt;// Variante persistée dans le localStorage, afin de servir la même variante de visite en visite&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;ab&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;randomId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Quelle est la variante pour ce navigateur ?&lt;/span&gt;
+    &lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variant&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;variants&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;bind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt;  &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getRandomId&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;from&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getRandomId&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;to&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;variant&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Démarrage du test&lt;/span&gt;
+    &lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;started&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// Envoi d’un tag à AT Internet pour signaler le début du test&lt;/span&gt;
+            &lt;span class="c1"&gt;// http://help.atinternet-solutions.com/FR/implementation/specific_tags/tg_abtesting_fr.htm&lt;/span&gt;
+            &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;started&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le fichier de configuration est un tableau d’objet JSON.&lt;/p&gt;
+&lt;p&gt;Nous utilisons donc une collection Backbone, &lt;code&gt;AbTestCollection&lt;/code&gt;, qui se charge de récupérer ce fichier via Ajax lors d’un appel sur la méthode &lt;code&gt;fetch&lt;/code&gt; et d’instancier les modèles &lt;code&gt;AbTestModel&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;           &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;underscore&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;backbone&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;require&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;../model/AbTestModel&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;AbTestCollection&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;module&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;exports&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Backbone&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;Collection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;extend&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+
+    &lt;span class="nx"&gt;model&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="nx"&gt;AbTestModel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="c1"&gt;// Model composant la collection&lt;/span&gt;
+
+    &lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;//abtest.mappy.net/config.json&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// Les collections Backbone héritent d’une méthode fetch, effectuant un appel Ajax sur la propriété url&lt;/span&gt;
+
+    &lt;span class="nx"&gt;init&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+         &lt;span class="c1"&gt;// Test en cours (il n’y en a toujours qu’un seul actif en même temps)&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;currentTest&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;models&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;_&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;bind&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;model&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;isTargetted&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;currentTest&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;currentTest&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;testId&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;testId&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="nx"&gt;testId&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;null&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+
+    &lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;testId&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// Appel de start sur le test pour le test en cours&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="nx"&gt;testId&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;current&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;3. Utilisation dans le code&lt;/h3&gt;
+&lt;p&gt;Pour ce test qui consiste à proposer différentes couleurs de boutons, il suffit alors :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;D’instancier la collection pour déterminer le test actif,&lt;/li&gt;
+&lt;li&gt;De récupérer la variante de test,&lt;/li&gt;
+&lt;li&gt;D’ajouter une classe CSS sur le &lt;code&gt;body&lt;/code&gt; qui surchargera les couleurs des boutons, ici dans un fichier &lt;code&gt;less&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;De démarrer le test (consistant à envoyer un tag) dès qu’une variante (ou la référence) est affichée à l’utilisateur&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getVariant&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;variantBookingColor&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;$&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;body&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;addClass&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ab-&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;variantBookingColor&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-orangefonce&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;background-color&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#f86312&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-rose&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;background-color&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#ea148c&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="nc"&gt;.ab-lavande&lt;/span&gt; &lt;span class="nc"&gt;.button&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;background-color&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="m"&gt;#8968d4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Et voici le démarrage du test dès l’affichage d’une liste possédant les boutons.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nx"&gt;Mappy&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;abTestCollection&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;start&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;AB01-couleur-resa&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;En effet, concernant les statistiques, nous ne nous intéressons qu’aux personnes ayant vu la référence ou une variante et non tous les autres visiteurs.&lt;/p&gt;
+&lt;p&gt;L’exemple ici est simpliste mais, en laissant la liberté côté JavaScript, il est possible de réaliser n’importe quel test.&lt;/p&gt;
+&lt;p&gt;Par exemple, notre second A/B test propose 2 menus de catégorie différents (donc des modifications CSS mais également d’autres balises HTML et éventuellement une vue Backbone différente).
+Il est même possible, en ajoutant la variante aux paramètres des ressources JSON, de servir des contenus différents et donc d’étendre le test au code serveur.&lt;/p&gt;
+&lt;h2&gt;Un nom, un logo : Loligo&lt;/h2&gt;
+&lt;p&gt;Pour la petite histoire, ce mini-projet a été baptisé Loligo en honneur à l’espèce de Calamar &lt;a href="https://en.wikipedia.org/wiki/Loligo_forbesii"&gt;Loligo Forbesii&lt;/a&gt; et sa capacité de &lt;a href="https://www.youtube.com/watch?v=pRrKzk1QmT4"&gt;camouflage&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Un logo a été réalisé pour l’occasion :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="logo de loligo" src="images/web/loligo.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Pour conclure&lt;/h2&gt;
+&lt;p&gt;La solution apportée répond pleinement à nos besoins et supprime les problématiques inhérentes à l’utilisation d’un service externe.
+Nous gagnons en flexibilité, en performances, en sécurité (plus d’inclusion de JS externe) et les A/B tests s’intègrent à notre workflow et nos outils (validation du code via jshint|eslint, tests unitaires, tests fonctionnels, etc).&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="ab"></category><category term="test"></category></entry><entry><title>Vues 360 en WebGL</title><link href="/vues-360-en-webgl.html" rel="alternate"></link><published>2015-11-05T00:00:00+01:00</published><updated>2015-11-05T00:00:00+01:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2015-11-05:/vues-360-en-webgl.html</id><summary type="html">&lt;p&gt;Cet article présente la migration des vues 360 depuis Flash vers WebGL&lt;/p&gt;</summary><content type="html">&lt;p&gt;Le site &lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; offre depuis 2011 des &lt;a href="http://fr.mappy.com/#/436/M1/TSearch/Sparis/N1090.14493,12.34393,2.34821,48.85369/Z7/"&gt;vues 360°&lt;/a&gt; des &lt;a href="http://widgets.mappy.com/360view/documentation/#coverage"&gt;320 villes&lt;/a&gt; plus grandes villes de France :&lt;/p&gt;
+&lt;iframe src="http://widgets.mappy.com/360view?key=techblog&amp;lat=48.85369&amp;lng=2.34821" width="100%" height="400" scrolling="no"&gt;&lt;/iframe&gt;
+
+&lt;h2&gt;MappyCar&lt;/h2&gt;
+&lt;p&gt;En effet, 2 voitures surnommées "MappyCar" (&lt;a href="https://twitter.com/earthmine02"&gt;@earthmine02&lt;/a&gt;, &lt;a href="https://twitter.com/earthmine07"&gt;@earthmine07&lt;/a&gt;) parcourent les rues des villes de France pour prendre des photos sous plusieurs angles.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Mappy Car" src="images/webgl/mappy-car.jpg"&gt;&lt;/p&gt;
+&lt;h2&gt;Historiquement...&lt;/h2&gt;
+&lt;p&gt;Historiquement, le composant chargé d’afficher les vues sur le site &lt;a href="http://fr.mappy.com"&gt;fr.mappy.com&lt;/a&gt; fût développé en Flash.&lt;/p&gt;
+&lt;p&gt;Il était grand temps de mettre ce composant à jour en adoptant des technologies modernes pour afficher de la 3d au sein du navigateur, j’ai nommé &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API"&gt;WebGL&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Mais avant de nous plonger dans WebGL, une présentation des vues 360 s’impose.&lt;/p&gt;
+&lt;h2&gt;Explications des prises de vue 360&lt;/h2&gt;
+&lt;p&gt;Les véhicules Mappy sont équipés de 8 appareils photos orientés de chaque côté de la voiture et prennent des photos régulièrement de façon synchronisée pendant le déplacement.
+Ils enregistrent également différents paramètres tels que les coordonnées GPS, l’altitude, le tangage (pitch), l’orientation (yaw) et le roulis (roll).&lt;/p&gt;
+&lt;p&gt;Les photos sont ensuites assemblées afin d'obtenir 6 images.
+Ces 6 images seront projetées à l’intérieur d’un cube. Ce cube est alors appelé "skybox".&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Scène 3d&lt;/h2&gt;
+&lt;p&gt;L’astuce est alors de créer une scène 3d composée de ce cube et d’une caméra au centre.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Cube faces layout" src="images/panoramic_cube_02.png"&gt;&lt;/p&gt;
+&lt;p&gt;La caméra peut bouger à l’intérieur du cube sur 2 axes afin de pivoter horizontalement et verticalement, donnant l’effet de regarder autour de soi.&lt;/p&gt;
+&lt;h2&gt;Déplacement&lt;/h2&gt;
+&lt;p&gt;Il y a plusieurs façons de se déplacer d'une vue à l'autre :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;En utilisant les flèches, on peut se déplacer vers la vue la plus proche dans la direction souhaitée.&lt;/li&gt;
+&lt;li&gt;En cliquant sur le sol, on va chercher s'il existe une vue proche à ce point et l'afficher.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le déplacement d'une vue à l'autre consiste simplement à charger les images formant la nouvelle "skybox" (le cube dans lequel se trouve la caméra) et à effacer les précédentes.&lt;/p&gt;
+&lt;p&gt;Il est également possible de zoomer dans la vue. Pour cela, nous avons joué sur l'angle de vision (on l’appelle &lt;a href="https://en.wikipedia.org/wiki/Field_of_view"&gt;field of view&lt;/a&gt; en anglais).&lt;/p&gt;
+&lt;h2&gt;Chargement progressif&lt;/h2&gt;
+&lt;p&gt;Afin d'avoir un rendu le plus rapide possible et pour éviter à l'utilisateur de bloquer sur un fond noir lorsque sa connexion est lente, la vue charge d'abord un cube avec des images de basse qualité, donc très légères.
+Lorsque cette première "skybox" est affichée, la vue va charger des images de meilleure qualité. En fonction de la taille d’écran ou de la résolution, chaque face du cube sera composée d'une ou de plusieurs images (1, 4 ou 16 images par face) afin d’avoir un rendu net sur tous les supports.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="différentes résolutions" src="images/panoramic_cube_03.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Three.js&lt;/h2&gt;
+&lt;p&gt;Plutôt que de réinventer la roue, nous nous sommes rapidement orientés vers &lt;a href="http://threejs.org/"&gt;three.js&lt;/a&gt;, une excellente librairie 3d.
+Three.js permet, en quelques lignes de code, d’afficher une vue 3d sans avoir à manipuler l’API WebGL de plus bas niveau.&lt;/p&gt;
+&lt;p&gt;Voici un exemple de "skybox" basique où la caméra tourne sur elle-même :&lt;/p&gt;
+&lt;iframe width="100%" height="700" src="//jsfiddle.net/053ng6gm/2/embedded/" allowfullscreen="allowfullscreen" frameborder="0"&gt;&lt;/iframe&gt;
+
+&lt;h2&gt;Interaction avec les objets&lt;/h2&gt;
+&lt;p&gt;Savoir sur quel élément a cliqué l’utilisateur dans un moteur 3d est plus compliqué que simplement ajouter un "listener" sur un élément HTML.
+En effet, lors d’un clic dans la scène 3d, nous récupèrons simplement un point (x,y) et il convient alors de trouver quel objet il croise (c’est le principe du &lt;a href="https://fr.wikipedia.org/wiki/Raycasting"&gt;raycasting&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Pour cela, nous allons d’abord trouver le vecteur 3d entre ce point et la position de la caméra.
+Ensuite, Three.js nous propose le &lt;a href="https://github.com/mrdoob/three.js/blob/master/src/core/Raycaster.js"&gt;Raycaster&lt;/a&gt; qui permet ensuite de détecter une intersection avec un objet 3d.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var vector = getVectorFromEvent(event);
+var raycaster = new THREE.Raycaster(this.camera.position, vector);
+var intersectedObjects = raycaster.intersectObjects(objectsIn3dScene);
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Support navigateurs&lt;/h2&gt;
+&lt;p&gt;WebGL est supporté dans tous les &lt;a href="http://caniuse.com/#search=webgl"&gt;navigateurs modernes&lt;/a&gt;, y compris IE11.
+Cependant, nous nous sommes rapidement rendus compte que certaines tablettes ou téléphones Android, bien que récents, ne supportent pas WebGL.
+Par ailleurs, WebGL peut être désactivé en fonction des &lt;a href="https://www.khronos.org/webgl/wiki/BlacklistsAndWhitelists"&gt;pilotes installés (ou non) sur la machine&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Par conséquent, nous avons également utilisé un système de rendu alternatif proposé par Three.js, le &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/renderers/CSS3DRenderer.js"&gt;CSS3DRenderer.js&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Ce dernier utilise les &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"&gt;transformations CSS 3d&lt;/a&gt; qui sont elles &lt;a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transform"&gt;supportées de façon un peu plus large&lt;/a&gt;.
+CSS3DRenderer est en pratique moins performant que WebGL mais permet d’offrir un support minimal sur ces périphèriques ainsi que sur IE 10.&lt;/p&gt;
+&lt;h2&gt;Réalité augmentée et cardBoard&lt;/h2&gt;
+&lt;p&gt;Les téléphones et tablettes modernes possèdent des capteurs d’orientations.
+Ils sont accessibles en JavaScript via &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation"&gt;API DeviceOrientations&lt;/a&gt;.
+Nous n’avons pas pu résister à l'envie de &lt;a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/deviceorientation.html"&gt;connecter cette API à la vue pour la piloter avec son téléphone&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Enfin, si vous disposez d’un &lt;a href="https://www.google.com/get/cardboard/"&gt;cardboard&lt;/a&gt; (boîte en carton où l’on peut insérer son téléphone), vous pouvez chausser vos lunettes et &lt;a href="http://cdn.rawgit.com/Mappy/mappy.github.io-source/7545ef6cc29d998935e3cc8b5697bf533b4d7349/content/resources/webgl/cardboard.html"&gt;visualiser les vues 360 en réalité augmentée&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="virtual reality" src="images/webgl/virtual-reality.png"&gt;&lt;/p&gt;
+&lt;p&gt;Three.js implémente cette fonctionnalité via &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/effects/StereoEffect.js"&gt;StereoEffect&lt;/a&gt; et &lt;a href="https://github.com/mrdoob/three.js/blob/master/examples/js/controls/DeviceOrientationControls.js"&gt;DeviceOrientationControls&lt;/a&gt;. Je vous invite à lire ce &lt;a href="http://www.sitepoint.com/bringing-vr-to-web-google-cardboard-three-js/"&gt;très bon article&lt;/a&gt; si le sujet vous intéresse.&lt;/p&gt;
+&lt;h2&gt;Un dernier mot sur l’intégration des vues sur votre site&lt;/h2&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com"&gt;Mappy&lt;/a&gt; propose plusieurs &lt;a href="http://corporate.mappy.com/faq/integrez-mappy/"&gt;modes d’intégration&lt;/a&gt; pour ses cartes ou sa vue 360.
+L’un des modes se présente sous la forme d’un widget (tel que l’exemple en haut de cette page).
+N’hésitez pas à nous contacter (contact[AT]mappy.com) si une intégration sur votre site ou vos applications mobiles vous intéresse.&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="WebGL"></category><category term="three.js"></category></entry><entry><title>Mappy.com dorénavant responsive !</title><link href="/mappy-responsive.html" rel="alternate"></link><published>2015-07-09T00:00:00+02:00</published><updated>2015-07-09T00:00:00+02:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2015-07-09:/mappy-responsive.html</id><summary type="html">&lt;p&gt;Explications du remplacement du site Mappy et du site mobile par un unique site responsive.&lt;/p&gt;</summary><content type="html">&lt;p&gt;Depuis le mercredi 20 mai, mappy.com propose un site unique et responsive pour tous les navigateurs (bureau, tablette ou mobile).&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Site petit écran" src="images/responsive/petitecran.png"&gt;
+&lt;img alt="Site écran moyen" src="images/responsive/moyenecran.png"&gt;
+&lt;img alt="Site grand écran" src="images/responsive/grandecran.png"&gt;&lt;/p&gt;
+&lt;p&gt;En effet, auparavant, les sites &lt;a href="//fr.mappy.com"&gt;fr.mappy.com&lt;/a&gt;, &lt;a href="//fr-be.mappy.com"&gt;fr-be.mappy.com&lt;/a&gt;, &lt;a href="//nl-be.mappy.com"&gt;nl-be.mappy.com&lt;/a&gt; et &lt;a href="//en.mappy.com"&gt;en.mappy.com&lt;/a&gt; étaient dédiés aux navigateurs de bureau et m.mappy.com aux navigateurs mobiles et tablettes.
+Ce billet a pour but de présenter le contexte et notre parcours vers cette orientation.&lt;/p&gt;
+&lt;h2&gt;Historiquement 2 sites&lt;/h2&gt;
+&lt;p&gt;Mappy a mis en ligne mobile il y a plus de 5 ans.
+D’abord via des technologies de type BkRender (pour les téléphones très limités de l’époque), le site a évolué à plusieurs reprises vers une version "HTML5" incorporant une base commune de code avec le site principal (notamment backbone et l’API de cartographie Mappy).&lt;/p&gt;
+&lt;h2&gt;Réflexion autour du Responsive&lt;/h2&gt;
+&lt;p&gt;Nos principales motivations au passage à un site responsive étaient :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;d’arrêter le double développement d’User-Stories à la fois sur le site fixe et mobile (et, ainsi, de livrer les futures User-Stories sur tous les supports),&lt;/li&gt;
+&lt;li&gt;l’&lt;a href="http://googlewebmastercentral.blogspot.fr/2015/04/faqs-april-21st-mobile-friendly.html"&gt;annonce de Google&lt;/a&gt; favorisant les sites "mobile-friendly" alors que le site mobile était fermé aux robots,&lt;/li&gt;
+&lt;li&gt;le fait de n’avoir qu’une unique base de code, afin de simplifier le développement de nouvelles fonctionnalités et la maintenance,&lt;/li&gt;
+&lt;li&gt;d’offrir une version mobile pour les versions étrangères.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le passage à un site responsive soulève néanmoins quelques points de vigilance quant au processus actuel :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;chaque fonctionnalité doit être testée sur plus de support qu’auparavant,&lt;/li&gt;
+&lt;li&gt;lors de la conception, certains points doivent être pris en compte (conception sur petit et grand écran, gestion du touch, image en haute définition, etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Enfin, certaines fonctionnalités sont différentes entre le site fixe et le site mobile.
+L’itinéraire sur mobile par exemple, présente un écran affichant le sommaire de la feuille de route, écran inexistant sur la version fixe.&lt;/p&gt;
+&lt;p&gt;Une preuve de concept a alors été réalisée pour déterminer la faisabilité technique d’un site reponsive.
+Cette preuve de concept a démontré qu’un résultat satisfaisant pouvait être atteint à un coût acceptable (environ 2 itérations de développement).&lt;/p&gt;
+&lt;h2&gt;Implémentation&lt;/h2&gt;
+&lt;h3&gt;"Responsive client" ou "dynamic server" ?&lt;/h3&gt;
+&lt;p&gt;L’implémentation peut s’effectuer de 2 façons, éventuellement complémentaires :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;l’&lt;strong&gt;approche "responsive client"&lt;/strong&gt; : le même code est envoyé par le serveur à tous les navigateurs, qu’ils soient mobiles ou non, et l’affichage des éléments graphiques est conditionné par des &lt;code&gt;media queries&lt;/code&gt; CSS et des comportements différents éventuellement conditionnés par du code JavaScript ;&lt;/li&gt;
+&lt;li&gt;l’&lt;strong&gt;approche "dynamic server"&lt;/strong&gt; : un contenu HTML, CSS et JS différent est envoyé à chaque client en fonction du &lt;code&gt;User-Agent&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;L’approche "dynamic server" a l’avantage de pouvoir servir un contenu allégé de façon bien plus simple qu’avec l’approche côté cliente (notamment pour les images). Cependant, elle a l’énorme inconvénient de servir un contenu différent en fonction du &lt;code&gt;User-Agent&lt;/code&gt;, une pratique dangereuse en cas de &lt;code&gt;reverse-proxy&lt;/code&gt; (à moins d’ajouter un entête &lt;code&gt;Vary: User-Agent&lt;/code&gt; qui rend l’utilisation d’un reverse-proxy caduque). Enfin, certains navigateurs se disent iPhone, Android et Windows Phone comme c’est le cas pour &lt;a href="https://msdn.microsoft.com/en-us/library/hh869301%28v=vs.85%29.aspx#code-snippet-11"&gt;Windows Phone 8.1&lt;/a&gt; ce qui rend la tâche complexe.&lt;/p&gt;
+&lt;p&gt;L’approche "responsive client", préconisée par les &lt;a href="https://developers.google.com/webmasters/mobile-sites/mobile-seo/configurations/responsive-design#why-responsive-design"&gt;recommandations SEO&lt;/a&gt; de Google, n’a pas ces inconvénients puisque le même contenu est servi à tous.
+Par contre, il est plus difficile de charger un contenu allégé en fonction du navigateur.&lt;/p&gt;
+&lt;h3&gt;CSS&lt;/h3&gt;
+&lt;p&gt;L’implémentation du site responsive s’effectue principalement via des "&lt;a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Media_queries?redirectlocale=en-US&amp;amp;redirectslug=CSS%2FMedia_queries"&gt;CSS media queries&lt;/a&gt;" afin d’afficher ou masquer des éléments ou les ré-arranger en fonction de la taille d’écran :&lt;/p&gt;
+&lt;h4&gt;Site grand écran&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="Zoning grand écran" src="images/responsive/zoning-fixe.jpg"&gt;&lt;/p&gt;
+&lt;h4&gt;Site petit écran&lt;/h4&gt;
+&lt;p&gt;&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-home.jpg"&gt;
+&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-poi.jpg"&gt;
+&lt;img alt="Zoning petit écran" src="images/responsive/zoning-mobile-resultats.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Page d’accueil / écran de résultats / affichage d’un POI ou un itinéraire&lt;/p&gt;
+&lt;p&gt;3 points de rupture principaux ont été définis pour :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;les petits écrans (par exemple les téléphones en portrait/paysage et tablette en portrait),&lt;/li&gt;
+&lt;li&gt;les écrans moyens (par exemple les tablettes en mode paysage),&lt;/li&gt;
+&lt;li&gt;et enfin les grands écrans (toutes les plus grandes définitions) où certains contenus sont plus aérés (taille des éléments, marge entre la barre gauche et la carte et le bord de l’écran, etc).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Un point de détail, depuis le passage au responsive, notre vocabulaire a changé puisque nous parlons de petit ou grand écran plutôt que de fixe et mobile.&lt;/p&gt;
+&lt;h3&gt;Optimisations graphiques&lt;/h3&gt;
+&lt;p&gt;À la manière de &lt;a href="https://fortawesome.github.io/Font-Awesome/icons/"&gt;Font Awesome&lt;/a&gt;, une grande partie de nos icônes (catégories de commerce, outils de la carte, etc) utilise une police de caractère spéciale les aggrégeant. Cela permet de s’abstraire d’une version normale et haute densité de pixel ("retina").
+Cette technique se limite toutefois à des icônes d’une seule couleur donc nous conservons encore quelques sprites.&lt;/p&gt;
+&lt;h3&gt;JavaScript&lt;/h3&gt;
+&lt;p&gt;Certains cas minoritaires nécessitent l’utilisation de JavaScript pour adapter le comportement à la cible (notamment le choix des emplacements publicitaires à afficher ou les différences de comportement comme le cas du sommaire de la feuille de route évoqué plus haut).&lt;/p&gt;
+&lt;p&gt;Néanmoins, la majorité des cas ne concerne que des adaptations au niveau des CSS.&lt;/p&gt;
+&lt;h2&gt;Tests&lt;/h2&gt;
+&lt;p&gt;Afin d’avoir un feedback rapide lors de nos développements mais également pour faciliter les tests manuels, nous avons opté pour quelques supports physiques de téléphones ou tablettes de type &lt;a href="http://devicelab.vanamco.com/"&gt;devicelab&lt;/a&gt; couplé à &lt;a href="http://vanamco.com/ghostlab/"&gt;GhostLab&lt;/a&gt; :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Mur de &amp;quot;devices&amp;quot;" src="images/responsive/mur-devices.jpg"&gt;&lt;/p&gt;
+&lt;p&gt;Enfin, nos tests Selenium sont en cours d’évolution puisque nous comptons maintenent les lancer sous 2 formats (grand et petit écran).&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;Le passage au site "responsive" s’est passé sans accroc.&lt;/p&gt;
+&lt;p&gt;Le travail a porté ses fruits, notamment sur 2 points :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;l’impact SEO suite à la mise en ligne du site reponsive a été largement positif avec une progression entre 20 et 30 % (également lié à la suppression du message d’avertissement dans les pages de résultats Google indiquant que le site n’était pas adapté au mobile suite au blocage des robots sur ce même domaine),&lt;/li&gt;
+&lt;li&gt;l’unification du code simplifie le développement et allège les processus au quotidien (moins de livrables, moins d’environnements, moins de projets dont des briques communes, etc).&lt;/li&gt;
+&lt;/ul&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="responsive"></category></entry><entry><title>JavaScript : de Q aux promesses natives</title><link href="/javascript-de-Q-aux-promesses-natives.html" rel="alternate"></link><published>2015-04-08T00:00:00+02:00</published><updated>2015-04-08T00:00:00+02:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2015-04-08:/javascript-de-Q-aux-promesses-natives.html</id><summary type="html">&lt;p&gt;Cet article présente pourquoi le site Mappy a d’abord utilisé la librairie &lt;a href="https://github.com/kriskowal/q"&gt;Q&lt;/a&gt; avant de migrer vers des promesses natives.&lt;/p&gt;</summary><content type="html">&lt;p&gt;JavaScript est un langage qui utilise un système de concurrence basé sur la boucle d’événement (&lt;a href="https://en.wikipedia.org/wiki/Event_loop"&gt;event loop&lt;/a&gt;).&lt;/p&gt;
+&lt;h1&gt;Boucle d’événement ?&lt;/h1&gt;
+&lt;p&gt;Le principe est d’avoir une boucle s’exécutant indéfiniment et où il est possible d’enregistrer des fonctions pour certains événements (&lt;code&gt;timeout&lt;/code&gt;, &lt;code&gt;click&lt;/code&gt;, retour d’une réponse ajax, accès à un fichier, etc). Lorsque l’événement se produit, la fonction est exécutée au prochain tour de boucle.
+L’avantage principal est le fait que les entrées/sorties sont non bloquantes.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Event loop" src="images/javascript/event-loop.png"&gt;&lt;/p&gt;
+&lt;p&gt;Si vous souhaitez en savoir plus sur la boucle d’événement, je vous recommande vivement cette présentation de &lt;a href="https://www.youtube.com/watch?v=8aGhZQkoFbQ"&gt;Philip Roberts « What the heck is the event loop anyway? »&lt;/a&gt; présentée lors de la JSConf EU 2014 ou alors cette page sur la &lt;a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/EventLoop"&gt;gestion de la concurrence et boucle des événements&lt;/a&gt; sur &lt;a href="https://developer.mozilla.org/fr/"&gt;MDN&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;Code asynchrone&lt;/h1&gt;
+&lt;p&gt;Via ce mode de conception avec la boucle d’évémenent, les appels de fonctions asynchrones sont monnaie courante en JavaScript.
+Que cela soit côté client (setTimeout, XMLHttpRequest, Geolocation.getCurrentPosition(),...) ou serveur (par exemple avec les &lt;a href="https://nodejs.org/api/fs.html"&gt;API FileSystem de node&lt;/a&gt;), il est donc souvent nécessaire de passer une ou deux fonctions en paramètre d’un appel, que l'on baptise généralement les &lt;code&gt;callbacks&lt;/code&gt; de succès et d'erreur.&lt;/p&gt;
+&lt;p&gt;Lorsque de nombreuses fonctions asynchrones s’enchaînent (comme par exemple plusieurs appels Ajax), on aboutit rapidement à ce qu’on appelle la “pyramide de l’enfer” (ou “Pyramid of Doom”) :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;action1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;action2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;action3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;action4&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="c1"&gt;// Traitement de v4&lt;/span&gt;
+            &lt;span class="p"&gt;});&lt;/span&gt;
+        &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;On se rend bien compte que maintenir un tel code est relativement pénible (imaginez ajouter ou supprimer une action).&lt;/p&gt;
+&lt;p&gt;Sur le site mappy.com, nous utilisons très régulièrement des enchainements d'appels asynchrones. Un des cas les plus parlants est le calcul d'itinéraire : nous géolocalisons les adresses de départ et d'arrivée, puis nous calculons l'itinéraire avant de l'afficher à l'utilisateur. Ce qui pouvait donner :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;C’est là qu’interviennent les promesses, qui sont une des façons de “remettre à plat” cette pyramide.&lt;/p&gt;
+&lt;h1&gt;Les promesses&lt;/h1&gt;
+&lt;p&gt;Le terme &lt;code&gt;promise&lt;/code&gt; a été proposé par Daniel Friedman et David Wise en 1976 à travers la conférence « The Impact of Applicative Programming on Multiprocessing » à l’International Conference on Parallel Processing. Les promesses sont à rapprocher des &lt;code&gt;futurs&lt;/code&gt; (&lt;code&gt;futures&lt;/code&gt;) ou &lt;code&gt;délais&lt;/code&gt; (&lt;code&gt;delays&lt;/code&gt;) que l’on retrouve notamment en &lt;code&gt;Dart&lt;/code&gt;, en &lt;code&gt;Python&lt;/code&gt;, en &lt;code&gt;Java&lt;/code&gt; (&lt;code&gt;java.util.concurrent.Future&lt;/code&gt;), en &lt;code&gt;Scala&lt;/code&gt;, &lt;a href="https://en.wikipedia.org/wiki/Futures_and_promises#List_of_implementations"&gt;etc&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Avec les promesses, le code présenté en introduction pourrait s’écrire de la sorte :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;action1&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;action4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Traintement de v4&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;et le code simplifié du calcul d’itinéraire pourrait s’écrire ainsi :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;addresses&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
+&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;addresses&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;})&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Une première approche avec Q&lt;/h1&gt;
+&lt;p&gt;Sur le site Mappy, les appels asynchrones ont étés migrés vers des promesses en avril 2013 en utilisant la librairie &lt;a href="https://github.com/kriskowal/q"&gt;Q&lt;/a&gt;.
+Parmi les &lt;a href="http://microjs.com/#promise"&gt;multiples alternatives&lt;/a&gt;, nous nous sommes intéressés aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery, notamment car elles étaient déjà incluses sur le site.
+Néanmoins, Q a été choisie par rapport aux &lt;code&gt;Deferred&lt;/code&gt; de jQuery principalement pour sa gestion des exceptions plus fine  (plus de &lt;a href="https://github.com/kriskowal/q/wiki/Coming-from-jQuery#exception-handling"&gt;détails sur le site de Q&lt;/a&gt;).
+Par ailleurs, les &lt;code&gt;Deferred&lt;/code&gt; de jQuery ne sont pas compatibles avec la spécification &lt;a href="https://promisesaplus.com/"&gt;Promise/A+&lt;/a&gt;, donc sujets à plus de travail en cas de changement de librairie (voici la liste de &lt;a href="https://github.com/promises-aplus/promises-spec/blob/master/implementations.md"&gt;librairie et leur compatibilité face à la spécification&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;Si l’on reprend l’exemple simplifié du calcul d’itinéraire précédent, le code s’écrira de la sorte via &lt;code&gt;Q&lt;/code&gt; :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;fail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le &lt;code&gt;fail&lt;/code&gt; s’applique à n’importe quelle erreur ayant lieu au sein des fonctions précédemment appelées.&lt;/p&gt;
+&lt;p&gt;Voici l’implémentation d’une fonction, par exemple &lt;code&gt;geocode&lt;/code&gt; :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;address&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;deferred&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;Q&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;defer&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="c1"&gt;// Lancement d’une requête Ajax, etc&lt;/span&gt;
+    &lt;span class="nx"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;deferred&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;coordinates&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="mf"&gt;48.856898&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.350843&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+        &lt;span class="c1"&gt;// et, en cas d’erreur :&lt;/span&gt;
+        &lt;span class="c1"&gt;// deferred.reject(&amp;#39;erreur&amp;#39;);&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;deferred&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;promise&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Les méthodes &lt;code&gt;geocode&lt;/code&gt;, &lt;code&gt;computeItinerary&lt;/code&gt; et &lt;code&gt;displayItinerary&lt;/code&gt; renvoient l’attribut &lt;code&gt;promise&lt;/code&gt; d’un objet &lt;code&gt;deferred&lt;/code&gt; renvoyé via un appel à &lt;a href="https://github.com/kriskowal/q#using-deferreds"&gt;&lt;code&gt;Q.defer()&lt;/code&gt;&lt;/a&gt; (aucun rapport avec la librairie de jQuery). En cas de succès, la méthode &lt;code&gt;resolve&lt;/code&gt; de l’objet &lt;code&gt;deferred&lt;/code&gt; sera invoqué et la méthode &lt;code&gt;reject&lt;/code&gt; en cas d’erreur.&lt;/p&gt;
+&lt;p&gt;En plus d’être plus lisible, ce code est également optimisé puisque les 2 requêtes de géocodage sont lancées en parallèles via &lt;a href="https://github.com/kriskowal/q#combination"&gt;&lt;code&gt;Q.all&lt;/code&gt;&lt;/a&gt;.
+La fonction &lt;code&gt;computeItinerary&lt;/code&gt; consomme les résultats des 2 autres promesses précédentes et retourne une valeur, consommé par la méthode &lt;code&gt;displayItinerary&lt;/code&gt;.&lt;/p&gt;
+&lt;h1&gt;Maintenant : les promesses natives&lt;/h1&gt;
+&lt;p&gt;Les promesses ont fait leur bonhomme de chemin dans les spécifications d’ECMAScript puisqu’elles font maintenant partie de la version 6 de la norme (ES6).
+Cette version commence par ailleurs a être supportée par les principaux navigateurs du marché avec Firefox 31+, Chrome 41+, Opera 28+, Safari 7.1+ et iOS 8 :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="support des promesses natives" src="images/javascript/es6-promise-support.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://kangax.github.io/compat-table/es6/#Promise"&gt;Table de compatibilité d’ECMAScript 6&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Pour ces raisons, il nous a semblé intéressant de délaisser la librairie Q au profit des promesses ES6 natives.
+Bien sûr, nous utilisons un polyfill (&lt;a href="https://github.com/jakearchibald/es6-promise"&gt;es6-promise&lt;/a&gt;) pour les navigateurs incompatibles, Internet Explorer en tête.
+Ce polyfill est un sous-ensemble de &lt;a href="https://github.com/tildeio/rsvp.js"&gt;rsvp.js&lt;/a&gt;, une implémentation plus complète.&lt;/p&gt;
+&lt;p&gt;Voici comment on déclarerait la fonction geocode avec une promesse native :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;address&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;reject&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// Lancement d’une requête Ajax, etc&lt;/span&gt;
+        &lt;span class="nx"&gt;setTimeout&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="nx"&gt;resolve&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="nx"&gt;coordinates&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt; &lt;span class="mf"&gt;48.856898&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;2.350843&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="p"&gt;});&lt;/span&gt;
+            &lt;span class="c1"&gt;// et, en cas d’erreur :&lt;/span&gt;
+            &lt;span class="c1"&gt;// reject(&amp;#39;erreur&amp;#39;);&lt;/span&gt;
+        &lt;span class="p"&gt;},&lt;/span&gt; &lt;span class="mi"&gt;250&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;});&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;};&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;L’intérêt est de retourner immédiatement la promesse. On utilisera la méthode ci-dessus ainsi :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="k"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Le &lt;code&gt;catch&lt;/code&gt; est un mot réservé et pose problème sous Internet Explorer, aussi, on préférera cette seconde syntaxe :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;result&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;}).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;undefined&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;error&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Vous trouverez des exemples plus concret avec un appel Ajax à travers 2 JsFiddle, le &lt;a href="http://jsfiddle.net/2ve41szc/"&gt;premier&lt;/a&gt; avec l’utilisation du &lt;code&gt;catch&lt;/code&gt;, le &lt;a href="http://jsfiddle.net/2ve41szc/1/"&gt;second&lt;/a&gt; avec la deuxième forme.&lt;/p&gt;
+&lt;p&gt;Il est également possible de lancer plusieurs promesses en parallèle (requete1 et requete2 dans cet exemple) via cette syntaxe :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;promise&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;requete1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nx"&gt;requete2&lt;/span&gt;
+&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Une fois les 2 promesses requete1 et requete2 résolues...&lt;/span&gt;
+&lt;span class="p"&gt;});&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Nous avons donc, avec notre exemple d'itinéraire habituel :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;Promise&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;all&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;then&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;undefined&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;errorCallback&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Et demain ?&lt;/h1&gt;
+&lt;p&gt;Les promesses natives avec un polyfill sont sans doute une des approches les plus efficaces pour la gestion de l'asynchrone.&lt;/p&gt;
+&lt;p&gt;Cela pourrait néanmoins changer puisqu’une proposition pour ECMAScript 7 (ou ES7) introduit le mot clé &lt;code&gt;await&lt;/code&gt; permettant de résoudre des fonctions asynchrones en les écrivant de façon synchrone :&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;paris&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Paris&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;lyon&lt;/span&gt;      &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;geocode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Lyon&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="kd"&gt;let&lt;/span&gt; &lt;span class="nx"&gt;itinerary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;await&lt;/span&gt; &lt;span class="nx"&gt;computeItinerary&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="nx"&gt;paris&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;lyon&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+  &lt;span class="nx"&gt;displayItinerary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;itinerary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notez le mot clé &lt;code&gt;async&lt;/code&gt; en début de fonction, pour signaler que la méthode utilise un &lt;code&gt;await&lt;/code&gt;.
+Si vous êtes téméraire, le bout de code ci-dessus est déjà utilisable dans votre code source via l’utilisation d’un transpileur comme &lt;a href="https://babeljs.io/"&gt;Babel&lt;/a&gt; (programme transformant un code ES6 ou ES7 en code ES5, bien plus supporté parmi les navigateurs actuels).
+D’ailleurs, si vous souhaitez tenter l’expérience, cet &lt;a href="http://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html"&gt;article (en anglais), sur le blog de pouchdb&lt;/a&gt;, en parle plus en détails.&lt;/p&gt;</content><category term="French"></category><category term="JavaScript"></category></entry><entry><title>Un plugin Leaflet pour le site Mappy (Leaflet-active-area)</title><link href="/leaflet-active-area.html" rel="alternate"></link><published>2015-02-16T00:00:00+01:00</published><updated>2015-02-16T00:00:00+01:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2015-02-16:/leaflet-active-area.html</id><summary type="html">&lt;p&gt;Ce plugin leaflet permet de définir une zone utile où seront placés marqueurs et tracés n’occupant qu’une partie de la carte.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Un plugin Leaflet pour le site mappy.com&lt;/h1&gt;
+&lt;p&gt;Lors de la mise en place de Leaflet sur mappy.com, (comme présenté dans un &lt;a href="/mappy-com-migre-vers-leaflet.html"&gt;billet précédent&lt;/a&gt;), nous avons eu l'occasion de développer un plugin Leaflet, proposé en open-source.&lt;/p&gt;
+&lt;h3&gt;Mise en avant de la carte&lt;/h3&gt;
+&lt;p&gt;L’un des objectifs de cette nouvelle version fût de mettre en avant la carte dans l’interface, qui n'occupait qu’une petite partie de l’interface de la version précédente. Ainsi, sur les pages de fiche POI ou sur la feuille de route, la carte occupe tout l’écran, du haut en bas de l’écran.&lt;/p&gt;
+&lt;p&gt;Cela est surtout visible sur les grandes résolutions, où chaque bord laisse place à la carte comme le témoignent les captures d’écran suivantes :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Itinéraire" src="images/leaflet-active-area/iti.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;amp;opt.cost=time&amp;amp;opt.notoll=0&amp;amp;opt.infotraffic=0&amp;amp;opt.gascost=1.558&amp;amp;opt.gas=petrol&amp;amp;opt.compensation=0&amp;amp;routeidx=0"&gt;Feuille de route d’un itinéraire&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fiche POI" src="images/leaflet-active-area/poi.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7"&gt;Fiche POI&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Comme on peut le voir sur les images ci-dessus, et vu que la carte occupe presque tout l’écran, les informations - marqueurs et polyline - ne sont pas centrées. Le centre de la carte correspond au centre de l’écran, caché derrière les éléments HTML.
+Cela est plus visible lorsque l’on rend transparents ces éléments HTML comme le montrent les captures suivantes :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Itinéraire avec fond transparent" src="images/leaflet-active-area/iti-transparent.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/itineraire/Paris%2075001%20-%2075116/Vincennes%2094300?opt.vehicle=midcar&amp;amp;opt.cost=time&amp;amp;opt.notoll=0&amp;amp;opt.infotraffic=0&amp;amp;opt.gascost=1.558&amp;amp;opt.gas=petrol&amp;amp;opt.compensation=0&amp;amp;routeidx=0"&gt;Feuille de route d’un itinéraire avec fond transparent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fiche POI avec fond transparent" src="images/leaflet-active-area/poi-transparent.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://fr.mappy.com/poi/51f0bde784aebbc34d4a0cc7"&gt;Fiche POI avec fond transparent&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Les appels à l’API Leaflet (centrage de la carte, centrage de la vue en fonction de marqueurs, d’un itinéraire) vont naturellement avoir pour centre de la carte le centre de l’écran si celle-ci en occupe la quasi-totalité.&lt;/p&gt;
+&lt;h3&gt;Le plugin Leaflet-active-area&lt;/h3&gt;
+&lt;p&gt;Afin de pouvoir afficher des marqueurs ou un itinéraire de façon excentrée, nous avons développé un plugin Leaflet pour abstraire ce comportement.&lt;/p&gt;
+&lt;p&gt;Il s’agit du plugin &lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;Leaflet-active-area&lt;/a&gt; qui, comme le montre la &lt;a href="http://techblog.mappy.com/Leaflet-active-area/examples/index.html"&gt;page d’exemple&lt;/a&gt;, permet d’appeler les méthodes usuelles de Leaflet telles que setView, setZoom, fitBounds tout en "centrant" la carte à partir d’une autre zone.&lt;/p&gt;
+&lt;p&gt;Le principe est de définir une classe CSS, positionnée de façon absolue, qui sera prise en compte comme zone active de la carte. Ainsi, le centre de la carte sera le centre de cette zone et l’ensemble des marqueurs ou tracés y seront placés.&lt;/p&gt;
+&lt;h3&gt;Disponible sous license Apache 2.0&lt;/h3&gt;
+&lt;p&gt;Il nous a paru évident, utilisant une API open-source utilisée et développée par une énorme communité de développeurs, de proposer ce plugin en open-source. Il est disponible sur &lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;github&lt;/a&gt; et référencé dans &lt;a href="http://leafletjs.com/plugins.html#other-plugins-and-libraries"&gt;“la page des plugins”&lt;/a&gt; du site leaflet.&lt;/p&gt;
+&lt;p&gt;A ce jour, nous avons même reçu la contribution de plusieurs développeurs hors Mappy avec l'ouverture - et l'acceptation - de 4 pull requests, la création puis la résolution de plusieurs issues. N'hésitez pas à contribuer !&lt;/p&gt;</content><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry><entry><title>mappy.com migre vers Leaflet</title><link href="/mappy-com-migre-vers-leaflet.html" rel="alternate"></link><published>2015-02-04T00:00:00+01:00</published><updated>2015-02-04T00:00:00+01:00</updated><author><name>Grégory Paul</name></author><id>tag:None,2015-02-04:/mappy-com-migre-vers-leaflet.html</id><summary type="html">&lt;p&gt;mappy.com utilise dorénavant l’API OpenSource Leaflet plutôt que son API cartographique “maison”.&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Nouvelle version du site, nouvelle cartographie&lt;/h1&gt;
 &lt;p&gt;En mai 2014, une nouvelle version du site Mappy a vu le jour :&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Version 4" src="images/leaflet/hp-v4.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 4" src="images/leaflet/hp-v4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Précédente version (4)&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Version 5" src="images/leaflet/hp-v5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Version 5" src="images/leaflet/hp-v5.png"&gt;&lt;/p&gt;
 &lt;p&gt;Nouvelle version (5)&lt;/p&gt;
 &lt;p&gt;Cette version a entraîné bon nombre de refactoring technique (comme un passage à Backbone par exemple) dont le plus impactant fût la décision de remplacer l’API cartographique JavaScript historique par &lt;a href="http://leafletjs.com/"&gt;Leaflet&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Leaflet est une API de cartographie JavaScript OpenSource parmi les plus connues et actives. Utilisée par de nombreux sites importants, aussi bien généralistes (Flickr, Foursquare, Pinterest) que spécialistes de la cartographie (Mapbox, OpenStreetMap), elle dispose de plus de 175 contributeurs.&lt;/p&gt;
@@ -20,4 +614,4 @@
 &lt;p&gt;Depuis cette migration à Leaflet, nous avons apporté quelques contributions sous la forme de “&lt;a href="https://github.com/Leaflet/Leaflet/pull/3038"&gt;pull request&lt;/a&gt;” ou de nouveau plugin (&lt;a href="https://github.com/Mappy/Leaflet-active-area"&gt;leaflet-active-area&lt;/a&gt;, un prochain article le présentera en détail).&lt;/p&gt;
 &lt;h2&gt;A l’avenir&lt;/h2&gt;
 &lt;p&gt;Au final, ce passage à Leaflet ne nous apporte que des avantages et nous avons hâte de proposer d’autres “pull requests” ou plugins.&lt;/p&gt;
-&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</summary><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry></feed>
+&lt;p&gt;Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.&lt;/p&gt;</content><category term="Leaflet"></category><category term="OpenSource"></category><category term="French"></category><category term="JavaScript"></category></entry></feed>

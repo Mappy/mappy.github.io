@@ -26,7 +26,7 @@
     <div class="container">
 
         <header id="banner" class="body">
-            <h1><a href="/"><img src="images/logo.png" /> Labs</a></h1>
+            <h1><a href="/"><img src="/images/logo.png" /> Labs</a></h1>
             <div id="navigation" class="navbar row">
                 <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
             </div>
@@ -51,7 +51,7 @@
                 Mon 04 August 2014
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/johnfrommappy.html">JohnFromMappy</a>
+                By <a class="url fn" href="/author/jonathan-baby.html">Jonathan Baby</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
@@ -73,7 +73,7 @@
 <blockquote>
 <p>Available on Google Play, <a href="https://play.google.com/store/apps/details?id=com.mappy.app">Mappy for Android</a>.</p>
 </blockquote>
-<p>Let's describe the main technical aspects we implemented building our own <em>PanoramicLib</em>. </p>
+<p>Let's describe the main technical aspects we implemented building our own <em>PanoramicLib</em>.</p>
 <h1>Cubic projection</h1>
 <p>To display 360 panoramas with cubic projection, we texture the inner faces of a simple cube mesh (6 square faces, 2 triangles each).</p>
 <p><img alt="Bitmap tile faces layout on a cube" src="images/panoramic_cube_01.png">
@@ -91,7 +91,7 @@
 <li><code>PanoramicScaleGestureListener</code> class handles pinch to zoom gesture.</li>
 </ul>
 <h1>Progressive resolution loading</h1>
-<p>Our panorama images are provided through Web services. For faster loading, low resolution bitmaps (128 * 128) are first downloaded. Higher resolutions are progressively downloaded, updating the cube faces to sharper textures. For high resolutions, faces are divided in multiple tiles of 512 * 512 pixels. </p>
+<p>Our panorama images are provided through Web services. For faster loading, low resolution bitmaps (128 * 128) are first downloaded. Higher resolutions are progressively downloaded, updating the cube faces to sharper textures. For high resolutions, faces are divided in multiple tiles of 512 * 512 pixels.</p>
 <p><img alt="Multiple bitmap tiles per face possibilities" src="images/panoramic_cube_03.png"></p>
 <p>Ideally, using tiles would lower the amount of downloaded data because client application could :</p>
 <ul>
@@ -120,7 +120,7 @@
 </blockquote>
 <p>The picking code comes from <a href="https://github.com/i-schuetz/Android_OpenGL_Picking">Ivan Schuetz "Android OpenGL Picking"</a> GitHub project.
 It refers to <a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to-state-this-is-my-first.html">Gregory Beauchamp "Ray picking on Android"</a> article.</p>
-<p>We adaptated the code to take the picking out of the OpenGL thread. In <code>PanoramicLib</code>, we notify the <code>Activy</code> on way arrow click to load next panorama view. This has to run on the UI thread. </p>
+<p>We adaptated the code to take the picking out of the OpenGL thread. In <code>PanoramicLib</code>, we notify the <code>Activy</code> on way arrow click to load next panorama view. This has to run on the UI thread.</p>
 <p>In Ivan Schuetz example, ray intersect computing is done in <code>ExampleGLRenderer.onDrawFrame(GL10 gl)</code> <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLRenderer.java">(source)</a>, calling <code>ExampleGLObject.draw(GL10 gl, Ray ray)</code> on each scene object. Intersections are logged to Android LogCat from there <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/ExampleGLObject.java">(source)</a>. It runs on the OpenGL thread because it requires the OpenGL context to grab projection and modelview matrixes to compute ray and projected objects coordinates.</p>
 <p>To handle intersection computing on the UI thread, we saved the current OpenGL matrixes in a member of each <code>ArrowMesh</code> instance, on each draw, using <code>MatrixGrabber</code> class <a href="https://github.com/i-schuetz/Android_OpenGL_Picking/blob/master/glpicking/src/com/example/glpicking/MatrixGrabber.java">(source)</a>.</p>
             </div><!-- /.entry-content -->
@@ -155,7 +155,7 @@ It refers to <a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to
 <nav class="widget">
   <h4>Links</h4>
   <ul>
-    <li><a href="http://www.mappy.com/">Mappy</a></li>
+    <li><a href="https://www.mappy.com/">Mappy</a></li>
     <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
     <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
   </ul>
@@ -173,7 +173,7 @@ It refers to <a href="http://android-raypick.blogspot.de/2012/04/first-i-want-to
 
        <div class="container.nopad bg">
 
-    
+
         <footer id="credits" class="row">
           <div class="seven columns left-center">
 
