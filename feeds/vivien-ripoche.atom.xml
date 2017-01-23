@@ -69,7 +69,7 @@ On peut aussi lui ajouter des greffons (&lt;code&gt;plugins&lt;/code&gt;) afin d
 &lt;p&gt;En fait, ces options permettent d'activer le cache des sources et des modules &lt;code&gt;NPM&lt;/code&gt; de &lt;code&gt;browserify&lt;/code&gt;. Cela permet à &lt;code&gt;watchify&lt;/code&gt; de reconstruire les livrables de manière incrémentale.&lt;/p&gt;
 &lt;p&gt;Il est évident que la création du livrable est nettement plus rapide de cette manière, d'ailleurs &lt;code&gt;watchify&lt;/code&gt; impose ces options et ne fait rien le cas échéant.&lt;/p&gt;
 &lt;p&gt;Seulement quelques millisecondes sont nécessaires pour reconstruire les sources grâce à la construction incrémentale :&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Watchify" src="images/watchify.gif"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Watchify" src="images/javascript/watchify.gif"&gt;&lt;/p&gt;
 &lt;h2&gt;Livereload&lt;/h2&gt;
 &lt;p&gt;Une fois les sources construites, il est pratique de recharger la page immédiatement et automatiquement. C’est là qu’intervient &lt;code&gt;livereload&lt;/code&gt;, qui grâce aux &lt;a href="https://developer.mozilla.org/fr/docs/WebSockets"&gt;WebSockets&lt;/a&gt;, recharge la page à chaque reconstruction.&lt;/p&gt;
 &lt;p&gt;Nous allons utiliser &lt;code&gt;gulp-livereload&lt;/code&gt; et voir ainsi comment on combine les différents &lt;code&gt;streams&lt;/code&gt; :&lt;/p&gt;
@@ -107,4 +107,4 @@ Si HTTPS est nécéssaire (comme sur le site Mappy), préférez le plugin &lt;a 
 
 &lt;span class="nx"&gt;browserify&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;Object&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;assign&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
 &lt;span class="p"&gt;...&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</content><category term="French"></category><category term="JavaScript"></category><category term="watching"></category><category term="browserify"></category><category term="watchify"></category><category term="livereload"></category></entry></feed>
+&lt;/pre&gt;&lt;/div&gt;</content><category term="français"></category><category term="javascript"></category><category term="watch"></category><category term="browserify"></category><category term="livereload"></category></entry></feed>

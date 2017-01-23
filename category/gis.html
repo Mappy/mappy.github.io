@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 
-        <title>mappy.com migre vers Leaflet</title>
+        <title>Mappy Labs</title>
         <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
-        <link href="/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+        <link href="/feeds/gis/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -34,51 +34,85 @@
 
         <div class="row">
 
-<section id="content" class="body">
+<section id="content">
+<h2>Articles in the GIS category</h2>
+
 
    <div class="row">
+
+
         <div class="ten columns">
+		         <ol id="post-list">
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="/PyLR, an OpenLR decoder in python.html" rel="bookmark" title="Permalink to PyLR, an OpenLR decoder in python">PyLR, an OpenLR decoder in python</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-12-04T00:00:00+01:00"> Thu 04 December 2014 </abbr>
+                                        <address class="vcard author">
+                                            By <a class="url fn" href="/author/audrey-malherbe.html">Audrey Malherbe</a>
+                                        </address>
+				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>An Open source python implementation of OpenLR specification.</p> <a href="/PyLR, an OpenLR decoder in python.html" rel="bookmark" title="Permalink to PyLR, an OpenLR decoder in python">Read more</i></a> </div><!-- /.entry-content -->
 
 
-            <header>
-              <h2 class="entry-title">
-                <a href="/mappy-com-migre-vers-leaflet.html" rel="bookmark"
-                   title="Permalink to mappy.com migre vers Leaflet">mappy.com migre vers Leaflet</a></h2>
-           
-            </header>
-            <footer class="post-info">
-              <abbr class="published" title="2015-02-04T00:00:00+01:00">
-                Wed 04 February 2015
-              </abbr>
-              <address class="vcard author">
-                By <a class="url fn" href="/author/gregory-paul.html">Grégory Paul</a>
-              </address>
-            </footer><!-- /.post-info -->
-            <div class="entry-content">
-              <h1>Nouvelle version du site, nouvelle cartographie</h1>
-<p>En mai 2014, une nouvelle version du site Mappy a vu le jour :</p>
-<p><img alt="Version 4" src="images/leaflet/hp-v4.png"></p>
-<p>Précédente version (4)</p>
-<p><img alt="Version 5" src="images/leaflet/hp-v5.png"></p>
-<p>Nouvelle version (5)</p>
-<p>Cette version a entraîné bon nombre de refactoring technique (comme un passage à Backbone par exemple) dont le plus impactant fût la décision de remplacer l’API cartographique JavaScript historique par <a href="http://leafletjs.com/">Leaflet</a>.</p>
-<p>Leaflet est une API de cartographie JavaScript OpenSource parmi les plus connues et actives. Utilisée par de nombreux sites importants, aussi bien généralistes (Flickr, Foursquare, Pinterest) que spécialistes de la cartographie (Mapbox, OpenStreetMap), elle dispose de plus de 175 contributeurs.</p>
-<h2>La compatibilité de la cartographie Mappy avec Leaflet</h2>
-<p>Notre plateforme cartographique dispose de certaines spécificités par rapport aux standards actuels :</p>
-<ul>
-<li>une projection <a href="http://spatialreference.org/ref/esri/world-gall-stereographic/">Gall</a>,</li>
-<li>des tuiles de 384 pixels de large (au lieu des 256 généralement utilisés par les autres acteurs cartographique),</li>
-<li>13 niveaux de zoom, avec un facteur 3 entre chaque niveau (au lieu de 20 niveaux et d'un facteur x2).</li>
-</ul>
-<p>Elles ont été intégrées sous la forme d’un plugin Leaflet, inspiré du plugin <a href="https://www.mapbox.com/developers/api/">Mapbox</a>. Ce plugin étend l’API Leaflet et intègre également d’autres méthodes pour effectuer des recherches géographiques, des recherches géographiques inversées (Retrouver une adresse depuis des coordonnées) et enfin des recherches d’itinéraires via les services de Mappy.</p>
-<p>Utilisée aujourd’hui par le site <a href="http://www.mappy.com">fixe</a>, le site <a href="http://m.mappy.com">mobile</a> et le widget, cette API est également distribuée aux partenaires. Si vous êtes intéressés, je vous invite à consulter <a href="http://corporate.mappy.com/faq/integrez-mappy/">la page dédiée à intégration de nos services dans vos produits</a>.</p>
-<h2>Contributions</h2>
-<p>Depuis cette migration à Leaflet, nous avons apporté quelques contributions sous la forme de “<a href="https://github.com/Leaflet/Leaflet/pull/3038">pull request</a>” ou de nouveau plugin (<a href="https://github.com/Mappy/Leaflet-active-area">leaflet-active-area</a>, un prochain article le présentera en détail).</p>
-<h2>A l’avenir</h2>
-<p>Au final, ce passage à Leaflet ne nous apporte que des avantages et nous avons hâte de proposer d’autres “pull requests” ou plugins.</p>
-<p>Autre avantage à l'utilisation de Leaflet, la migration vers des projections plus standard - un de nos projet 2015 - aura un très faible coût, et aucune migration d'API ne sera nécessaire.</p>
-            </div><!-- /.entry-content -->
 
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="/tag/english.html">english</a>
+											<a class="danger label" href="/tag/openlr.html">openlr</a>
+											<a class="danger label" href="/tag/python.html">python</a>
+											<a class="danger label" href="/tag/opensource.html">opensource</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="/Mappy et Oslandia vers l'OpenSource.html" rel="bookmark" title="Permalink to Mappy et Oslandia vers l'OpenSource">Mappy et Oslandia vers l'OpenSource</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-02-11T00:00:00+01:00"> Tue 11 February 2014 </abbr>
+                                        <address class="vcard author">
+                                            By <a class="url fn" href="/author/audrey-malherbe.html">Audrey Malherbe</a>
+                                        </address>
+				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>Depuis plus de deux ans, Oslandia accompagne Mappy dans sa transition vers l’OpenSource. La première étape est symbolisée par le projet de migration des bases de données Oracle du backoffice cartographique vers PostGIS.</p> <a href="/Mappy et Oslandia vers l'OpenSource.html" rel="bookmark" title="Permalink to Mappy et Oslandia vers l'OpenSource">Read more</i></a> </div><!-- /.entry-content -->
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="/tag/francais.html">français</a>
+											<a class="danger label" href="/tag/mapnik.html">mapnik</a>
+											<a class="danger label" href="/tag/postgis.html">postGIS</a>
+											<a class="danger label" href="/tag/opensource.html">opensource</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="/FOSS4G 2013 : Mappy-ing Open Source.html" rel="bookmark" title="Permalink to FOSS4G 2013 : Mappy-ing OpenSource">FOSS4G 2013 : Mappy-ing OpenSource</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2013-09-25T00:00:00+02:00"> Wed 25 September 2013 </abbr>
+                                        <address class="vcard author">
+                                            By <a class="url fn" href="/author/audrey-malherbe.html">Audrey Malherbe</a>
+                                        </address>
+				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>Feedback on the overhaul of the mapping engine of Mappy around Mapnik and PostGIS.</p> <a href="/FOSS4G 2013 : Mappy-ing Open Source.html" rel="bookmark" title="Permalink to FOSS4G 2013 : Mappy-ing OpenSource">Read more</i></a> </div><!-- /.entry-content -->
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="/tag/english.html">english</a>
+											<a class="danger label" href="/tag/mapnik.html">mapnik</a>
+											<a class="danger label" href="/tag/postgis.html">postGIS</a>
+											<a class="danger label" href="/tag/opensource.html">opensource</a>
+								</div>
+
+
+
+				        </article></li>
+				</ol><!-- /#posts-list -->
 
         </div><!-- /.eleven.columns -->
         
@@ -140,8 +174,10 @@
 
 </div> </div><!-- /.row -->
 
-
-</section>
+<p class="paginator">
+    Page 1 / 1
+</p>
+</section><!-- /#content -->
 
        </div><!-- /.row -->
     </div><!-- /.container -->
