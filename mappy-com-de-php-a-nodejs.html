@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>mappy.com : de PHP à node.js</title>
+        <meta charset="utf-8" />
+        <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="/feeds/javascript/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="/theme/pygment.css" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><img src="/images/logo.png" /> Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="/mappy-com-de-php-a-nodejs.html" rel="bookmark"
+                   title="Permalink to mappy.com : de PHP à node.js">mappy.com : de PHP à node.js</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2017-01-26T00:00:00+01:00">
+                Thu 26 January 2017
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="/author/gregory-paul.html">Grégory Paul</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Depuis quelques jours, le site web <a href="https://fr.mappy.com/">mappy.com</a> est entièrement servi par <code>node.js</code>.</p>
+<p>Historiquement sous <code>PHP</code> et <a href="https://symfony.com/">Symfony 2</a>, une stratégie de migration a été mise en place pour migrer les serveurs web, page par page, vers <code>node.js</code> et <a href="http://expressjs.com/">express</a>.</p>
+<p><img alt="php vers node" src="images/javascript/php-to-node.png"></p>
+<h1>Le site Web Mappy</h1>
+<p>Mappy est une « <a href="https://fr.wikipedia.org/wiki/Application_web_monopage">single page application</a> » qui se compose en 2 parties :</p>
+<ol>
+<li>
+<p>une partie serveur, composée de pages HTML et de feuilles de style, majoritairement dédiées aux moteurs de recherche (<a href="https://fr.wikipedia.org/wiki/Optimisation_pour_les_moteurs_de_recherche">SEO</a>), afin de leur présenter les informations accessibles via l’application Web cliente,</p>
+</li>
+<li>
+<p>une partie cliente composée de JavaScript et s’exécutant dans le navigateur qui permet d’ajouter toute l’interactivité au site (notamment les interactions avec la carte, ce qui évite les rechargements de page après action de l’utilisateur).</p>
+</li>
+</ol>
+<p>Ces parties serveur et cliente font appel aux nombreuses APIs <a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer">REST</a> de Mappy afin de répondre aux besoins des internautes : service de recherche, de suggestion, de points d’intérêt (comme les commerces, hôtels, restaurants, etc), de calcul d’itinéraire, de statistiques, etc.
+Ces services sont écrits dans différents autres langages adaptés à chacune de leur problématique.</p>
+<p>Cet article traite « uniquement » de la migration de la partie serveur du site Web de Mappy.</p>
+<h3>Site sans JavaScript activé (pour le SEO)</h3>
+<p><img alt="sans javascript" src="images/javascript/mappy-no-js.png"></p>
+<h3>Site avec JavaScript (pour les internautes)</h3>
+<p><img alt="avec javascript" src="images/javascript/mappy-js.png"></p>
+<h1>Avant la migration node.js</h1>
+<p>Le site Mappy est une application Web composée d’environ 20.000 lignes de code de JavaScript (sans compter les librairies) côté client (ou navigateur) et environ 11.000 lignes de <code>PHP</code> côté serveur (toujours sans compter les librairies).</p>
+<p><img alt="architecture avec PHP" src="images/javascript/portal-architecture-php.png"></p>
+<h1>Pourquoi node.js ?</h1>
+<p>La volonté de migrer le code <code>PHP</code> vers JavaScript s’est faite pour principalement 3 raisons :</p>
+<h2>1. Même paradigme entre code client et code serveur</h2>
+<p>JavaScript est un langage asynchrone avec un système d’héritage par prototype alors que <code>PHP</code> est un langage procédural avec un système d’héritage orienté classe.
+Certaines fonctionnalités devant à la fois être disponibles côté client et à la fois côté serveur, il est nécessaire de les développer 2 fois de façon relativement différente.</p>
+<h2>2. Code partagé</h2>
+<p>Environ 20 à 25 % de code est maintenant partagé, utilisé à la fois par le serveur et le client (exemple fiche POI, itinéraire, etc).</p>
+<p>Une conséquence de cela est une plus grande cohérence dans le comportement entre le serveur et le client (même traitement, même présentation des données).</p>
+<h2>3. Recrutement facilité</h2>
+<p>En éliminant <code>PHP</code> de l’équation, le recrutement est facilité puisque nous ne recherchons que des experts en JavaScript (avec de bases solides en <code>CSS</code>, <code>HTML</code>, performances web, <code>GNU/Linux</code>, <code>puppet</code>, etc).
+Vous pouvez d’ailleurs consulter notre page sur <a href="https://remixjobs.com/company/MAPPY/140070/informations">RemixJobs</a> si vous êtes intéressé.</p>
+<h1>Après la migration vers node.js</h1>
+<p>A l’issue de la migration, le code est toujours de 20.000 lignes de code côté client mais une partie d’entre elles sont partagées par le serveur (modèles et collections <code>Backbone</code> notamment).
+Le code côté serveur n’est plus que d’environ 8.000 lignes (sans le code partagé).</p>
+<p><img alt="architecture avec node" src="images/javascript/portal-architecture-node.png"></p>
+<h2>Impacts sur les temps de réponse</h2>
+<p>On constate un gain du temps de réponse moyen d’environ 10 % sur l’ensemble des pages du site.
+Les pages consommant le plus d’appels aux services <a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer">REST</a> montrent le plus gros gain (comme l’affichage des pages présentant les points d’intérêts par exemple).
+C’est assez logique, <code>node.js</code> étant particulièrement adapté aux multiples entrées / sorties (réseau ou disque) de par son côté asynchrone non bloquant.</p>
+<p>Ci-dessous un exemple des temps de réponse moyen des pages présentant les points d’intérêts avant et après la migration vers <code>node.js</code> (séparée par la ligne verte) :</p>
+<p><img alt="Temps de réponse de la fiche POI" src="images/javascript/response-time.png"></p>
+<h1>Conclusion</h1>
+<p>La migration vers <code>node.js</code> est un succès.</p>
+<p>Tout d’abord, l’objectif de migration transparente a été complètement respecté. Il n’y a eu aucun impact négatif, ni pour les internautes, ni pour les performances SEO.</p>
+<p>Enfin, il est maintenant beaucoup plus facile d’intervenir sur le code serveur et le développement de fonctionnalités communes est plus rapide.</p>
+<p>Le seul inconvénient de cette migration « douce » est qu’elle s’est étendue sur plusieurs mois et donc a été relativement longue (les pages migrées ont été mises en ligne au fur et à mesure, en vérifiant l’absence d’impact négatif à chaque mise en production).</p>
+<h2>Et après ?</h2>
+<p>Symfony utilisant <a href="http://twig.sensiolabs.org/">twig</a> comme moteur de template par défaut, tous nos templates sont dans ce format, soit environ 30.000 lignes de code.
+Nous utilisons d’ailleurs <a href="https://github.com/Mappy/twigify">twigify</a> pour les utiliser via <code>browserify</code>.</p>
+<p><img alt="architecture avec twig" src="images/javascript/portal-architecture-template.png"></p>
+<p>Twig étant une technologie issue du monde <code>PHP</code>, elle n’est pas très adaptée à JavaScript.
+Par conséquent, l’un de nos futurs chantiers technique est l’étude d’un successeur (mustache, jade, react ?) suivi de la migration des templates.</p>
+<p>Nous espérons à nouveau un gain de performances lié à cette migration, notamment en abandonnant l’héritage au sein des templates.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="/category/agile.html">Agile</a></li>
+		<li><a href="/category/android.html">Android</a></li>
+		<li><a href="/category/gis.html">GIS</a></li>
+		<li><a href="/category/javascript.html">javascript</a></li>
+		<li><a href="/category/solr.html">Solr</a></li>
+		<li><a href="/category/web.html">Web</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-4"><a href="/tag/agilite.html">agilité</a></li>
+	    <li class="tag-1"><a href="/tag/opensource.html">opensource</a></li>
+	    <li class="tag-1"><a href="/tag/javascript.html">javascript</a></li>
+	    <li class="tag-4"><a href="/tag/webgl.html">webgl</a></li>
+	    <li class="tag-4"><a href="/tag/browserify.html">browserify</a></li>
+	    <li class="tag-4"><a href="/tag/openlr.html">openlr</a></li>
+	    <li class="tag-4"><a href="/tag/abtest.html">abtest</a></li>
+	    <li class="tag-4"><a href="/tag/android.html">android</a></li>
+	    <li class="tag-2"><a href="/tag/english.html">english</a></li>
+	    <li class="tag-4"><a href="/tag/retrospective.html">rétrospective</a></li>
+	    <li class="tag-4"><a href="/tag/gis.html">GIS</a></li>
+	    <li class="tag-3"><a href="/tag/mapnik.html">mapnik</a></li>
+	    <li class="tag-4"><a href="/tag/responsive.html">responsive</a></li>
+	    <li class="tag-4"><a href="/tag/watch.html">watch</a></li>
+	    <li class="tag-4"><a href="/tag/livereload.html">livereload</a></li>
+	    <li class="tag-4"><a href="/tag/french.html">french</a></li>
+	    <li class="tag-3"><a href="/tag/solr.html">solr</a></li>
+	    <li class="tag-4"><a href="/tag/opengl.html">opengl</a></li>
+	    <li class="tag-3"><a href="/tag/postgis.html">postGIS</a></li>
+	    <li class="tag-4"><a href="/tag/nodejs.html">node.js</a></li>
+	    <li class="tag-4"><a href="/tag/python.html">python</a></li>
+	    <li class="tag-3"><a href="/tag/leaflet.html">leaflet</a></li>
+	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
+	    <li class="tag-4"><a href="/tag/meetup.html">meetup</a></li>
+	    <li class="tag-1"><a href="/tag/francais.html">français</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="https://www.mappy.com/">Mappy</a></li>
+    <li><a href="https://play.google.com/store/apps/details?id=com.mappy.app">Appli Android</a></li>
+    <li><a href="https://itunes.apple.com/fr/app/mappy-itineraire-et-recherche/id313834655?mt=8">Appli iOS</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
