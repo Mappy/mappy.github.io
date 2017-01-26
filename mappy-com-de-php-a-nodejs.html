@@ -68,44 +68,47 @@
 <p>une partie cliente composée de JavaScript et s’exécutant dans le navigateur qui permet d’ajouter toute l’interactivité au site (notamment les interactions avec la carte, ce qui évite les rechargements de page après action de l’utilisateur).</p>
 </li>
 </ol>
-<p>Ces parties serveur et cliente font appel aux nombreuses APIs <a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer">REST</a> de Mappy afin de répondre aux besoins des internautes : service de recherche, de suggestion, de points d’intérêt (comme les commerces, hôtels, restaurants, etc), de calcul d’itinéraire, de statistiques, etc.
-Ces services sont écrits dans différents autres langages adaptés à chacune de leur problématique.</p>
-<p>Cet article traite « uniquement » de la migration de la partie serveur du site Web de Mappy.</p>
+<p>Ces parties serveur et cliente font appel aux nombreuses APIs <a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer">REST</a> de Mappy afin de répondre aux besoins des internautes : service de recherche, de suggestion, de points d’intérêt (comme les commerces, hôtels, restaurants, etc), de calculs d’itinéraires, de statistiques, etc.
+Ces services sont écrits dans différents autres langages adaptés à chacune de leur problématique (et ne seront pas traités dans le cadre de cet article).</p>
 <h3>Site sans JavaScript activé (pour le SEO)</h3>
 <p><img alt="sans javascript" src="images/javascript/mappy-no-js.png"></p>
 <h3>Site avec JavaScript (pour les internautes)</h3>
 <p><img alt="avec javascript" src="images/javascript/mappy-js.png"></p>
 <h1>Avant la migration node.js</h1>
-<p>Le site Mappy est une application Web composée d’environ 20.000 lignes de code de JavaScript (sans compter les librairies) côté client (ou navigateur) et environ 11.000 lignes de <code>PHP</code> côté serveur (toujours sans compter les librairies).</p>
+<p>Le site Mappy est une application Web composée d’environ 20000 lignes de code de JavaScript (sans compter les librairies) côté client (ou navigateur) et environ 11000 lignes de <code>PHP</code> côté serveur (toujours sans compter les librairies).</p>
 <p><img alt="architecture avec PHP" src="images/javascript/portal-architecture-php.png"></p>
+<p>Le site utilise également des templates au format <code>twig</code>, à la fois via le code JavaScript et <code>PHP</code>.</p>
 <h1>Pourquoi node.js ?</h1>
 <p>La volonté de migrer le code <code>PHP</code> vers JavaScript s’est faite pour principalement 3 raisons :</p>
 <h2>1. Même paradigme entre code client et code serveur</h2>
 <p>JavaScript est un langage asynchrone avec un système d’héritage par prototype alors que <code>PHP</code> est un langage procédural avec un système d’héritage orienté classe.
 Certaines fonctionnalités devant à la fois être disponibles côté client et à la fois côté serveur, il est nécessaire de les développer 2 fois de façon relativement différente.</p>
 <h2>2. Code partagé</h2>
-<p>Environ 20 à 25 % de code est maintenant partagé, utilisé à la fois par le serveur et le client (exemple fiche POI, itinéraire, etc).</p>
+<p>Pour permettre le partage de code, nous avons, il y a quelques temps déjà, adopté <code>CommonJS</code> pour notre code JavaScript client.
+<code>CommonJS</code> est un système de chargement de dépendances, utilisé par <code>node.js</code>.
+Nous utilisons <code>browserify</code> pour traduire nos fichiers au format <code>CommonJS</code> en un fichier JavaScript compréhensible par le navigateur.</p>
+<p>Environ 20 à 25 % de code est maintenant partagé, utilisé à la fois par le serveur et le client (exemple sur les pages de point d’intérêt, itinéraire, etc).</p>
 <p>Une conséquence de cela est une plus grande cohérence dans le comportement entre le serveur et le client (même traitement, même présentation des données).</p>
 <h2>3. Recrutement facilité</h2>
 <p>En éliminant <code>PHP</code> de l’équation, le recrutement est facilité puisque nous ne recherchons que des experts en JavaScript (avec de bases solides en <code>CSS</code>, <code>HTML</code>, performances web, <code>GNU/Linux</code>, <code>puppet</code>, etc).
 Vous pouvez d’ailleurs consulter notre page sur <a href="https://remixjobs.com/company/MAPPY/140070/informations">RemixJobs</a> si vous êtes intéressé.</p>
 <h1>Après la migration vers node.js</h1>
-<p>A l’issue de la migration, le code est toujours de 20.000 lignes de code côté client mais une partie d’entre elles sont partagées par le serveur (modèles et collections <code>Backbone</code> notamment).
-Le code côté serveur n’est plus que d’environ 8.000 lignes (sans le code partagé).</p>
+<p>A l’issue de la migration, le code est toujours de 20000 lignes de code côté client mais une partie d’entre elles sont partagées par le serveur (modèles et collections <code>Backbone</code> notamment).
+Le code côté serveur n’est plus que d’environ 8000 lignes (sans le code partagé).</p>
 <p><img alt="architecture avec node" src="images/javascript/portal-architecture-node.png"></p>
 <h2>Impacts sur les temps de réponse</h2>
 <p>On constate un gain du temps de réponse moyen d’environ 10 % sur l’ensemble des pages du site.
 Les pages consommant le plus d’appels aux services <a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer">REST</a> montrent le plus gros gain (comme l’affichage des pages présentant les points d’intérêts par exemple).
 C’est assez logique, <code>node.js</code> étant particulièrement adapté aux multiples entrées / sorties (réseau ou disque) de par son côté asynchrone non bloquant.</p>
 <p>Ci-dessous un exemple des temps de réponse moyen des pages présentant les points d’intérêts avant et après la migration vers <code>node.js</code> (séparée par la ligne verte) :</p>
-<p><img alt="Temps de réponse de la fiche POI" src="images/javascript/response-time.png"></p>
+<p><img alt="Temps de réponse de la page de point d’intérêt" src="images/javascript/response-time.png"></p>
 <h1>Conclusion</h1>
 <p>La migration vers <code>node.js</code> est un succès.</p>
 <p>Tout d’abord, l’objectif de migration transparente a été complètement respecté. Il n’y a eu aucun impact négatif, ni pour les internautes, ni pour les performances SEO.</p>
 <p>Enfin, il est maintenant beaucoup plus facile d’intervenir sur le code serveur et le développement de fonctionnalités communes est plus rapide.</p>
 <p>Le seul inconvénient de cette migration « douce » est qu’elle s’est étendue sur plusieurs mois et donc a été relativement longue (les pages migrées ont été mises en ligne au fur et à mesure, en vérifiant l’absence d’impact négatif à chaque mise en production).</p>
 <h2>Et après ?</h2>
-<p>Symfony utilisant <a href="http://twig.sensiolabs.org/">twig</a> comme moteur de template par défaut, tous nos templates sont dans ce format, soit environ 30.000 lignes de code.
+<p>Symfony utilisant <a href="http://twig.sensiolabs.org/">twig</a> comme moteur de template par défaut, tous nos templates sont dans ce format, soit environ 30000 lignes de code.
 Nous utilisons d’ailleurs <a href="https://github.com/Mappy/twigify">twigify</a> pour les utiliser via <code>browserify</code>.</p>
 <p><img alt="architecture avec twig" src="images/javascript/portal-architecture-template.png"></p>
 <p>Twig étant une technologie issue du monde <code>PHP</code>, elle n’est pas très adaptée à JavaScript.
@@ -136,30 +139,30 @@ Par conséquent, l’un de nos futurs chantiers technique est l’étude d’un 
 
 <h4>Tags</h4>
 	<ul>
-	    <li class="tag-4"><a href="/tag/agilite.html">agilité</a></li>
+	    <li class="tag-3"><a href="/tag/leaflet.html">leaflet</a></li>
 	    <li class="tag-1"><a href="/tag/opensource.html">opensource</a></li>
-	    <li class="tag-1"><a href="/tag/javascript.html">javascript</a></li>
-	    <li class="tag-4"><a href="/tag/webgl.html">webgl</a></li>
-	    <li class="tag-4"><a href="/tag/browserify.html">browserify</a></li>
-	    <li class="tag-4"><a href="/tag/openlr.html">openlr</a></li>
+	    <li class="tag-2"><a href="/tag/english.html">english</a></li>
 	    <li class="tag-4"><a href="/tag/abtest.html">abtest</a></li>
 	    <li class="tag-4"><a href="/tag/android.html">android</a></li>
-	    <li class="tag-2"><a href="/tag/english.html">english</a></li>
-	    <li class="tag-4"><a href="/tag/retrospective.html">rétrospective</a></li>
-	    <li class="tag-4"><a href="/tag/gis.html">GIS</a></li>
-	    <li class="tag-3"><a href="/tag/mapnik.html">mapnik</a></li>
-	    <li class="tag-4"><a href="/tag/responsive.html">responsive</a></li>
-	    <li class="tag-4"><a href="/tag/watch.html">watch</a></li>
-	    <li class="tag-4"><a href="/tag/livereload.html">livereload</a></li>
 	    <li class="tag-4"><a href="/tag/french.html">french</a></li>
-	    <li class="tag-3"><a href="/tag/solr.html">solr</a></li>
-	    <li class="tag-4"><a href="/tag/opengl.html">opengl</a></li>
 	    <li class="tag-3"><a href="/tag/postgis.html">postGIS</a></li>
+	    <li class="tag-4"><a href="/tag/retrospective.html">rétrospective</a></li>
+	    <li class="tag-4"><a href="/tag/browserify.html">browserify</a></li>
+	    <li class="tag-3"><a href="/tag/mapnik.html">mapnik</a></li>
+	    <li class="tag-4"><a href="/tag/livereload.html">livereload</a></li>
+	    <li class="tag-4"><a href="/tag/agilite.html">agilité</a></li>
+	    <li class="tag-4"><a href="/tag/opengl.html">opengl</a></li>
+	    <li class="tag-4"><a href="/tag/gis.html">GIS</a></li>
+	    <li class="tag-4"><a href="/tag/webgl.html">webgl</a></li>
+	    <li class="tag-3"><a href="/tag/solr.html">solr</a></li>
+	    <li class="tag-4"><a href="/tag/responsive.html">responsive</a></li>
+	    <li class="tag-1"><a href="/tag/javascript.html">javascript</a></li>
+	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
 	    <li class="tag-4"><a href="/tag/nodejs.html">node.js</a></li>
 	    <li class="tag-4"><a href="/tag/python.html">python</a></li>
-	    <li class="tag-3"><a href="/tag/leaflet.html">leaflet</a></li>
-	    <li class="tag-4"><a href="/tag/panorama.html">panorama</a></li>
 	    <li class="tag-4"><a href="/tag/meetup.html">meetup</a></li>
+	    <li class="tag-4"><a href="/tag/openlr.html">openlr</a></li>
+	    <li class="tag-4"><a href="/tag/watch.html">watch</a></li>
 	    <li class="tag-1"><a href="/tag/francais.html">français</a></li>
 </ul>
 

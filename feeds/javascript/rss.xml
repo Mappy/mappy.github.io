@@ -12,44 +12,47 @@
 &lt;p&gt;une partie cliente composée de JavaScript et s’exécutant dans le navigateur qui permet d’ajouter toute l’interactivité au site (notamment les interactions avec la carte, ce qui évite les rechargements de page après action de l’utilisateur).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Ces parties serveur et cliente font appel aux nombreuses APIs &lt;a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer"&gt;REST&lt;/a&gt; de Mappy afin de répondre aux besoins des internautes : service de recherche, de suggestion, de points d’intérêt (comme les commerces, hôtels, restaurants, etc), de calcul d’itinéraire, de statistiques, etc.
-Ces services sont écrits dans différents autres langages adaptés à chacune de leur problématique.&lt;/p&gt;
-&lt;p&gt;Cet article traite « uniquement » de la migration de la partie serveur du site Web de Mappy.&lt;/p&gt;
+&lt;p&gt;Ces parties serveur et cliente font appel aux nombreuses APIs &lt;a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer"&gt;REST&lt;/a&gt; de Mappy afin de répondre aux besoins des internautes : service de recherche, de suggestion, de points d’intérêt (comme les commerces, hôtels, restaurants, etc), de calculs d’itinéraires, de statistiques, etc.
+Ces services sont écrits dans différents autres langages adaptés à chacune de leur problématique (et ne seront pas traités dans le cadre de cet article).&lt;/p&gt;
 &lt;h3&gt;Site sans JavaScript activé (pour le SEO)&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="sans javascript" src="images/javascript/mappy-no-js.png"&gt;&lt;/p&gt;
 &lt;h3&gt;Site avec JavaScript (pour les internautes)&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="avec javascript" src="images/javascript/mappy-js.png"&gt;&lt;/p&gt;
 &lt;h1&gt;Avant la migration node.js&lt;/h1&gt;
-&lt;p&gt;Le site Mappy est une application Web composée d’environ 20.000 lignes de code de JavaScript (sans compter les librairies) côté client (ou navigateur) et environ 11.000 lignes de &lt;code&gt;PHP&lt;/code&gt; côté serveur (toujours sans compter les librairies).&lt;/p&gt;
+&lt;p&gt;Le site Mappy est une application Web composée d’environ 20000 lignes de code de JavaScript (sans compter les librairies) côté client (ou navigateur) et environ 11000 lignes de &lt;code&gt;PHP&lt;/code&gt; côté serveur (toujours sans compter les librairies).&lt;/p&gt;
 &lt;p&gt;&lt;img alt="architecture avec PHP" src="images/javascript/portal-architecture-php.png"&gt;&lt;/p&gt;
+&lt;p&gt;Le site utilise également des templates au format &lt;code&gt;twig&lt;/code&gt;, à la fois via le code JavaScript et &lt;code&gt;PHP&lt;/code&gt;.&lt;/p&gt;
 &lt;h1&gt;Pourquoi node.js ?&lt;/h1&gt;
 &lt;p&gt;La volonté de migrer le code &lt;code&gt;PHP&lt;/code&gt; vers JavaScript s’est faite pour principalement 3 raisons :&lt;/p&gt;
 &lt;h2&gt;1. Même paradigme entre code client et code serveur&lt;/h2&gt;
 &lt;p&gt;JavaScript est un langage asynchrone avec un système d’héritage par prototype alors que &lt;code&gt;PHP&lt;/code&gt; est un langage procédural avec un système d’héritage orienté classe.
 Certaines fonctionnalités devant à la fois être disponibles côté client et à la fois côté serveur, il est nécessaire de les développer 2 fois de façon relativement différente.&lt;/p&gt;
 &lt;h2&gt;2. Code partagé&lt;/h2&gt;
-&lt;p&gt;Environ 20 à 25 % de code est maintenant partagé, utilisé à la fois par le serveur et le client (exemple fiche POI, itinéraire, etc).&lt;/p&gt;
+&lt;p&gt;Pour permettre le partage de code, nous avons, il y a quelques temps déjà, adopté &lt;code&gt;CommonJS&lt;/code&gt; pour notre code JavaScript client.
+&lt;code&gt;CommonJS&lt;/code&gt; est un système de chargement de dépendances, utilisé par &lt;code&gt;node.js&lt;/code&gt;.
+Nous utilisons &lt;code&gt;browserify&lt;/code&gt; pour traduire nos fichiers au format &lt;code&gt;CommonJS&lt;/code&gt; en un fichier JavaScript compréhensible par le navigateur.&lt;/p&gt;
+&lt;p&gt;Environ 20 à 25 % de code est maintenant partagé, utilisé à la fois par le serveur et le client (exemple sur les pages de point d’intérêt, itinéraire, etc).&lt;/p&gt;
 &lt;p&gt;Une conséquence de cela est une plus grande cohérence dans le comportement entre le serveur et le client (même traitement, même présentation des données).&lt;/p&gt;
 &lt;h2&gt;3. Recrutement facilité&lt;/h2&gt;
 &lt;p&gt;En éliminant &lt;code&gt;PHP&lt;/code&gt; de l’équation, le recrutement est facilité puisque nous ne recherchons que des experts en JavaScript (avec de bases solides en &lt;code&gt;CSS&lt;/code&gt;, &lt;code&gt;HTML&lt;/code&gt;, performances web, &lt;code&gt;GNU/Linux&lt;/code&gt;, &lt;code&gt;puppet&lt;/code&gt;, etc).
 Vous pouvez d’ailleurs consulter notre page sur &lt;a href="https://remixjobs.com/company/MAPPY/140070/informations"&gt;RemixJobs&lt;/a&gt; si vous êtes intéressé.&lt;/p&gt;
 &lt;h1&gt;Après la migration vers node.js&lt;/h1&gt;
-&lt;p&gt;A l’issue de la migration, le code est toujours de 20.000 lignes de code côté client mais une partie d’entre elles sont partagées par le serveur (modèles et collections &lt;code&gt;Backbone&lt;/code&gt; notamment).
-Le code côté serveur n’est plus que d’environ 8.000 lignes (sans le code partagé).&lt;/p&gt;
+&lt;p&gt;A l’issue de la migration, le code est toujours de 20000 lignes de code côté client mais une partie d’entre elles sont partagées par le serveur (modèles et collections &lt;code&gt;Backbone&lt;/code&gt; notamment).
+Le code côté serveur n’est plus que d’environ 8000 lignes (sans le code partagé).&lt;/p&gt;
 &lt;p&gt;&lt;img alt="architecture avec node" src="images/javascript/portal-architecture-node.png"&gt;&lt;/p&gt;
 &lt;h2&gt;Impacts sur les temps de réponse&lt;/h2&gt;
 &lt;p&gt;On constate un gain du temps de réponse moyen d’environ 10 % sur l’ensemble des pages du site.
 Les pages consommant le plus d’appels aux services &lt;a href="https://fr.wikipedia.org/wiki/Representational_State_Transfer"&gt;REST&lt;/a&gt; montrent le plus gros gain (comme l’affichage des pages présentant les points d’intérêts par exemple).
 C’est assez logique, &lt;code&gt;node.js&lt;/code&gt; étant particulièrement adapté aux multiples entrées / sorties (réseau ou disque) de par son côté asynchrone non bloquant.&lt;/p&gt;
 &lt;p&gt;Ci-dessous un exemple des temps de réponse moyen des pages présentant les points d’intérêts avant et après la migration vers &lt;code&gt;node.js&lt;/code&gt; (séparée par la ligne verte) :&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Temps de réponse de la fiche POI" src="images/javascript/response-time.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Temps de réponse de la page de point d’intérêt" src="images/javascript/response-time.png"&gt;&lt;/p&gt;
 &lt;h1&gt;Conclusion&lt;/h1&gt;
 &lt;p&gt;La migration vers &lt;code&gt;node.js&lt;/code&gt; est un succès.&lt;/p&gt;
 &lt;p&gt;Tout d’abord, l’objectif de migration transparente a été complètement respecté. Il n’y a eu aucun impact négatif, ni pour les internautes, ni pour les performances SEO.&lt;/p&gt;
 &lt;p&gt;Enfin, il est maintenant beaucoup plus facile d’intervenir sur le code serveur et le développement de fonctionnalités communes est plus rapide.&lt;/p&gt;
 &lt;p&gt;Le seul inconvénient de cette migration « douce » est qu’elle s’est étendue sur plusieurs mois et donc a été relativement longue (les pages migrées ont été mises en ligne au fur et à mesure, en vérifiant l’absence d’impact négatif à chaque mise en production).&lt;/p&gt;
 &lt;h2&gt;Et après ?&lt;/h2&gt;
-&lt;p&gt;Symfony utilisant &lt;a href="http://twig.sensiolabs.org/"&gt;twig&lt;/a&gt; comme moteur de template par défaut, tous nos templates sont dans ce format, soit environ 30.000 lignes de code.
+&lt;p&gt;Symfony utilisant &lt;a href="http://twig.sensiolabs.org/"&gt;twig&lt;/a&gt; comme moteur de template par défaut, tous nos templates sont dans ce format, soit environ 30000 lignes de code.
 Nous utilisons d’ailleurs &lt;a href="https://github.com/Mappy/twigify"&gt;twigify&lt;/a&gt; pour les utiliser via &lt;code&gt;browserify&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="architecture avec twig" src="images/javascript/portal-architecture-template.png"&gt;&lt;/p&gt;
 &lt;p&gt;Twig étant une technologie issue du monde &lt;code&gt;PHP&lt;/code&gt;, elle n’est pas très adaptée à JavaScript.
