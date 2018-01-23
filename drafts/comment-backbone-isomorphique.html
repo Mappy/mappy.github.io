@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 
-        <title>FOSS4G 2013 : Mappy-ing OpenSource</title>
+        <title>Backbone isomorphique maison : comment ?</title>
         <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
-        <link href="/feeds/gis/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+        <link href="/feeds/javascript/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -42,26 +42,45 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="/FOSS4G 2013 : Mappy-ing Open Source.html" rel="bookmark"
-                   title="Permalink to FOSS4G 2013 : Mappy-ing OpenSource">FOSS4G 2013 : Mappy-ing OpenSource</a></h2>
+                <a href="/drafts/comment-backbone-isomorphique.html" rel="bookmark"
+                   title="Permalink to Backbone isomorphique maison : comment ?">Backbone isomorphique maison : comment ?</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2013-09-25T00:00:00+02:00">
-                Wed 25 September 2013
+              <abbr class="published" title="2018-01-10T00:00:00+01:00">
+                Wed 10 January 2018
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/audrey-malherbe.html">Audrey Malherbe</a>
+                By <a class="url fn" href="/author/nicolas-betheuil-gregory-paul-manuel-emeriau.html">Nicolas Bétheuil, Grégory Paul, Manuel Emeriau</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p><img alt="Foss4g2013" src="images/foss4g2013.png"></p>
-<p>The presentation of our work on map service at <a href="http://2013.foss4g.org/">Foss4G2013</a> in Notthingham</p>
-<p><strong>Abstract</strong></p>
-<p><a href="www.mappy.com">Mappy</a> is an online mapping company based in France and fully-owned by Solocal Group (<a href="www.pagesjaunes.fr">PagesJaunes</a>). Mappy was the pioneer in online mapping in France, and holds a significant market share in France and Belgium (about 10 millions monthly users). The company has developed an home-made LBS platform since 1998. The mapping service delivers 100 millions tiles a day. At the beginning of 2012, Mappy decided to redesign its core mapping service to meet new business challenges. The company needed a more standard and open source solution. Developers and product managers have fallen in love with <a href="www.mapnik.org">Mapnik</a> (some for code and performance, others for the map display quality). The team made the decision to build the new mapping service around Mapnik and others open source tools like PostGIS. The project was challenging : we switched from a MSSqlServer database/home made mapping engine/Windows architecture to a postgis database/mapnik engine/Linux one. During the development, we've seen and appreciated the energy around Mapnik and we started to gradually dive into code and contribute to some features. This talk will present a feedback on the overhaul : the functional and technical challenges, the decision to contribute to Mapnik project, the release of this service, its performance and the future roadmap.</p>
-<iframe src="http://www.slideshare.net/slideshow/embed_code/26407067" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px 1px 0; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
-
-<p><div style="margin-bottom:5px"> <strong> <a href="https://www.slideshare.net/AudreyMalherbe/foss42013-mappying-opensource" title="Foss4G2013 Mappy-ing Open Source" target="_blank"></div></p>
+              <p>Cet article fait écho a <a href="/pourquoi-backbone-isomorphique.html">Backbone isomorphique maison : pourquoi ?</a> Celui-ci va présenter comment AMIB a été construit.</p>
+<p>La première difficulté était déjà de définir l'attendu et le code que nous souhaitions écrire. Nous n'avons pas commencé par les tests contrairement à nos habitudes. Notre objectif était de mesurer rapidement si nous étions sur une piste intéressante, pour éventuellement l'abandonner et éviter de gaspiller notre temps.</p>
+<p>Nous savions que les interactions allaient se présenter de cette manière
+<img alt="première idée" src="/images/javascript/use-case.png"></p>
+<p>Nous avons donc commencé par écrire :</p>
+<ul>
+<li><a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/fixtures/recursive-children-view/RecursiveChildrenView.js">notre première vue</a> que nous avons rapidement étoffée </li>
+<li>pour avoir un modèle et un enfant, </li>
+<li>puis avec <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/fixtures/multiple-children-view/MultipleChildrenView.js">plusieurs enfants</a>, </li>
+<li>puis avec un enfant <a href="https://github.com/Mappy/amib/blob/master/fixtures/one-children-with-model/no-children-with-promise-model/NoChildrenWithPromiseModelView.js">avec un modèle asynchrone</a>, on appelle ça une <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">promesse</a>. </li>
+</ul>
+<p>L'intérêt de faire fonctionner ce moteur de rendu avec des modèles asynchrones est très simple : nous consommons des services pour afficher les résolutions d'itinéraire, on utilise pour cela des requêtes HTTP, AJAX côté client &amp; <code>request</code> côté serveur. Nous devions donc gérer l'asynchronisme de ces requêtes.</p>
+<p>La copie d'écran annotée en bleu ci-dessous montre l'imbrication des composants entre eux.
+<img alt="" src="/images/javascript/component.png"></p>
+<p>Comme Backbone ne fonctionne pas sous NodeJS à cause de sa dépendance avec JQuery (et l'usage du DOM), nous avons <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/nodify-backbone.js">surchargé/bouchonné les méthodes voulues</a>. Nous avons donc pu exécuter une vue Backbone côté serveur. L'astuce de la <a href="http://backbonejs.org/docs/backbone.html#section-162">ré-implémentation de setElement</a> permet d'avoir la même interface de sortie. La différence porte juste sur la manière de retourner la vue Backbone afin qu'elle soit <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/render.js#L164">ajoutée soit au DOM dans le navigateur</a> soit <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/render.js#L148">dans la réponse sous NodeJS</a>.</p>
+<p>Nos gabaris/modèles (templates) sont des fichiers twig, l'idée est simplement d'importer ceux-ci en tant qu'objet twig via <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/node-twigify.js">cette magie</a> et voilà.</p>
+<p>Vous pouvez voir l'usage <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/renderToDom.client.spec.js#L39">côté client</a> ou <a href="https://github.com/Mappy/amib/blob/master/renderToString.server.spec.js#L23">côté serveur</a></p>
+<p>Ci-dessous les exemples de la vraie vie :</p>
+<p><a href="https://fr.mappy.com/itineraire/paris/lyon">Sans JS : en mode SEO</a></p>
+<p><img alt="Sans JS : en mode SEO" src="/images/javascript/isomorph-no-js.png.png"></p>
+<p><a href="https://fr.mappy.com/#/13/M2/TItinerary/IFRParis%2075001-75116|TOLyon%2069001-69009|MOvoiture|PRcar|RI0/N151.12061,6.11309,3.59153,47.33409/Z4/">Avec JS : en mode interaction utilisateur</a></p>
+<p><img alt="Avec JS : en mode interaction utilisateur" src="/images/javascript/isomorph-w-js.png"></p>
+<p>Vous pouvez noter de subtiles différences : l'absence de carte ou de barre de catégories en version SEO.</p>
+<p>Comme vous l'avez peut-être compris, nous avons investi un peu de temps dans ce moteur de rendu. C'est une expérience très intéressante qui montre comment, en posant clairement un problème, en le découpant en plus petites cibles atteignables, on peut réussir à contruire quelque chose simple d'usage. </p>
+<p>Les objectifs de ce changement d'architecture étaient multiples : ne pas tout remettre en cause, évoluer sereinement vers une autre structure afin d'atteindre les ambitions stratégiques du produit.
+Les changements apportés n'ont ont permis de livrer un code plus stable, plus facile à maintenir, plus testable donc plus couvert (de test unitaire).</p>
             </div><!-- /.entry-content -->
 
 
