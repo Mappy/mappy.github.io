@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-        <title>Backbone isomorphique maison : pourquoi ?</title>
+        <title>Backbone isomorphique maison : comment ?</title>
         <meta charset="utf-8" />
         <link href="/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
         <link href="/feeds/javascript/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
@@ -42,30 +42,45 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="/pourquoi-backbone-isomorphique.html" rel="bookmark"
-                   title="Permalink to Backbone isomorphique maison : pourquoi ?">Backbone isomorphique maison : pourquoi ?</a></h2>
+                <a href="/comment-backbone-isomorphique.html" rel="bookmark"
+                   title="Permalink to Backbone isomorphique maison : comment ?">Backbone isomorphique maison : comment ?</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2018-01-10T00:00:00+01:00">
-                Wed 10 January 2018
+              <abbr class="published" title="2018-01-31T00:00:00+01:00">
+                Wed 31 January 2018
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="/author/nicolas-betheuil.html">Nicolas Bétheuil</a>
+                By <a class="url fn" href="/author/nicolas-betheuil-gregory-paul-manuel-emeriau.html">Nicolas Bétheuil, Grégory Paul, Manuel Emeriau</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>Vous l'avez peut-être remarqué, nous avons refait une partie du site il y a bien six mois maintenant : les itinéraires. Nous appelons cela le multipath (prononcer <a href="https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-66477.php">moultipaðe</a>)</p>
-<p>Petit tour du propriétaire : vous pouvez dorénavant pour une recherche d'itinéraire avoir les réponses dans plusieurs modes de transport : voiture (évidemment), bus, car, taxi, VTC, transport en commun, à pied ... et beaucoup d'autres modes suivront. </p>
-<p>Comme pour n'importe quelle partie du site : le <a href="https://www.wikiwand.com/fr/Optimisation_pour_les_moteurs_de_recherche">SEO</a> est une exigence forte. Nos pages doivent répondre de la même manière pour un moteur de recherche que pour une navigation utilisateur classique. </p>
-<p>Lors de la <a href="http://techblog.mappy.com/mappy-com-de-php-a-nodejs.html">migration de PHP vers NodeJS</a> réalisée l'année dernière, une architecture a été posée avec une séparation nette entre la partie serveur sous <code>express</code> et la partie cliente pilotant des vues <code>Backbone</code>. Cela impliquait notamment deux manières complètement différentes de récupérer la donnée avant de rendre la vue. Nous souhaitions explorer d'autres pistes pour faire évoluer l'architecture sans tout refondre. La piste de l'isomorphisme a alors été suivie pour uniformiser cette récupération de donnée. Nous souhaitions également suivre de manière plus rigoureuse le design MV de backbone. </p>
-<p>Une autre contrainte était la courbe d'apprentissage et le délai que nous avions pour faire cette évolution stratégique du produit Mappy. Nous étions une équipe de cinq développeurs, les autres connaissaient déjà <a href="http://backbonejs.org/">backbone</a> et j'arrivais avec plus de connaissances sur <a href="https://reactjs.org/">ReactJS</a> et la refonte d'un autre site en isomorphique. </p>
-<p>Pour des raisons de "time to market", nous ne souhaitions pas migrer tout le site vers React. Par ailleurs, l’ajouter en plus de backbone, avec son ecosystème et ses ~40Kb minifiés &amp; compressés était problèmatique pour des raisons de performance, notamment en mobile.</p>
-<p>L'idée était donc d'apporter une réponse proportionnée, adéquate, co-construite et réfléchie sans tout remettre en cause : l'architecture, les compétences de l'équipe et l'ambition stratégique du produit. </p>
-<p>Nous avons donc décidé de suivre cette voie de manière itérative. Tout d'abord par un POC (Proof Of Concept) puis par une intégration progressive dans les composants développés en s'attaquant à la plus grosse difficulté suivante. </p>
-<p>Nous avons commencé par un POC le 24 avril 2017 : en moins d'une semaine, nous avions une première version fonctionnelle qui montrait comment faire communiquer les composants entre eux avec un code applicatif identique entre la version cliente et serveur. Les nuances clients vs serveur étaient localisées dans ce que nous avons appelé plus tard AMIB pour Asynchronous Mappy Isomorphic Backbone. Le 11 mai, après avoir validé AMIB de façon collégiale en réunion technique, nous avons fusionné cette première version de travail fonctionnelle dans la branche principale ce qui a permis de partager le travail d'implémentation des vues avec les autres membres de l'équipe.</p>
-<p>Chez Mappy, nous avons la possibilité d'essayer, d'apprendre, d'expérimenter. On travaille ensemble à définir des objectifs, des modes de collaboration, des jalons, des étapes pour satisfaire les besoins qui nous sont exprimés.</p>
-<p>PS : Pour plus de notions / culture / références sur l'isomorphisme ... je vous laisse vous documenter si vous désirez en savoir plus : <a href="https://medium.com/airbnb-engineering/isomorphic-javascript-the-future-of-web-apps-10882b7a2ebc">chez Airbnb</a> ou <a href="http://tech.m6web.fr/isomorphic-single-page-app-parfaite-react-flux/">chez M6</a>.</p>
+              <p>Cet article fait écho a <a href="/pourquoi-backbone-isomorphique.html">Backbone isomorphique maison : pourquoi ?</a> Celui-ci va présenter comment AMIB a été construit.</p>
+<p>La première difficulté était déjà de définir l'attendu et le code que nous souhaitions écrire. Nous n'avons pas commencé par les tests contrairement à nos habitudes. Notre objectif était de mesurer rapidement si nous étions sur une piste intéressante, pour éventuellement l'abandonner et éviter de gaspiller notre temps.</p>
+<p>Nous savions que les interactions allaient se présenter de cette manière
+<img alt="première idée" src="/images/javascript/use-case.png"></p>
+<p>Nous avons donc commencé par écrire :</p>
+<ul>
+<li><a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/fixtures/recursive-children-view/RecursiveChildrenView.js">notre première vue</a> que nous avons rapidement étoffée </li>
+<li>pour avoir un modèle et un enfant, </li>
+<li>puis avec <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/fixtures/multiple-children-view/MultipleChildrenView.js">plusieurs enfants</a>, </li>
+<li>puis avec un enfant <a href="https://github.com/Mappy/amib/blob/master/fixtures/one-children-with-model/no-children-with-promise-model/NoChildrenWithPromiseModelView.js">avec un modèle asynchrone</a>, on appelle ça une <a href="https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise">promesse</a>. </li>
+</ul>
+<p>L'intérêt de faire fonctionner ce moteur de rendu avec des modèles asynchrones est très simple : nous consommons des services pour afficher les résolutions d'itinéraire, on utilise pour cela des requêtes HTTP, AJAX côté client &amp; <code>request</code> côté serveur. Nous devions donc gérer l'asynchronisme de ces requêtes.</p>
+<p>La copie d'écran annotée en bleu ci-dessous montre l'imbrication des composants entre eux.
+<img alt="" src="/images/javascript/component.png"></p>
+<p>Comme Backbone ne fonctionne pas sous NodeJS à cause de sa dépendance avec JQuery (et l'usage du DOM), nous avons <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/nodify-backbone.js">surchargé/bouchonné les méthodes voulues</a>. Nous avons donc pu exécuter une vue Backbone côté serveur. L'astuce de la <a href="http://backbonejs.org/docs/backbone.html#section-162">ré-implémentation de setElement</a> permet d'avoir la même interface de sortie. La différence porte juste sur la manière de retourner la vue Backbone afin qu'elle soit <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/render.js#L164">ajoutée soit au DOM dans le navigateur</a> soit <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/render.js#L148">dans la réponse sous NodeJS</a>.</p>
+<p>Nos gabaris/modèles (templates) sont des fichiers twig, l'idée est simplement d'importer ceux-ci en tant qu'objet twig via <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/node-twigify.js">cette magie</a> et voilà.</p>
+<p>Vous pouvez voir l'usage <a href="https://github.com/Mappy/amib/blob/73ac67cb25f336374a03cf26745d99f80667f927/renderToDom.client.spec.js#L39">côté client</a> ou <a href="https://github.com/Mappy/amib/blob/master/renderToString.server.spec.js#L23">côté serveur</a></p>
+<p>Ci-dessous les exemples de la vraie vie :</p>
+<p><a href="https://fr.mappy.com/itineraire/paris/lyon">Sans JS : en mode SEO</a></p>
+<p><img alt="Sans JS : en mode SEO" src="/images/javascript/isomorph-no-js.png.png"></p>
+<p><a href="https://fr.mappy.com/#/13/M2/TItinerary/IFRParis%2075001-75116|TOLyon%2069001-69009|MOvoiture|PRcar|RI0/N151.12061,6.11309,3.59153,47.33409/Z4/">Avec JS : en mode interaction utilisateur</a></p>
+<p><img alt="Avec JS : en mode interaction utilisateur" src="/images/javascript/isomorph-w-js.png"></p>
+<p>Vous pouvez noter de subtiles différences : l'absence de carte ou de barre de catégories en version SEO.</p>
+<p>Comme vous l'avez peut-être compris, nous avons investi un peu de temps dans ce moteur de rendu. C'est une expérience très intéressante qui montre comment, en posant clairement un problème, en le découpant en plus petites cibles atteignables, on peut réussir à contruire quelque chose simple d'usage. </p>
+<p>Les objectifs de ce changement d'architecture étaient multiples : ne pas tout remettre en cause, évoluer sereinement vers une autre structure afin d'atteindre les ambitions stratégiques du produit.
+Les changements apportés n'ont ont permis de livrer un code plus stable, plus facile à maintenir, plus testable donc plus couvert (de test unitaire).</p>
             </div><!-- /.entry-content -->
 
 
