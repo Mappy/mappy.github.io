@@ -35,7 +35,7 @@
 &lt;p&gt;Après un tir, SiteSpeed peut envoyer les métriques dans &lt;a href="https://grafana.com/"&gt;grafana&lt;/a&gt;, un outil de visualisation de données (&lt;code&gt;dataviz&lt;/code&gt;).
 Cela nous permet de générer un graphique présentant la moyenne des « speed index » sur notre « wall » pour suivre son évolution :&lt;/p&gt;
 &lt;p&gt;&lt;img alt="métriques" src="images/web/webperfs/wall.png"&gt;&lt;/p&gt;
-&lt;p&gt;Ceci est une synthèse mais de nombreuses autres graphiques sont disponibles :&lt;/p&gt;
+&lt;p&gt;Ceci est une synthèse mais de nombreux autres graphiques sont disponibles :&lt;/p&gt;
 &lt;p&gt;&lt;img alt="grafana" src="images/web/webperfs/grafana.png"&gt;&lt;/p&gt;
 &lt;p&gt;Vous pouvez découvrir un &lt;a href="https://dashboard.sitespeed.io/d/000000043/page-summary?orgId=1"&gt;exemple intéractif testant wikipedia&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Cette première étape finalisée, il est temps de passer aux optimisations, qui feront l’objet de prochains articles.&lt;/p&gt;</content><category term="français"></category><category term="javascript"></category><category term="webperfs"></category></entry><entry><title>Javascript: la construction à la volée (watching) avec Browserify</title><link href="https://techblog.mappy.com/browerify-la-construction-a-la-volee.html" rel="alternate"></link><published>2016-10-06T00:00:00+02:00</published><updated>2016-10-06T00:00:00+02:00</updated><author><name>Vivien Ripoche</name></author><id>tag:techblog.mappy.com,2016-10-06:/browerify-la-construction-a-la-volee.html</id><summary type="html">&lt;p&gt;Article présentant la création du bundle à chaque modification des fichiers sources avec Browserify&lt;/p&gt;</summary><content type="html">&lt;h1&gt;Browserify, c'est quoi déjà ?&lt;/h1&gt;
