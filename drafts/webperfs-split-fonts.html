@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Découpage des polices de caractères</title>
+        <meta charset="utf-8" />
+        <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="https://techblog.mappy.com/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="../theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="../theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="../theme/pygment.css" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><img src="/images/logo.png" /> Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="../drafts/webperfs-split-fonts.html" rel="bookmark"
+                   title="Permalink to Découpage des polices de caractères">Découpage des polices de caractères</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-05-24T00:00:00+02:00">
+                Thu 24 May 2018
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="../author/nicolas-betheuil-manuel-emeriau-jonathan-saget-gregory-paul.html">Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Après <a href="web-perfs-site-speed.html">avoir mis en place SiteSpeed</a> et <a href="web-perfs-webpack">optimisé le code JavaScript</a>, nous avons travaillé sur l’optimisation des polices de caractères du site <a href="https://fr.mappy.com/">mappy</a>.</p>
+<h2>Constat</h2>
+<p>Si l’on ignore le poids du code JavaScript, on se rend compte que les 2ème ressources les plus lourdes sont nos polices de caractères :</p>
+<p><img alt="taille avant optimisations" src="images/web/webperfs/size-before-font.png"></p>
+<p>Les barres bleues correspondent à la taille du contenu décompréssé, les barres vertes au contenu compressé (<code>gzip</code>).
+Les polices de caractères sont compressées, ce qui explique que les 2 barres aient la même taille.</p>
+<p>Les polices (ou <code>fonts</code>) sont quasiment aussi lourdes que notre code JavaScript, d’où l’intérêt de chercher à les faire « maigrir ».</p>
+<p>En y regardant de plus près, nous chargeons 5 polices de caractères sur le site :</p>
+<p><img alt="tailles des polices" src="images/web/webperfs/fonts-size-prod.png"></p>
+<ul>
+<li>la <code>Fira</code> en 3 graisses différentes (environ ~60 Ko),</li>
+<li>la <code>Thirsty</code> (~28 Ko),</li>
+<li>la <code>MappyIcons</code> (<em>~247 Ko</em>).</li>
+</ul>
+<p>Cette <code>MappyIcons</code> est très conséquente car elle contient les icônes utilisés sur le site :</p>
+<p><img alt="caractères de la police" src="images/web/webperfs/MappyIcons.png"></p>
+<p>Néanmoins, uniquement quelques icônes / caractères sont affichés sur la page d’accueil. Il est ainsi dommage de charger l’ensemble de la police de caractères.</p>
+<h2>Optimisations sur les polices de caractères (fonts)</h2>
+<p>Grâce à l’<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/%40font-face/unicode-range">attribut CSS <code>unicode-range</code></a> (relativement <a href="https://caniuse.com/#search=unicode-range">bien supporté par ailleurs</a>), il est possible de découper la police de caractères en 2, en laissant au navigateur web le soin de charger la ou les bons fichiers en fonction des caractères affichés sur le site.</p>
+<p>Après quelques recherches, nous avons trouvé un outil en python (pyftsubset) pour la manipulation de police de caractères.</p>
+<p>Pour rendre cela plus transparent dans notre processus de construction, nous l’avons encapsulé dans <a href="https://github.com/Mappy/filter-font">une image docker dénommée <code>filter-font</code></a> (<a href="https://hub.docker.com/r/mappydt/filter-font/">présente sur docker hub</a>), prenant en entrée une police de caractères, ainsi qu’une liste de caractères, par exemple :</p>
+<div class="highlight"><pre><span></span>  U+0031 #lieux
+  U+0032 #shopping
+  U+E005 #iti
+</pre></div>
+
+
+<p>pour générer 2 polices de résultat, l’une « light » contenant uniquement les caractères demandés, l’autre « the-rest » avec les caractères restants.</p>
+<p>Voici un exemple avec les caractères uniquement présents sur la page d’accueil du site Mappy :</p>
+<p><img alt="découpage des polices" src="images/web/webperfs/splitted-fonts.png"></p>
+<p>On remarque que la <code>MappyIcons-Regular-light</code> occupe ~30 Ko, et seulement ~25 au format <code>woff2</code> (lui aussi, <a href="https://caniuse.com/#search=woff2">relativement bien supporté</a>) au lieu des presque 250 Ko initiaux.</p>
+<p>Voici les caractères contenus dans la police « light » :</p>
+<p><img alt="caractères de la police light" src="images/web/webperfs/mappyfont-light.png"></p>
+<h2>Gains</h2>
+<p>Après ces optimisations, la taille des polices de caractères a drastiquement baissé (gain de 220 Ko) :</p>
+<p><img alt="taille après optimisations" src="images/web/webperfs/size-after-font.png"></p>
+<p>Au final, cette action d’optimisation ainsi que la séparation du code JavaScript ont eu pour effet de faire baisser notre speed index d’une moyenne de ~6000 à ~4000 (speed index moyen sur 5 pages depuis une connexion 3g) :</p>
+<p><img alt="métriques après l’optimisation de la police" src="images/web/webperfs/after-font-optim.png"></p>
+<h2>Et ensuite ?</h2>
+<p>Nous avons encore quelques pistes pour encore réduire la taille du JavaScript sur le site <a href="https://fr.mappy.com">mappy</a>.
+Nous espérons donc à nouveau une baisse de notre speed index.</p>
+<p>De façon plus globale, la performance web est très importante pour l’utilisateur, mais aussi pour le référencement (les moteurs de recherche en tiennent compte).
+Aussi, la surveillance et l’amélioration des performances doit être intégré dans le processus de développement logiciel, idéalement à l’intégration/déploiement continu.
+Il est nécessaire de surveiller les indicateurs de performances et de réagir en cas de baisse de performance, au même titre qu’une régression fonctionnelle.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="../category/agile.html">Agile</a></li>
+		<li><a href="../category/android.html">Android</a></li>
+		<li><a href="../category/gis.html">GIS</a></li>
+		<li><a href="../category/javascript.html">javascript</a></li>
+		<li><a href="../category/solr.html">Solr</a></li>
+		<li><a href="../category/web.html">Web</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-3"><a href="../tag/solr.html">solr</a></li>
+	    <li class="tag-4"><a href="../tag/android.html">android</a></li>
+	    <li class="tag-4"><a href="../tag/panorama.html">panorama</a></li>
+	    <li class="tag-4"><a href="../tag/abtest.html">abtest</a></li>
+	    <li class="tag-3"><a href="../tag/mapnik.html">mapnik</a></li>
+	    <li class="tag-3"><a href="../tag/leaflet.html">leaflet</a></li>
+	    <li class="tag-4"><a href="../tag/livereload.html">livereload</a></li>
+	    <li class="tag-2"><a href="../tag/nodejs.html">NodeJS</a></li>
+	    <li class="tag-3"><a href="../tag/backbone.html">Backbone</a></li>
+	    <li class="tag-1"><a href="../tag/francais.html">français</a></li>
+	    <li class="tag-4"><a href="../tag/meetup.html">meetup</a></li>
+	    <li class="tag-4"><a href="../tag/gis.html">GIS</a></li>
+	    <li class="tag-4"><a href="../tag/browserify.html">browserify</a></li>
+	    <li class="tag-4"><a href="../tag/agilite.html">agilité</a></li>
+	    <li class="tag-4"><a href="../tag/responsive.html">responsive</a></li>
+	    <li class="tag-4"><a href="../tag/opengl.html">opengl</a></li>
+	    <li class="tag-2"><a href="../tag/english.html">english</a></li>
+	    <li class="tag-4"><a href="../tag/webgl.html">webgl</a></li>
+	    <li class="tag-4"><a href="../tag/webperfs.html">webperfs</a></li>
+	    <li class="tag-1"><a href="../tag/javascript.html">javascript</a></li>
+	    <li class="tag-4"><a href="../tag/python.html">python</a></li>
+	    <li class="tag-4"><a href="../tag/watch.html">watch</a></li>
+	    <li class="tag-4"><a href="../tag/retrospective.html">rétrospective</a></li>
+	    <li class="tag-3"><a href="../tag/postgis.html">postGIS</a></li>
+	    <li class="tag-4"><a href="../tag/openlr.html">openlr</a></li>
+	    <li class="tag-1"><a href="../tag/opensource.html">opensource</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="https://www.mappy.com/">Mappy</a></li>
+    <li><a href="https://play.google.com/store/apps/details?id=com.mappy.app">Appli Android</a></li>
+    <li><a href="https://itunes.apple.com/fr/app/mappy-itineraire-et-recherche/id313834655?mt=8">Appli iOS</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

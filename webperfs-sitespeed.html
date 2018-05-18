@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Automatiser vos relevés de webperfs</title>
+        <meta charset="utf-8" />
+        <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="https://techblog.mappy.com/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="./theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="./theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="./theme/pygment.css" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><img src="/images/logo.png" /> Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="./webperfs-sitespeed.html" rel="bookmark"
+                   title="Permalink to Automatiser vos relevés de webperfs">Automatiser vos relevés de webperfs</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-05-18T00:00:00+02:00">
+                Fri 18 May 2018
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="./author/nicolas-betheuil-manuel-emeriau-jonathan-saget-gregory-paul.html">Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <h2>La Performance Web chez Mappy</h2>
+<p>Nous surveillons depuis longtemps la performance web (couramment abrégé « webperf ») sur le site <a href="https://fr.mappy.com/">mappy</a> mais l’évolution des usages a mis ce sujet en haut de nos priorités.</p>
+<p>L’usage du site a en effet changé ces dernières années avec de plus en plus de visites depuis des navigateurs mobiles.</p>
+<p>Selon <a href="http://gs.statcounter.com/platform-market-share/desktop-mobile/france/#yearly-2016-2018">statcounter</a>, l’audience mobile en France est passée de ~23 % en 2016 à ~38 % en 2018 :</p>
+<p><img alt="statistiques mobile versus bureau" src="images/web/webperfs/stats-mobile-2018.png"></p>
+<p>Ainsi, un temps de chargement acceptable depuis un navigateur de « bureau » hier ne l’est plus forcément depuis un téléphone mobile avec une connexion cellulaire moyenne aujourd’hui.</p>
+<p>Par ailleurs, Google a <a href="https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html">annoncé la modification de son index</a> pour se baser sur les sites mobiles en priorité et tient <a href="https://webmasters.googleblog.com/2018/01/using-page-speed-in-mobile-search.html">compte de leur vitesse de chargement</a>.</p>
+<p>Nous avons mené plusieurs actions récemment pour améliorer la vitesse de chargement en commençant par la mise en place de mesure automatisée puis un cycle itératif entre des actions de performances web et la vérification de leur impact.</p>
+<h2>Des mesures automatisées</h2>
+<h3>Via WebPageTest</h3>
+<p><img alt="WebPageTest" src="images/web/webperfs/webpagetest.png"></p>
+<p>Nous utilisons <a href="https://www.webpagetest.org">WebPageTest</a> depuis 2015 à travers une installation locale.</p>
+<p>Cet outil nous donnait satisfaction mais avec 2 contraintes :</p>
+<ul>
+<li>n’ayant pas trouvé de solution simple, nous notions manuellement chaque semaine certaines valeurs (speed index, temps de chargement, taille de la page) sur un tableau partagé,</li>
+<li>son installation, notamment pour maintenant lancer des tests sur des téléphones mobiles, est loin d’être une <a href="https://github.com/WPO-Foundation/webpagetest-docs/blob/master/user/Private%20Instances/README.md">partie</a> <a href="https://sites.google.com/a/webpagetest.org/docs/private-instances/locations">de</a> <a href="https://github.com/WPO-Foundation/webpagetest-docs/blob/master/user/Private%20Instances/wptdriver.md">plaisir</a>.</li>
+</ul>
+<p>WebPageTest n’étant pas idéal pour nos besoins (automatisation du relevé des métriques et lancement sur navigateurs mobiles), nous avons donc comparé WebPageTest avec <a href="https://developers.google.com/web/tools/lighthouse/">LightHouse</a>, <a href="https://www.sitespeed.io/">SiteSpeed</a> et <a href="https://www.npmjs.com/package/phantomas">Phantomas</a>.</p>
+<p>Nous utilisions déjà Phantomas pour vérifier que certains indicateurs de performance ne régressent pas (taille et nombres des JS/CSS, compression <code>gzip</code>, etc).</p>
+<p>Le W3C a d’ailleurs standardisé une API (<a href="https://www.w3.org/TR/navigation-timing/#process">Navigation Timing API</a>) permettant de recueillir une quantité assez impressionnante de métriques au sein du navigateur :
+<img alt="Timing overview" src="images/web/webperfs/timing-overview.png"></p>
+<p>Voici la matrice que nous avons utilisée pour prendre notre décision quant aux métriques que proposent ces outils :</p>
+<p><img alt="Timing overview" src="images/web/webperfs/decision-matrix.png"></p>
+<h3>Et maintenant SiteSpeed</h3>
+<p><img alt="SiteSpeed" src="images/web/webperfs/sitespeed.png"></p>
+<p>Nous avons au final porté notre choix sur SiteSpeed pour les raisons suivantes :</p>
+<ul>
+<li>il s’installe très facilement via <a href="https://www.sitespeed.io/documentation/sitespeed.io/installation/#docker">Docker</a>,</li>
+<li>il se lance en simulant un environnement mobile (taille du navigateur et bridage de la connexion),</li>
+<li>il effectue les métriques que nous jugeons nécessaires, ainsi que des rapports détaillés incluant une vidéo du chargement de la page comme le fait WebPageTest (<a href="https://examples.sitespeed.io/6.0/2017-11-23-23-43-35/">exemple de rapport</a> et d’<a href="https://examples.sitespeed.io/6.0/2017-11-23-23-43-35/pages/en.wikipedia.org/wiki/Main_Page/index.html#browsertime">une vidéo</a>),</li>
+<li>il permet facilement d’exporter des graphiques à mettre sur notre « wall » (écran de supervision des métriques du site web).</li>
+</ul>
+<p>Il ne restait plus qu’à programmer le lancement de SiteSpeed toutes les heures sur nos différents environnements et sur quelques pages de notre site.</p>
+<p>Après un tir, SiteSpeed peut envoyer les métriques dans <a href="https://grafana.com/">grafana</a>, un outil de visualisation de données (<code>dataviz</code>).
+Cela nous permet de générer un graphique présentant la moyenne des « speed index » sur notre « wall » pour suivre son évolution :</p>
+<p><img alt="métriques" src="images/web/webperfs/wall.png"></p>
+<p>Ceci est une synthèse mais de nombreuses autres graphiques sont disponibles :</p>
+<p><img alt="grafana" src="images/web/webperfs/grafana.png"></p>
+<p>Vous pouvez découvrir un <a href="https://dashboard.sitespeed.io/d/000000043/page-summary?orgId=1">exemple intéractif testant wikipedia</a>.</p>
+<p>Cette première étape finalisée, il est temps de passer aux optimisations, qui feront l’objet de prochains articles.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="./category/agile.html">Agile</a></li>
+		<li><a href="./category/android.html">Android</a></li>
+		<li><a href="./category/gis.html">GIS</a></li>
+		<li><a href="./category/javascript.html">javascript</a></li>
+		<li><a href="./category/solr.html">Solr</a></li>
+		<li><a href="./category/web.html">Web</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-3"><a href="./tag/solr.html">solr</a></li>
+	    <li class="tag-4"><a href="./tag/android.html">android</a></li>
+	    <li class="tag-4"><a href="./tag/panorama.html">panorama</a></li>
+	    <li class="tag-4"><a href="./tag/abtest.html">abtest</a></li>
+	    <li class="tag-3"><a href="./tag/mapnik.html">mapnik</a></li>
+	    <li class="tag-3"><a href="./tag/leaflet.html">leaflet</a></li>
+	    <li class="tag-4"><a href="./tag/livereload.html">livereload</a></li>
+	    <li class="tag-2"><a href="./tag/nodejs.html">NodeJS</a></li>
+	    <li class="tag-3"><a href="./tag/backbone.html">Backbone</a></li>
+	    <li class="tag-1"><a href="./tag/francais.html">français</a></li>
+	    <li class="tag-4"><a href="./tag/meetup.html">meetup</a></li>
+	    <li class="tag-4"><a href="./tag/gis.html">GIS</a></li>
+	    <li class="tag-4"><a href="./tag/browserify.html">browserify</a></li>
+	    <li class="tag-4"><a href="./tag/agilite.html">agilité</a></li>
+	    <li class="tag-4"><a href="./tag/responsive.html">responsive</a></li>
+	    <li class="tag-4"><a href="./tag/opengl.html">opengl</a></li>
+	    <li class="tag-2"><a href="./tag/english.html">english</a></li>
+	    <li class="tag-4"><a href="./tag/webgl.html">webgl</a></li>
+	    <li class="tag-4"><a href="./tag/webperfs.html">webperfs</a></li>
+	    <li class="tag-1"><a href="./tag/javascript.html">javascript</a></li>
+	    <li class="tag-4"><a href="./tag/python.html">python</a></li>
+	    <li class="tag-4"><a href="./tag/watch.html">watch</a></li>
+	    <li class="tag-4"><a href="./tag/retrospective.html">rétrospective</a></li>
+	    <li class="tag-3"><a href="./tag/postgis.html">postGIS</a></li>
+	    <li class="tag-4"><a href="./tag/openlr.html">openlr</a></li>
+	    <li class="tag-1"><a href="./tag/opensource.html">opensource</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="https://www.mappy.com/">Mappy</a></li>
+    <li><a href="https://play.google.com/store/apps/details?id=com.mappy.app">Appli Android</a></li>
+    <li><a href="https://itunes.apple.com/fr/app/mappy-itineraire-et-recherche/id313834655?mt=8">Appli iOS</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

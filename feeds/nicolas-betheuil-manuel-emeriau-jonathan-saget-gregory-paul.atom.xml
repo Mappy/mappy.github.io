@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Mappy Labs - Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</title><link href="https://techblog.mappy.com/" rel="alternate"></link><link href="https://techblog.mappy.com/feeds/nicolas-betheuil-manuel-emeriau-jonathan-saget-gregory-paul.atom.xml" rel="self"></link><id>https://techblog.mappy.com/</id><updated>2018-05-18T00:00:00+02:00</updated><entry><title>Automatiser vos relevés de webperfs</title><link href="https://techblog.mappy.com/webperfs-sitespeed.html" rel="alternate"></link><published>2018-05-18T00:00:00+02:00</published><updated>2018-05-18T00:00:00+02:00</updated><author><name>Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</name></author><id>tag:techblog.mappy.com,2018-05-18:/webperfs-sitespeed.html</id><summary type="html">&lt;p&gt;Comment nous avons automatisé le lancement de mesures de performances web.&lt;/p&gt;</summary><content type="html">&lt;h2&gt;La Performance Web chez Mappy&lt;/h2&gt;
+&lt;p&gt;Nous surveillons depuis longtemps la performance web (couramment abrégé « webperf ») sur le site &lt;a href="https://fr.mappy.com/"&gt;mappy&lt;/a&gt; mais l’évolution des usages a mis ce sujet en haut de nos priorités.&lt;/p&gt;
+&lt;p&gt;L’usage du site a en effet changé ces dernières années avec de plus en plus de visites depuis des navigateurs mobiles.&lt;/p&gt;
+&lt;p&gt;Selon &lt;a href="http://gs.statcounter.com/platform-market-share/desktop-mobile/france/#yearly-2016-2018"&gt;statcounter&lt;/a&gt;, l’audience mobile en France est passée de ~23 % en 2016 à ~38 % en 2018 :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="statistiques mobile versus bureau" src="images/web/webperfs/stats-mobile-2018.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ainsi, un temps de chargement acceptable depuis un navigateur de « bureau » hier ne l’est plus forcément depuis un téléphone mobile avec une connexion cellulaire moyenne aujourd’hui.&lt;/p&gt;
+&lt;p&gt;Par ailleurs, Google a &lt;a href="https://webmasters.googleblog.com/2016/11/mobile-first-indexing.html"&gt;annoncé la modification de son index&lt;/a&gt; pour se baser sur les sites mobiles en priorité et tient &lt;a href="https://webmasters.googleblog.com/2018/01/using-page-speed-in-mobile-search.html"&gt;compte de leur vitesse de chargement&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Nous avons mené plusieurs actions récemment pour améliorer la vitesse de chargement en commençant par la mise en place de mesure automatisée puis un cycle itératif entre des actions de performances web et la vérification de leur impact.&lt;/p&gt;
+&lt;h2&gt;Des mesures automatisées&lt;/h2&gt;
+&lt;h3&gt;Via WebPageTest&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="WebPageTest" src="images/web/webperfs/webpagetest.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous utilisons &lt;a href="https://www.webpagetest.org"&gt;WebPageTest&lt;/a&gt; depuis 2015 à travers une installation locale.&lt;/p&gt;
+&lt;p&gt;Cet outil nous donnait satisfaction mais avec 2 contraintes :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;n’ayant pas trouvé de solution simple, nous notions manuellement chaque semaine certaines valeurs (speed index, temps de chargement, taille de la page) sur un tableau partagé,&lt;/li&gt;
+&lt;li&gt;son installation, notamment pour maintenant lancer des tests sur des téléphones mobiles, est loin d’être une &lt;a href="https://github.com/WPO-Foundation/webpagetest-docs/blob/master/user/Private%20Instances/README.md"&gt;partie&lt;/a&gt; &lt;a href="https://sites.google.com/a/webpagetest.org/docs/private-instances/locations"&gt;de&lt;/a&gt; &lt;a href="https://github.com/WPO-Foundation/webpagetest-docs/blob/master/user/Private%20Instances/wptdriver.md"&gt;plaisir&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;WebPageTest n’étant pas idéal pour nos besoins (automatisation du relevé des métriques et lancement sur navigateurs mobiles), nous avons donc comparé WebPageTest avec &lt;a href="https://developers.google.com/web/tools/lighthouse/"&gt;LightHouse&lt;/a&gt;, &lt;a href="https://www.sitespeed.io/"&gt;SiteSpeed&lt;/a&gt; et &lt;a href="https://www.npmjs.com/package/phantomas"&gt;Phantomas&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Nous utilisions déjà Phantomas pour vérifier que certains indicateurs de performance ne régressent pas (taille et nombres des JS/CSS, compression &lt;code&gt;gzip&lt;/code&gt;, etc).&lt;/p&gt;
+&lt;p&gt;Le W3C a d’ailleurs standardisé une API (&lt;a href="https://www.w3.org/TR/navigation-timing/#process"&gt;Navigation Timing API&lt;/a&gt;) permettant de recueillir une quantité assez impressionnante de métriques au sein du navigateur :
+&lt;img alt="Timing overview" src="images/web/webperfs/timing-overview.png"&gt;&lt;/p&gt;
+&lt;p&gt;Voici la matrice que nous avons utilisée pour prendre notre décision quant aux métriques que proposent ces outils :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Timing overview" src="images/web/webperfs/decision-matrix.png"&gt;&lt;/p&gt;
+&lt;h3&gt;Et maintenant SiteSpeed&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="SiteSpeed" src="images/web/webperfs/sitespeed.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nous avons au final porté notre choix sur SiteSpeed pour les raisons suivantes :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;il s’installe très facilement via &lt;a href="https://www.sitespeed.io/documentation/sitespeed.io/installation/#docker"&gt;Docker&lt;/a&gt;,&lt;/li&gt;
+&lt;li&gt;il se lance en simulant un environnement mobile (taille du navigateur et bridage de la connexion),&lt;/li&gt;
+&lt;li&gt;il effectue les métriques que nous jugeons nécessaires, ainsi que des rapports détaillés incluant une vidéo du chargement de la page comme le fait WebPageTest (&lt;a href="https://examples.sitespeed.io/6.0/2017-11-23-23-43-35/"&gt;exemple de rapport&lt;/a&gt; et d’&lt;a href="https://examples.sitespeed.io/6.0/2017-11-23-23-43-35/pages/en.wikipedia.org/wiki/Main_Page/index.html#browsertime"&gt;une vidéo&lt;/a&gt;),&lt;/li&gt;
+&lt;li&gt;il permet facilement d’exporter des graphiques à mettre sur notre « wall » (écran de supervision des métriques du site web).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Il ne restait plus qu’à programmer le lancement de SiteSpeed toutes les heures sur nos différents environnements et sur quelques pages de notre site.&lt;/p&gt;
+&lt;p&gt;Après un tir, SiteSpeed peut envoyer les métriques dans &lt;a href="https://grafana.com/"&gt;grafana&lt;/a&gt;, un outil de visualisation de données (&lt;code&gt;dataviz&lt;/code&gt;).
+Cela nous permet de générer un graphique présentant la moyenne des « speed index » sur notre « wall » pour suivre son évolution :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="métriques" src="images/web/webperfs/wall.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ceci est une synthèse mais de nombreuses autres graphiques sont disponibles :&lt;/p&gt;
+&lt;p&gt;&lt;img alt="grafana" src="images/web/webperfs/grafana.png"&gt;&lt;/p&gt;
+&lt;p&gt;Vous pouvez découvrir un &lt;a href="https://dashboard.sitespeed.io/d/000000043/page-summary?orgId=1"&gt;exemple intéractif testant wikipedia&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Cette première étape finalisée, il est temps de passer aux optimisations, qui feront l’objet de prochains articles.&lt;/p&gt;</content><category term="français"></category><category term="javascript"></category><category term="webperfs"></category></entry></feed>
