@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
 
-        <title>Meet Up Enterprise Search Paris</title>
+        <title>Découpage du code JavaScript grâce à webpack</title>
         <meta charset="utf-8" />
         <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
-        <link href="https://techblog.mappy.com/feeds/solr/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+        <link href="https://techblog.mappy.com/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -42,21 +42,57 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="./Meet Up Enterprise Search Paris.html" rel="bookmark"
-                   title="Permalink to Meet Up Enterprise Search Paris">Meet Up Enterprise Search Paris</a></h2>
+                <a href="./webperfs-webpack.html" rel="bookmark"
+                   title="Permalink to Découpage du code JavaScript grâce à webpack">Découpage du code JavaScript grâce à webpack</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2015-04-08T00:00:00+02:00">
-                Wed 08 April 2015
+              <abbr class="published" title="2018-05-22T00:00:00+02:00">
+                Tue 22 May 2018
               </abbr>
               <address class="vcard author">
-                By <a class="url fn" href="./author/jerome-bernardes.html">Jérôme Bernardes</a>
+                By <a class="url fn" href="./author/nicolas-betheuil-manuel-emeriau-jonathan-saget-gregory-paul.html">Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>Voici la présentation effectuée par Mappy lors du dernier <a href="http://www.meetup.com/Enterprise-Search-Paris/events/220773793/">Meet Up Enterprise Search Paris</a> impeccablement organisé par <a href="http://www.francelabs.com/">France Labs</a> au NUMA.</p>
-<iframe src="//slides.com/solrmappy/deck/embed" width="576" height="420" scrolling="no" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              <p>Après <a href="webperfs-sitespeed">avoir mis en place SiteSpeed</a>, il était temps de procéder à des améliorations de performances.</p>
+<p>En regardant la composition de nos pages web (grâce à SiteSpeed), on se rend compte que le JavaScript en est la plus grosse partie du site <a href="https://fr.mappy.com/">mappy</a> :</p>
+<p><img alt="taille avant optimisations" src="images/web/webperfs/size-before-js.png"></p>
+<p><em>Les barres bleues correspondent à la taille du contenu non compressé, les barres vertes au contenu compressé (<code>gzip</code>).</em></p>
+<p>C’est donc sur cette partie que nous nous sommes concentrés dans un premier temps.</p>
+<h2>Optimisations sur le JavaScript</h2>
+<h3>Suppression de code</h3>
+<p>Une première action a été de supprimer des fonctionnalités ayant peu de valeur ajoutée pour l’utilisateur.</p>
+<h3>Webpack à notre secours</h3>
+<p>La deuxième action, plus conséquente, est de découper le JavaScript en plusieurs parties, pour ne charger que le minimum de code par page.</p>
+<p>Nous utilisions <code>browserify</code> pour construire notre JavaScript mais ce dernier est moins outillé pour répondre à ce besoin (popularité en baisse donc écosystème assez pauvre).
+Par conséquent, nous avons tout d’abord migré de <code>browserify</code> vers <code>webpack</code>.</p>
+<p>Nous avons alors séparé notre code en deux avec un « vendors.js » (contenant nos bibliothèques) et le code de notre application.</p>
+<p>Cette séparation a en effet du sens, puisque en utilisant des entêtes de cache relativement long (6 mois sur nos fichiers JavaScript), ce fichier vendors.js aura tendance à rester dans le cache du navigateur. Il ne sera donc pas re-téléchargé pour les prochaines visites sur notre site, tant que ce fichier n’aura pas été mis à jour.
+Bien sûr, il convient d’ajouter un suffixe au nom du fichier (une empreinte ou <code>hash</code>) qui changera si une bibliothèque était mise à jour.
+Cette technique est celle du « <a href="https://developers.google.com/web/fundamentals/performance/webpack/use-long-term-caching">long term caching</a> ».</p>
+<p><img alt="découpage du vendors.js" src="images/web/webperfs/size-js-vendors.png"></p>
+<p>Puis, nous avons commencé à découper le code de façon plus fine pour aboutir a de nombreux plus petits fichiers ou <code>chunks</code> dans la dénomination <code>webpack</code>.
+Dans un premier temps, nous avons abandonné la séparation par langue (qui était intéressant en HTTP/1.1 où l’on cherchait à limiter les fichiers à télécharger mais plus depuis HTTP/2.0, <a href="https://caniuse.com/#feat=http2">massivement supporté aujourd’hui</a>).
+Puis nous avons extrait certaines parties de code qui n’étaient chargées que sur une page dédiée (page d’impression, note de frais).
+Enfin, certains <code>chunks</code> sont maintenant chargés automatiquement par <code>webpack</code> à l’exécution :</p>
+<p><img alt="découpage au chargement initial" src="images/web/webperfs/size-js-more-bundles.png"></p>
+<p>On remarque une diminution de 13 Ko par rapport à l’exemple précédent.</p>
+<p>Et, au click sur le bouton itinéraire, le code nécessaire se charge à la volée :</p>
+<p><img alt="découpage de la partie itinéraire" src="images/web/webperfs/size-js-bundle-iti.png"></p>
+<p><em>La resource JavaScript 1.9798069481970534e737.js est le découpage via webpack du code de l’itinéraire.</em></p>
+<p>Voici une autre représentation avant / après via <a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">WebPack Bundle Analyzer</a>, un formidable outil pour inspecter les <code>chunks</code> <code>webpack</code> :</p>
+<p>Avec la séparation du vendors.js :</p>
+<p><img alt="séparation du vendors.js" src="images/web/webperfs/bundle-vendors.png"></p>
+<p>Avec la séparation en multiples <code>chunks</code> :</p>
+<p><img alt="séparation d’autres morceaux de code" src="images/web/webperfs/more-js-bundles.png"></p>
+<p>On remarque de nombreux <code>chunks</code>, heureusement gérés par <code>webpack</code>.</p>
+<h3>Résultats</h3>
+<p>Avec ces optimisations, nous sommes passés de 375 Ko de JavaScript (<code>gzip</code>) à 335 Ko sur le chargement de la page d’accueil.</p>
+<p><img alt="taille après optimisations" src="images/web/webperfs/size-after-js.png"></p>
+<p>La séparation du code JavaScript n’est toutefois pas encore totalement finalisée.
+Nous avons en effet encore d’autres point de coupes à effectuer pour diminuer encore la taille du code JavaScript.</p>
+<p>Le JavaScript n’étant qu’une partie (certes importante) de notre site, le prochain article détaillera des optimisations sur d’autres types de ressources.</p>
             </div><!-- /.entry-content -->
 
 
