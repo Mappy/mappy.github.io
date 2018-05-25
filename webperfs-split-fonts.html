@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 
-        <title>Découpage du code JavaScript grâce à webpack</title>
+        <title>Découpage des polices de caractères</title>
         <meta charset="utf-8" />
         <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
         <link href="https://techblog.mappy.com/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
@@ -42,57 +42,63 @@
 
             <header>
               <h2 class="entry-title">
-                <a href="./webperfs-webpack.html" rel="bookmark"
-                   title="Permalink to Découpage du code JavaScript grâce à webpack">Découpage du code JavaScript grâce à webpack</a></h2>
+                <a href="./webperfs-split-fonts.html" rel="bookmark"
+                   title="Permalink to Découpage des polices de caractères">Découpage des polices de caractères</a></h2>
            
             </header>
             <footer class="post-info">
-              <abbr class="published" title="2018-05-22T00:00:00+02:00">
-                Tue 22 May 2018
+              <abbr class="published" title="2018-05-25T00:00:00+02:00">
+                Fri 25 May 2018
               </abbr>
               <address class="vcard author">
                 By <a class="url fn" href="./author/nicolas-betheuil-manuel-emeriau-jonathan-saget-gregory-paul.html">Nicolas Bétheuil, Manuel Emeriau, Jonathan Saget, Grégory Paul</a>
               </address>
             </footer><!-- /.post-info -->
             <div class="entry-content">
-              <p>Après <a href="webperfs-sitespeed.html">avoir mis en place SiteSpeed</a>, il était temps de procéder à des améliorations de performances.</p>
-<p>En regardant la composition de nos pages web (grâce à SiteSpeed), on se rend compte que le JavaScript en est la plus grosse partie du site <a href="https://fr.mappy.com/">mappy</a> :</p>
-<p><img alt="taille avant optimisations" src="images/web/webperfs/size-before-js.png"></p>
-<p><em>Les barres bleues correspondent à la taille du contenu non compressé, les barres vertes au contenu compressé (<code>gzip</code>).</em></p>
-<p>C’est donc sur cette partie que nous nous sommes concentrés dans un premier temps.</p>
-<h2>Optimisations sur le JavaScript</h2>
-<h3>Suppression de code</h3>
-<p>Une première action a été de supprimer des fonctionnalités ayant peu de valeur ajoutée pour l’utilisateur.</p>
-<h3>Webpack à notre secours</h3>
-<p>La deuxième action, plus conséquente, est de découper le JavaScript en plusieurs parties, pour ne charger que le minimum de code par page.</p>
-<p>Nous utilisions <code>browserify</code> pour construire notre JavaScript mais ce dernier est moins outillé pour répondre à ce besoin (popularité en baisse donc écosystème assez pauvre).
-Par conséquent, nous avons tout d’abord migré de <code>browserify</code> vers <code>webpack</code>.</p>
-<p>Nous avons alors séparé notre code en deux avec un « vendors.js » (contenant nos bibliothèques) et le code de notre application.</p>
-<p>Cette séparation a en effet du sens, puisque en utilisant des entêtes de cache relativement long (6 mois sur nos fichiers JavaScript), ce fichier vendors.js aura tendance à rester dans le cache du navigateur. Il ne sera donc pas re-téléchargé pour les prochaines visites sur notre site, tant que ce fichier n’aura pas été mis à jour.
-Bien sûr, il convient d’ajouter un suffixe au nom du fichier (une empreinte ou <code>hash</code>) qui changera si une bibliothèque était mise à jour.
-Cette technique est celle du « <a href="https://developers.google.com/web/fundamentals/performance/webpack/use-long-term-caching">long term caching</a> ».</p>
-<p><img alt="découpage du vendors.js" src="images/web/webperfs/size-js-vendors.png"></p>
-<p>Puis, nous avons commencé à découper le code de façon plus fine pour aboutir a de nombreux plus petits fichiers ou <code>chunks</code> dans la dénomination <code>webpack</code>.
-Dans un premier temps, nous avons abandonné la séparation par langue (qui était intéressant en HTTP/1.1 où l’on cherchait à limiter les fichiers à télécharger mais plus depuis HTTP/2.0, <a href="https://caniuse.com/#feat=http2">massivement supporté aujourd’hui</a>).
-Puis nous avons extrait certaines parties de code qui n’étaient chargées que sur une page dédiée (page d’impression, note de frais).
-Enfin, certains <code>chunks</code> sont maintenant chargés automatiquement par <code>webpack</code> à l’exécution :</p>
-<p><img alt="découpage au chargement initial" src="images/web/webperfs/size-js-more-bundles.png"></p>
-<p>On remarque une diminution de 13 Ko par rapport à l’exemple précédent.</p>
-<p>Et, au click sur le bouton itinéraire, le code nécessaire se charge à la volée :</p>
-<p><img alt="découpage de la partie itinéraire" src="images/web/webperfs/size-js-bundle-iti.png"></p>
-<p><em>La resource JavaScript 1.9798069481970534e737.js est le découpage via webpack du code de l’itinéraire.</em></p>
-<p>Voici une autre représentation avant / après via <a href="https://github.com/webpack-contrib/webpack-bundle-analyzer">WebPack Bundle Analyzer</a>, un formidable outil pour inspecter les <code>chunks</code> <code>webpack</code> :</p>
-<p>Avec la séparation du vendors.js :</p>
-<p><img alt="séparation du vendors.js" src="images/web/webperfs/bundle-vendors.png"></p>
-<p>Avec la séparation en multiples <code>chunks</code> :</p>
-<p><img alt="séparation d’autres morceaux de code" src="images/web/webperfs/more-js-bundles.png"></p>
-<p>On remarque de nombreux <code>chunks</code>, heureusement gérés par <code>webpack</code>.</p>
-<h3>Résultats</h3>
-<p>Avec ces optimisations, nous sommes passés de 375 Ko de JavaScript (<code>gzip</code>) à 335 Ko sur le chargement de la page d’accueil.</p>
-<p><img alt="taille après optimisations" src="images/web/webperfs/size-after-js.png"></p>
-<p>La séparation du code JavaScript n’est toutefois pas encore totalement finalisée.
-Nous avons en effet encore d’autres point de coupes à effectuer pour diminuer encore la taille du code JavaScript.</p>
-<p>Le JavaScript n’étant qu’une partie (certes importante) de notre site, le <a href="webperfs-split-fonts.html">prochain article</a> détaillera des optimisations sur d’autres types de ressources.</p>
+              <p>Après <a href="webperfs-sitespeed.html">avoir mis en place SiteSpeed</a> et <a href="webperfs-webpack.html">optimisé le code JavaScript</a>, nous avons travaillé sur l’optimisation des polices de caractères du site <a href="https://fr.mappy.com/">mappy</a>.</p>
+<h2>Constat</h2>
+<p>Nous avions vu que le Javascript était la ressource la plus lourde chargée sur le site.
+Mais en ne tenant compte que du poids « gzipé » (ce qui nous intéresse au final) on se rend compte que les polices de caractères sont quasiment aussi lourdes.</p>
+<p><img alt="taille avant optimisations" src="images/web/webperfs/size-before-font.png"></p>
+<p><em>Les barres bleues correspondent à la taille du contenu non compressé, les barres vertes au contenu compressé (<code>gzip</code>).</em>
+Les polices de caractères sont compressées, ce qui explique que les 2 barres aient la même taille.</p>
+<p>En y regardant de plus près, nous chargeons 5 polices de caractères sur le site :</p>
+<p><img alt="tailles des polices" src="images/web/webperfs/fonts-size-prod.png"></p>
+<ul>
+<li>la <code>Fira</code> en 3 graisses différentes (environ ~60 Ko),</li>
+<li>la <code>Thirsty</code> (~28 Ko),</li>
+<li>la <code>MappyIcons</code> (<em>~247 Ko</em>).</li>
+</ul>
+<p>Cette <code>MappyIcons</code> est très conséquente car elle contient les icônes utilisés sur le site :</p>
+<p><img alt="caractères de la police" src="images/web/webperfs/MappyIcons.png"></p>
+<p>Néanmoins, seuls quelques caractères (icônes) sont utilisés sur la page d’accueil. Il est ainsi dommage de charger l’ensemble de la police de caractères.</p>
+<h2>Optimisations sur les polices de caractères (fonts)</h2>
+<p>Grâce à l’<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/%40font-face/unicode-range">attribut CSS <code>unicode-range</code></a> (relativement <a href="https://caniuse.com/#search=unicode-range">bien supporté</a>), il est possible de découper la police de caractères en 2, en laissant au navigateur web le soin de charger la ou les bons fichiers en fonction des caractères affichés sur le site.</p>
+<p>Après quelques recherches, nous avons trouvé un outil en python (pyftsubset) pour la manipulation de polices de caractères.</p>
+<p>Pour rendre cela plus transparent dans notre processus de construction, nous l’avons encapsulé dans <a href="https://github.com/Mappy/filter-font">une image docker dénommée <code>filter-font</code></a> (<a href="https://hub.docker.com/r/mappydt/filter-font/">présente sur docker hub</a>), prenant en entrée une police de caractères ainsi qu’une liste de caractères, par exemple :</p>
+<div class="highlight"><pre><span></span>  U+0031 #lieux
+  U+0032 #shopping
+  U+E005 #iti
+</pre></div>
+
+
+<p>pour générer 2 polices de résultat, l’une « light » contenant uniquement les caractères demandés, l’autre « the-rest » avec les caractères restants.</p>
+<p>Voici un exemple avec les caractères uniquement présents sur la page d’accueil du site Mappy :</p>
+<p><img alt="découpage des polices" src="images/web/webperfs/splitted-fonts.png"></p>
+<p>On remarque que la <code>MappyIcons-Regular-light</code> occupe ~30 Ko, et seulement ~25 au format <code>woff2</code> (lui aussi, <a href="https://caniuse.com/#search=woff2">relativement bien supporté</a>) au lieu des presque 250 Ko initiaux.</p>
+<p>Voici les caractères contenus dans la police « light » :</p>
+<p><img alt="caractères de la police light" src="images/web/webperfs/mappyfont-light.png"></p>
+<h2>Gains</h2>
+<p>Après ces optimisations, la taille des polices de caractères a drastiquement baissé (gain de 220 Ko) :</p>
+<p><img alt="taille après optimisations" src="images/web/webperfs/size-after-font.png"></p>
+<p>Au final, cette action d’optimisation ainsi que la séparation du code JavaScript ont eu pour effet de faire baisser notre speed index d’une moyenne de ~6000 à ~4000 (speed index moyen sur 5 pages depuis une connexion 3g) :</p>
+<p><img alt="métriques après l’optimisation de la police" src="images/web/webperfs/after-font-optim.png"></p>
+<h2>Et ensuite ?</h2>
+<p>Nous avons encore quelques pistes pour encore réduire la taille du JavaScript sur le site <a href="https://fr.mappy.com">mappy</a>.
+Nous espérons donc à nouveau une baisse de notre speed index.</p>
+<p>De façon plus globale, la performance web est très importante pour l’utilisateur, mais aussi pour le référencement (les moteurs de recherche en tiennent compte).
+Aussi, la surveillance et l’amélioration des performances doivent être intégrées dans le processus de développement logiciel, idéalement à l’intégration/déploiement continu.
+Il est nécessaire de surveiller les indicateurs de performances et de réagir en cas de baisse de performance, au même titre qu’une régression fonctionnelle.</p>
             </div><!-- /.entry-content -->
 
 
