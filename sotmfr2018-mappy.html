@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>State of The Map France 2018: Mappy y était</title>
+        <meta charset="utf-8" />
+        <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
+        <link href="https://techblog.mappy.com/feeds/mapping/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="./theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="./theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="./theme/pygment.css" />
+        <link rel="icon" type="image/png" href="images/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16">
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32">
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <header id="banner" class="body">
+            <h1><a href="/"><img src="/images/logo.png" /> Labs</a></h1>
+            <div id="navigation" class="navbar row">
+                <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+            </div>
+        </header><!-- /#banner -->
+
+        <div class="row">
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="ten columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="./sotmfr2018-mappy.html" rel="bookmark"
+                   title="Permalink to State of The Map France 2018: Mappy y était">State of The Map France 2018: Mappy y était</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2018-06-08T00:00:00+02:00">
+                Fri 08 June 2018
+              </abbr>
+              <address class="vcard author">
+                By <a class="url fn" href="./author/mappy.html">Mappy</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <p>Nous avons été 6 Mappy à avoir la chance d'aller à State Of The Map France 2018 près de Bordeaux, à Pessac.</p>
+<p><img src="//sotm2018.openstreetmap.fr/images/sotm2018_website2.png" width="400"></p>
+<p>Ci dessous le compte-rendu rédigé conjointement par les différents participants</p>
+<h1>Map Contrib Next</h1>
+<h2>Fonctionnalité principale</h2>
+<p>Pouvoir éditer une carte en se fixant un thème (et éventuellement un territoire) précis.</p>
+<p>Les organisateurs de la cartoparty ont un accès utilisateur avancé, les autres participants une interface simplifiée et agréable.</p>
+<h2>Stack</h2>
+<ul>
+<li>ReactJS</li>
+<li>OSM request (Utiliser par Pic4Review)</li>
+<li>Osmose Request</li>
+<li><a href="https://github.com/osmlab/leaflet-nectarivore">leaflet nectarivore</a></li>
+<li>permet d'intégrer facilement de la donnée de différentes API dans une carte leaflet</li>
+<li>OSM UI</li>
+<li>Une liste de composants UI, spécifique à l'édition OSM (un peu comme un bootstrap OSM ?).</li>
+</ul>
+<h2>Démo</h2>
+<p><a href="http://next.mapcontrib.xyz">http://next.mapcontrib.xyz</a></p>
+<h2>Feuille de route</h2>
+<ul>
+<li>visualiser les thèmes v1 + implémentation de fonctionnalités de la v1</li>
+<li>filtre/recherche parmis les données affichées</li>
+<li>interface légère + interface avancée (bien longtemps dans le futur)</li>
+</ul>
+<h1>Carto Participative</h1>
+<p><a href="https://umap.openstreetmap.fr/en/map/new-data_1#12/51.7878/7.6717">umap</a> plutôt que JOSM ou même ID Editor.</p>
+<h1>OSM Togo</h1>
+<p>Communauté active, qui montre la puissance d'OSM face à des acteurs étatiques / multinationales, même quand les photos aériennes sont de mauvaise qualité.</p>
+<p><img alt="" src="/images/sokode_google.png"> <img alt="" src="/images/sokode_osm.png"></p>
+<h1>La donnée cyclable</h1>
+<h2>Cartographie</h2>
+<h3>8 ans de géovélo</h3>
+<ul>
+<li>En 6 carto party, les 4 principales communes de Tours ont été cartographié</li>
+<li>faciliter la contribution des utilisateurs<ul>
+<li>remonter vers Géovélo (sans compte OSM) qui va le remonter vers OSM</li>
+</ul>
+</li>
+<li>De cuisinier à géomaticien/géographe :)</li>
+</ul>
+<p><a href="https://peertube.openstreetmap.fr/videos/watch/5e6cadd3-eca1-4537-a743-461a792c189f">replay</a>
+<a href="https://fr.slideshare.net/cartocite/acquisition-et-maintenance-des-donnes-vlo-sur-openstreetmap">présentation</a></p>
+<h2>Itinéraire</h2>
+<ul>
+<li>piste cyclable en Hollande autorisées au scooter mais modélisées de la même façon dans OSM.</li>
+</ul>
+<h2>Les vélos routes dans OSM</h2>
+<p>Les vélos routes sont à la fois des itinéraires touristiques définis (La Loire à Vélo) et des euro-véloroutes également reconnus (eurovélo 6).</p>
+<h3>Le problème de la "supra-relation"</h3>
+<p>En pratique les tronçons cyclables sont tous attachés à une même et unique relation (ex : EV6) qui peut faire des centaines de km de long. La préconisation est d'éviter ce genre de supra-relation. Récemment par exemple deux contributeurs ont voulu l'éditer en même temps…</p>
+<h3>Comment découper cette supra-relation alors ?</h3>
+<p>La solution "rationnelle" :</p>
+<ul>
+<li>Couper tous les x kilomètres</li>
+<li>Couper par niveaux administratifs (ex les départements)</li>
+<li>La solution "touristique" :<ul>
+<li>Couper par étape-relais</li>
+<li>Plus logique pour les contributeurs et les utilisateurs mais pose des problèmes lorsque ces étapes ne sont pas clairement définies dans certaines zones, ou différentes selon le réferentiel européen et régional. Actuellement cette solution est plutôt utilisée en pratique.</li>
+</ul>
+</li>
+</ul>
+<p>Distinguer l'importance de la voie et l'importance du tronçon cyclable.</p>
+<p>Faire attention à la distinction primaire/secondaire etc qui correspond à l'importance de la voie routière sur l'ensemble du réseau routier, et la distinction locale/nationale/internationale qui correspond à l'importance de ce passage cyclable dans l'ensemble du réseau véloroute.</p>
+<h3>Comment cartographier les liaisons non principales joignant les villes, les liaisons principales, les variantes ?</h3>
+<p>Une véloroute se compose de liaison la raccrochant aux villes importantes proches, mais aussi de variantes.</p>
+<p>Il faut trouver un tag pour qualifier les tronçons / les relations en distinguant les trois types de possibilités.</p>
+<h3>Une relation en chantier pour 1 tronçon ??</h3>
+<p>Aujourd'hui si un élément de la relation est "en projet" la totalité de la relation l'est. Il faudrait enlever ce statut de la relation.</p>
+<h2>Les aménagements dans OSM : entre réalité et législation</h2>
+<p>Les aménagements cyclables sont en théorie facile à cartographier : la législation est claire et précise.</p>
+<p>Sauf que dans la réalité, des zones grises apparaissent :</p>
+<ul>
+<li>comment cartographier un aménagement séparé de la route par un grand zébra (bande ou piste?)</li>
+<li>doit on cartographier un aménagement cyclable qui n'est plus utilisé en réalité, ou devenu dangereux ?</li>
+<li>la distinction entre "path" et "footway" est impactant pour l'itinéraire vélo mais repose sur des critères flous
+(nature vs urbain ?)</li>
+</ul>
+<p>Globalement des choix qui vont différer selon l'objectif final : calculer un itinéraire, faire un état des lieux de l'existant, dénoncer ou souligner la qualité de la couverture cyclable, etc.</p>
+<h1>La donnée Transport en commun</h1>
+<h2>Jungle bus</h2>
+<p>Constat d'origine : plus de 60% de villes dans le monde n'ont pas de plans de transport public, ni de données exploitables. En gros : il y a des bus, il y a des lignes mais rien d'exploitable en version numérique pour représenter, manipuler, planifier, distribuer cette information. 2% des lignes / arrêts évoluent pour les bus contrairement au métro / tram où les infrasctructures sont plus lourde. Correctement cartographié pour correctement informer est nécessaire.</p>
+<p><a href="https://nlehuby.5apps.com/">Un blog avec plein de tuto</a> (extraction, visualisation de la donnée).</p>
+<p>L'application Jungle Bus :</p>
+<ul>
+<li>une application android</li>
+<li>avec des tuiles vectorielles de Jawgs personnalisées aux couleurs jungle bus</li>
+<li>affichant les infrastructures des bus (lignes, arrêts)</li>
+<li>traduite en six langues</li>
+<li>présente sur le monde entier</li>
+</ul>
+<p>L'utilisateur peut ainsi visualiser le réseau de bus, avec la position des arrêts et leurs noms notamment.</p>
+<p>Mais il peut aussi éditer cette donnée pour corriger une position erronée ou renseigner des noms manquants.</p>
+<p>Cette année, ils ont introduit plusieurs nouveaux outils :</p>
+<ul>
+<li>un chatbot pour modifier encore plus facilement la donnée</li>
+<li>une interface web qui met en évidence les erreurs à corriger, par type d'erreur : <a href="https://jungle-bus.github.io/bifidus/#12/48.851/2.3784">BIFIDUS</a></li>
+<li>une interface web qui met en évidence un écart de position ou de nom avec d'autres données TC opendata : VARICELLE</li>
+<li>la possibilité d'exporter la donnée OSM produite au format GTFS via osm2gtfs (voir point suivant)</li>
+</ul>
+<p>Ils ont signé en 2018 un partenariat avec un groupement d'acteurs importants de la mobilité en IDF afin de mettre à jour la data (IDF Mobilités, fabrique des mobilités, naviatia, etc.)</p>
+<p>Ce travail concerne 1500 lignes et 40 000 arrêts. Il est conséquent, c'est pourquoi ils ont mis en place un protocole à reproduire pour toute autre demande semblable par la suite :</p>
+<ol>
+<li>Faire un diagnostic qualité de la donnée existante en comparant la donnée OSM et la donnée "référentielle". Dans cet audit, la position des arrêts OSM et référentiel est comparée, ainsi que leur donnée attributaire, sur une grille d'1 km x 1 km. En moyenne, 80% des arrêts OSM ont le même nom que dans la réferentiel et 75% des arrêts OSM sont à moins de 20 m des arrêts de référence</li>
+<li>Ce travail a permis de mettre en évidence des zones en IDF possédant une donnée de faible qualité. Suite à cela des mapathons sur ces zones ont permis/permettront de redresser la qualité</li>
+<li>Choisir un mode de gouvernance pour la communauté d'acteurs</li>
+<li>Choisir des outils pouvant s'inclure aisément aux SI existants</li>
+<li>S'assurer de la pérennité de la donnée et de l'industrialisation possible de son utilisation</li>
+<li>Communiquer (dataviz, etc.) à destination des acteurs insitutionnels</li>
+</ol>
+<h2>osmtogtfs</h2>
+<p>Cet outil permet de transformer les données géographiques (Arrêts, Lignes, nom..) à partir d'un fichier ou d'une url dans un format GTFS le format standard du transport en commun.</p>
+<p>Ex au Nicaragua de la collecte de données à l'application de transport.</p>
+<ul>
+<li><a href="https://github.com/hiposfer/osmtogtfs">osmtogtfs</a> permet de créer un fichier GTFS de la donnée osm, le code permettrait d'adapter la transformation au contexte local</li>
+<li>Ils ont rajouté les informations d'horaires du transporteur local depuis un fichier .json (OSM collecte rarement des données chaudes c'est un sujet en discussion pour les horaires TC)</li>
+<li>Ils ont matché les données OSM (<a href="https://wiki.openstreetmap.org/wiki/JOSM/Plugins/PT_Assistant">validé via le plugin de josm</a>) et celles du transporteur par les noms des arrêts &amp; lignes (pas d'id commun) et ont validé la donnée avec GTFS Feed Validator</li>
+<li>L'application utilisé pour la navigation TC <a href="https://github.com/grote/Transportr">transportr github</a> <a href="https://transportr.grobox.de/">transportr</a></li>
+<li>Un autre outil mentionné dans une autre présentation <a href="http://www.opentripplanner.org/">opentripplanner</a> avec calcul d'itinéraire piéton, voiture et TC voir de l'intermodal</li>
+</ul>
+<h1>La donnée piéton</h1>
+<h2>Cartographier les déplacements en gares par SNCF et Carto cité</h2>
+<p>Produire des plans de déplacements piéton autour des gares : quelles questions se posent ?</p>
+<p>Une difficulté : beaucoup d'objets sont représentés par des points (ascenseur) ou des lignes (escaliers) alors qu'ils représentent des espaces importants (escalier de plusieurs mètres de large), encombrants et non franchissables (cage d'ascenseur au milieu d'une plateforme).</p>
+<p>Un critère pour mesure l'accessibilité d'un escalier : le nombre de marche.</p>
+<p>Une information importante pour les déplacements dans une direction de donnée : le sens d'ouverture des portes à sens unique.</p>
+<p>Des repères pratiques pour les voyageurs : les bâtiments remarquables, ponts, fontaines… enrichir OSM avec !</p>
+<p>11 gares SNCF bretonnes ont été cartographiées avec précision par carto cité à partir d'images géolocalisées. Avec ces images les objets sont dessinés et renseignés sur JOSM afin d'être intégrés à OSM. Ensuite, la donnée OSM est traitée dans QGIS avec un style graphique SNCF puis sur Inskape afin de produire des cartes finales à destination des voyageurs.</p>
+<p>Pour 11 gares :</p>
+<ul>
+<li>1 semaine de terrain</li>
+<li>3 semaines de JOSM</li>
+<li>1 semaine de traitement final</li>
+<li>A priori 2 personnes</li>
+</ul>
+<h2>Amélioration de l'itinéraire piéton au niveau d'une ville par Makina Corpus (Frederic Boniface)</h2>
+<ul>
+<li>Arrivée du bon coté de la route</li>
+<li>Utilisation des landuse pour influencer le profil des vitesses (en l'absence de données traffic)</li>
+<li>La vitesse de chaque tronçon est pondérée en fonction du profil d'environnement dans lequel il s'inscrit : nature, urbain.</li>
+<li>Ces profils sont générés sous la forme de carroyage en amont, par croisement de plusieurs informations notamment les landuse/landcover.</li>
+<li>Un algorithme calcule la possibilité de traverser une place plus rapidement qu'en suivant ses contours, technique utilisée en général.</li>
+<li>OSM -&gt; traitement (création d'arrêtes pour traverser les places) -&gt; génération pbf + OSRM</li>
+<li>Croisement avec un MNT OSTRM afin d'exploiter l'information de dénivellé et pondérer la vitesse de marche en fonction de cette dénivellation. <br></li>
+<li><a href="https://en.wikipedia.org/wiki/Tobler%27s_hiking_function">Tobler's hiking function</a> (temps de parcours en fonction de la pente)</li>
+<li>Pondération moindre lorsque le trajet emprunte un tronçon de trottoir et non de voie. Le temps de trajet en revanche ne doit pas être modifié. Cette donnée est encore trop partielle cependant.
+ Possibilité de calculer des itinéraires "thématiques" du type "une balade culturelle". Des tuiles vectorielles T-rex sont prégénérées avec un filtre sur les éléments choisis : objets naturels, objets culturels etc. Les centroides de ces objets sont calculés, regroupés en cluster par distance.Puis un trajet reliant tous les points est calculé avec une direction donnée.</li>
+<li>Une autre possibilité mentionnée serait d'utiliser les données CORINE Land Cover (CLC)</li>
+<li>Rien sur comment traverser quand il n'y a pas de passage piéton</li>
+</ul>
+<h1>La donnée routière / traffic</h1>
+<h2>Développement de la navigation chez Mapbox</h2>
+<p>Equipe dédiée au trafic chez Mapbox.</p>
+<p>La constitution de la donnée trafic  à partir des traces GPS des utilisateurs :
+- suppression de l'origine et de la destination de la trace
+- tronconnement de la trace
+- mélange de toute les traces sur un tronçon
+- Ils ont des modèles pour qualifier la donnée GPS (Cycliste, Voiture..)</p>
+<p>A la fin, on a une donnée sur la charge de trafic du tronçon sans avoir aucune information individuelle sur les traces de départs, totalement anonymisées.</p>
+<h3>Algorithmes mentionnés</h3>
+<ul>
+<li>En plus des contractions hiérarchiques</li>
+<li><a href="https://github.com/Project-OSRM/osrm-backend/issues/4797">MultiLevel Dijkstra (mld)</a>
+pour réduire la complexite (utilisation pour l'intégration du temps réel</li>
+<li>Valhalla de mapzen repris par mapbox</li>
+</ul>
+<h3>La cartographie du trafic</h3>
+<p>Un style de carte et des instructions de type feuille de route ont été créée.</p>
+<p>La navigation est gérée en hors ligne.</p>
+<h3>Identifier des points d'amélioration</h3>
+<p>Une carte des points d'instruction manquées, rassemblés en groupe, permet de voir les endroits où il y a clairement un problème : la donnée n'est peut être pas la même en réalité (on ne peut pas tourner à ce carrefour) ou l'instruction arrive trop tard / n'est pas comprise !</p>
+<h2>L'initiative OpenTraffic porter par la world bank</h2>
+<p><a href="https://www.slideshare.net/FredericRodrigo/open-traffic">présentation</a></p>
+<ul>
+<li>Une <a href="http://opentraffic.io/">archi</a></li>
+<li>besoin de data (faire une app ?)</li>
+<li>une <a href="https://listes.openstreetmap.fr/wws/info/opentraffic">ML</a></li>
+<li>https://github.com/opentraffic/osmlr un outil pour associer le trafic au réseau routier</li>
+<li>Une autre piste: https://sharedstreets.io/</li>
+</ul>
+<h1>Cosmogony / Qwant</h1>
+<p><a href="https://nextcloud.openstreetmap.fr/index.php/s/mZl1S5P4Rvx0tR9/download?path=%2F&amp;amp;files=19_Cosmogony_QwantResearch.pdf">Présentation</a></p>
+<p>Le but de Cosmogony est de reconstruire les relations d'inclusion entre les niveaux administratifs.</p>
+<p>Pour se faire</p>
+<ul>
+<li>Reconstruit les géométries OSM (ne passe pas par imposm3)<ul>
+<li><a href="http://cosmogony.world/#/11.21/0.17/48.91">cosmogony.world</a></li>
+<li><a href="https://www.openstreetmap.org/relation/3316328#map=14/48.9019/0.0748">relation/3316328</a></li>
+</ul>
+</li>
+<li>Se base sur libpostal pour déterminer le mapping admin_level hiérarchie<ul>
+<li><a href="https://github.com/openvenues/libpostal/blob/master/resources/boundaries/osm/de.yaml">libpostal</a></li>
+<li>le fichier de config permet de spécifier les hiérarchies administratives dans certains pays (par exemple Berlin = ville-état en Allemagne)</li>
+</ul>
+</li>
+<li>Bilan partiel<ul>
+<li>bonne courverture sur le 1er niveau administratif de chaque pays</li>
+<li>résultat peu satisfaisant pour la zone hors Europe</li>
+</ul>
+</li>
+<li>Remarque: la hiérarchie administrative en Europe a été faite dans le cadre du projet Inspire</li>
+</ul>
+<p>Format de sortie : geojson</p>
+<p>L'outil de visualisation intéressant (peut être lent en fonction de la donnée affichée)</p>
+<h1>API Overpass</h1>
+<div class="highlight"><pre><span></span><span class="cm">/*</span>
+<span class="cm">This is an example Overpass query.</span>
+<span class="cm">Try it out by pressing the Run button above!</span>
+<span class="cm">You can find more examples with the Load tool.</span>
+<span class="cm">*/</span><span class="w"></span>
+relation<span class="w"></span>
+<span class="err">[</span>admin_level<span class="err">~</span><span class="s">&quot;[4-8]&quot;</span><span class="err">]</span><span class="w"></span>
+<span class="cm">/*BBOX Saint Pierre et Miquelon*/</span><span class="w"></span>
+<span class="o">(</span><span class="m">46.679123371552315</span><span class="o">,-</span><span class="m">56.715545654296875</span><span class="o">,</span><span class="m">47.17197772313465</span><span class="o">,-</span><span class="m">56.01585388183594</span><span class="o">)</span><span class="err">;</span><span class="w"></span>
+<span class="cm">/*added by auto repair*/</span><span class="w"></span>
+node<span class="err">[</span>place<span class="err">]</span><span class="o">(</span>r<span class="o">)</span><span class="err">;</span><span class="w"></span>
+<span class="cm">/*end of auto repair*/</span><span class="w"></span>
+out<span class="err">;</span><span class="w"></span>
+</pre></div>
+
+
+<p>https://overpass-turbo.eu/</p>
+<p>API destiné au&nbsp;<strong>data consumers</strong> comparable à SparkQL d’un point de vue carto.</p>
+<p>ex de requête : “tous les bars à moins de 200 m d’une station de métro”, “trouve moi les nœuds communs à une route et une voie ferré”.</p>
+<p>OverPass Turbo sur une ville OK, à l’échelle départementale ça commence à être limite.</p>
+<p>Inconvénient (?) : apprendre le langage OverPass QL (ou faire des requêtes sans vraiment comprendre le langage).</p>
+<h1>Évaluer la qualité de la donnée OSM à partir de l'historique des contributions ?</h1>
+<p>L’évaluation de la qualité des données se fait &nbsp;par l’identification et la classification non supervisée (sans connaissance a priori) des profils des contributeurs en fonction de leur niveau. Oslandia utilise des algorithmes de machine learning (K-means notamment) pour obtenir des clusters de contributeurs tels que&nbsp;: expert local, intermédiaire irrégulier, novice, contribution unique…</p>
+<p>Ils utilisent les fichiers d'historique <code>osh.pbf </code>une des possibilités d'importer ce fichier est <a href="https://github.com/MaZderMind/osm-history-renderer">OpenStreetMap History Renderer &amp; Tools</a> </p>
+<p>Ils définissent eux-mêmes le nombre de classes (après une analyse en composante principale) et la nomenclature des classes.</p>
+<p><u>Spécification locale</u>: L’étude est faite à l’échelle locale, ainsi un contributeur régulier et expérimenté à Strasbourg pourra être identifié comme novice à Bordeaux (et vice versa, un nouveau contributeur qui a agit plusieurs fois à Bordeaux sera perçu comme expert local).</p>
+<p>Ils s’intéressent également aux tags les plus souvent modifiés, études qu’ils associent avec la classification des profils. (Sous entendu, une modification d’un expert &gt; une modification d’un novice).</p>
+<p><u>Langage de programmation</u>&nbsp;: Python</p>
+<p><a href="https://github.com/Oslandia/osm-data-classification">dépôt github</a> </p>
+<p>Une des conclusions, il y a population écrasante de faibles contributeurs, les 2, 5% restants traitent 80% de la donnée.</p>
+<h1>Carto humanitaire</h1>
+<p>CaribeWave est une opération de sensibilisation à la vulnérabilité des populations (notamment insulaires) face à des catastrophes naturelles (ouragans, tsunami…). &nbsp;Présentation de cas concrets de situations (Irma/Maria) pour mettre en avant les besoins et les risques. Ce sont des évènements cycliques, il faut donc se préparer pour les futures catastrophes naturelles. L’association HAND (Hackers Against Natural Disasters)&nbsp; créée par Gaël MUSQUET rassemble des technophiles pour faire de la cartographie en urgence notamment grâce à l’imagerie aérienne par drone.</p>
+<h1>L'usage d'OSM dans les pays du sud</h1>
+<p>Retour d'expérience avec Haïti ou Madagascar.</p>
+<p>Il est difficile de construire des communautés qui durent : les gens sont habitués à être aidé et à venir pour une compensation (argent pour mapper / nourriture pour une formation à la journée).</p>
+<p>Le simple fait de se déplacer pour venir à une formation est déjà compliqué: ça coûte et ce n'est clairement pas une priorité dans des pays où ils sont en mode survie.</p>
+<p>L'usage des tags OSM est loin d'être évident dans des pays où la route principale, nationale est une piste régulièrement inondées avec des ornières de 1m. Depuis SOTM, il y a des échanges sur la ML talk-fr: l'usage/praticabilité est dissociée de l'information principale / secondaire avec d'autres infos comme le revêtement. En France, les arrêts de bus changent, là bas, ce sont les ponts, les routes qui peuvent avoir changer après une averse.</p>
+<p><a href="http://www.cartong.org">cartong</a>
+<a href="http://www.magellium.com/fr/blog/mapathon-missing-maps-2/">mapathon-missing-maps</a></p>
+<h1>Contribuer</h1>
+<h2>Contribuer à Mapillary quand on est une entreprise, pourquoi ? Comment ?</h2>
+<p>SOGEFI contribue à Mapillary (plateforme collaborative d’imagerie street-level) avec l’équipement Imajbox de la société Imajing (système de capture d’image autonome qui peut se fixer sur voiture, camion, vélo, moto, train…).</p>
+<p>Créer des bases de données d’images de la voierie (panneaux de signalisations, panneaux publicitaires…) localisées. Près de 10&nbsp;000&nbsp;000 images versées à Mapillary et plus de 30&nbsp;000 km de routes couvertes.</p>
+<p>Pour réaliser les traitements d’images, SOGEFI utilise la suite logicielle de photogrammétrie Imajview.</p>
+<ul>
+<li>SOGEFI est le 1er contributeur à Mapillary</li>
+<li>Cette contribution est financée par la TLPE(Taxe Locale sur la Publicité Extérieure). A partir des images collectées, SOGEFI construit une base des affiches publicitaires par entreprise et la remet aux collectivités territoriales.&nbsp; Ces dernières peuvent récupérer la TLPE auprès des entreprises. Une partie de cette taxe permet de payer le service fourni par SOGEFI</li>
+<li>Suite à l'acquisition d'une caméra Insta 360 Prop, SOGEFI est agréé Google (Google Street View Trusted)</li>
+</ul>
+<h2>Osmose-QA &amp; Validation commune avec JOSM</h2>
+<p><a href="http://osmose.openstreetmap.fr/">osmose</a> est un outil qui remonte les possibles anomalies sur une carte</p>
+<p>Important travail fait pour rendre compatible les règles OSM avec JOSM et les styles&nbsp;<a href="https://josm.openstreetmap.de/wiki/Help/Styles/MapCSSImplementation">MapCSS</a> de JOSM avec Osmose.</p>
+<p>Nouvelles fonctionnalités développées: par exemple la similarité de noms entre tronçons proches (rue Lacavé vs rue Lacabé) qui peut être une erreur.</p>
+<p>Des warnings à partir de l'opendata sur des suggestion d'intégration.</p>
+<p><a href="https://www.slideshare.net/FredericRodrigo/osmoseqa-qualit-et-intgration-de-donnes">présentation</a>: </p>
+<p>Des jobs qui calculent les erreurs d'utilisation des tags à partir du planet, 2j pour traiter la donnée.</p>
+<h2>Mapillary</h2>
+<p>La contribution / mapping en mode DIY.</p>
+<p>Plusieurs présentations sur l'usage du balai de ménager comme monopode pour une <a href="http://www.lg.com/fr/lg-friends/lg-360-CAM-lgr105">caméra 360</a>.</p>
+<p>Une perche de 12m pour faire des photos de monuments <a href="https://www.mapillary.com/app/?lat=44.13803467000835&amp;amp;lng=4.807303570051661&amp;amp;z=17&amp;amp;focus=photo&amp;amp;pKey=ACrothbK7L1N0ZC4RmuAfA&amp;amp;x=0.922026890521998&amp;amp;y=0.4961013356349145&amp;amp;zoom=0">exemple</a> <a href="https://www.mapillary.com/app/user/zimmy?lat=44.141960833333314&amp;amp;lng=4.804816944444383&amp;amp;z=19.787149667364208&amp;amp;focus=photo&amp;amp;pKey=nzGRo2UFUGt3ZUY4KbyR5Q&amp;amp;x=0.5920152535621718&amp;amp;y=0.44476900377692474&amp;amp;zoom=0&amp;amp;username%5B%5D=zimmy">exemple</a>.</p>
+<p>La bonne tenue du smartphone et la scénarisation pour faire de bonnes séquences.</p>
+<p>Comment utiliser mapillary pour l'acquisition à pied, à vélo, puis en voiture mapillary.</p>
+<p>Le mat DIY qui tient bien mais bouge quand même au mistral.</p>
+<p><img alt="" src="https://farm2.staticflickr.com/1753/28655417828_cbbf46720d_h.jpg"> <img alt="" src="/images/28655417828_cbbf46720d_h.jpg"></p>
+<h2>v4mbike</h2>
+<p><a href="https://twitter.com/stfmani">stfmani</a></p>
+<p>Un mat mis sur un vélo avec 1 raspberry, 4 action cam, arduino, gps … pleins d'électronique, photo 360 et un soft à fiabiliser.</p>
+<blockquote class="twitter-tweet" data-lang="fr"><p lang="fr" dir="ltr">Le nouveau <a href="https://twitter.com/hashtag/V4MBike?src=hash&amp;ref_src=twsrc%5Etfw">#V4MBike</a> est dans la place !! <a href="https://t.co/B9q534qSsh">pic.twitter.com/B9q534qSsh</a></p>&mdash; Stéphane Péneau (@stfmani) <a href="https://twitter.com/stfmani/status/1001130741978234881?ref_src=twsrc%5Etfw">28 mai 2018</a></blockquote>
+
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<h2>L'usage d'OSM pour une office du tourisme</h2>
+<p>La communauté de commune de <a href="https://seignanx.carto.guide/">seignanx</a>.</p>
+<p>Le croisement entre des infos éditoriales des OT et la DB OSM.</p>
+<h1>Le train</h1>
+<ul>
+<li><a href="https://signal.eu.org/osm/">signal.eu.org</a></li>
+<li><a href="https://www.openrailwaymap.org">openrailwaymap</a></li>
+<li><a href="https://pkfieur.gares.io/">pkfieur</a></li>
+</ul>
+<h1>Découverte d'outils basés sur OSM</h1>
+<ul>
+<li><a href="http://pic4review.pavie.info/">pic4review</a>: bugfix sur photo, gamification, overpass, osmose</li>
+<li><a href="http://maproulette.org/">maproulette</a> : bugfix à partir de photo</li>
+<li><a href="https://github.com/Jungle-Bus/VapourTrail">VapourTrail</a> :bus en vecto</li>
+<li><a href="https://navitia.opendatasoft.com/explore/?sort=modified">opendata navitia</a></li>
+<li><a href="http://brouter.de/brouter-web/">brouter</a>: iti, une app android &amp; site web un peu roots mais top pour les iti vélo entre autre (18 profils)</li>
+<li><a href="http://openstreetcam.org/map/">OpenStreetCam</a>: stocker en libre des photos pour contribuer</li>
+<li><a href="http://fieldpapers.org/">fieldpapers</a>: imprimer la carte, aller sur le terrain, anoter, scaner, retravailler dans OSM</li>
+<li><a href="https://www..at/">keepright</a>: osmose like</li>
+</ul>
+<h1>D'autres liens</h1>
+<ul>
+<li><a href="https://cartocite.fr/tutoriels-openstreetmap/">tutoriels-openstreetmap</a></li>
+<li><a href="http://ouvrir.passages.cnrs.fr/tutoqgis/">tutoqgis</a></li>
+<li><a href="http://openstreetmapdata.com/">openstreetmapdata</a></li>
+<li><a href="http://sotm2018.openstreetmap.fr/programme.html">Le programme</a></li>
+<li><a href="https://nextcloud.openstreetmap.fr/index.php/s/mZl1S5P4Rvx0tR9">Les présentations (dépot)</a></li>
+<li><a href="https://annuel.framapad.org/p/sotmfr-2018">Le pad des CR</a></li>
+</ul>
+<h1>Enfin</h1>
+<p>Pour ceux qui sont arrivés jusque là, félicitations ! Comme vous pouvez le constater, c'était un cru extrémement riche et diversifié. Forcément, il n'y a ici qu'une partie de ce qui été présenté.</p>
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="four columns" id="sidebar">
+
+<h4>Pages</h4>
+
+ <ul>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="./category/agile.html">Agile</a></li>
+		<li><a href="./category/android.html">Android</a></li>
+		<li><a href="./category/gis.html">GIS</a></li>
+		<li><a href="./category/mapping.html">Mapping</a></li>
+		<li><a href="./category/solr.html">Solr</a></li>
+		<li><a href="./category/web.html">Web</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-4"><a href="./tag/agilite.html">agilité</a></li>
+	    <li class="tag-4"><a href="./tag/retrospective.html">rétrospective</a></li>
+	    <li class="tag-4"><a href="./tag/panorama.html">panorama</a></li>
+	    <li class="tag-4"><a href="./tag/abtest.html">abtest</a></li>
+	    <li class="tag-4"><a href="./tag/python.html">python</a></li>
+	    <li class="tag-4"><a href="./tag/gis.html">GIS</a></li>
+	    <li class="tag-3"><a href="./tag/leaflet.html">leaflet</a></li>
+	    <li class="tag-2"><a href="./tag/english.html">english</a></li>
+	    <li class="tag-3"><a href="./tag/postgis.html">postGIS</a></li>
+	    <li class="tag-4"><a href="./tag/webgl.html">webgl</a></li>
+	    <li class="tag-2"><a href="./tag/webperfs.html">webperfs</a></li>
+	    <li class="tag-4"><a href="./tag/livereload.html">livereload</a></li>
+	    <li class="tag-2"><a href="./tag/nodejs.html">node.js</a></li>
+	    <li class="tag-1"><a href="./tag/opensource.html">opensource</a></li>
+	    <li class="tag-4"><a href="./tag/openlr.html">openlr</a></li>
+	    <li class="tag-1"><a href="./tag/javascript.html">javascript</a></li>
+	    <li class="tag-3"><a href="./tag/mapnik.html">mapnik</a></li>
+	    <li class="tag-4"><a href="./tag/android.html">android</a></li>
+	    <li class="tag-4"><a href="./tag/osm.html">osm</a></li>
+	    <li class="tag-3"><a href="./tag/backbone.html">backbone</a></li>
+	    <li class="tag-4"><a href="./tag/responsive.html">responsive</a></li>
+	    <li class="tag-1"><a href="./tag/francais.html">français</a></li>
+	    <li class="tag-4"><a href="./tag/opengl.html">opengl</a></li>
+	    <li class="tag-4"><a href="./tag/meetup.html">meetup</a></li>
+	    <li class="tag-4"><a href="./tag/sotm.html">sotm</a></li>
+	    <li class="tag-4"><a href="./tag/watch.html">watch</a></li>
+	    <li class="tag-4"><a href="./tag/browserify.html">browserify</a></li>
+	    <li class="tag-3"><a href="./tag/solr.html">solr</a></li>
+	    <li class="tag-4"><a href="./tag/docker.html">docker</a></li>
+</ul>
+
+<nav class="widget">
+  <h4>Links</h4>
+  <ul>
+    <li><a href="https://www.mappy.com/">Mappy</a></li>
+    <li><a href="https://play.google.com/store/apps/details?id=com.mappy.app">Appli Android</a></li>
+    <li><a href="https://itunes.apple.com/fr/app/mappy-itineraire-et-recherche/id313834655?mt=8">Appli iOS</a></li>
+    <li><a href="http://corporate.mappy.com">Blog Mappy</a></li>
+    <li><a href="http://corporate.mappy.com/faq/integrez-mappy/">API Mappy</a></li>
+  </ul>
+</nav>
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/Mappy" target="_blank">Github</a></div></li>
+
+                <li><div class="btn twitter"><a href="https://twitter.com/Mappy" target="_blank">Twitter</a></div></li>
+
+                <li><div class="btn facebook"><a href="https://www.facebook.com/MappyOnline" target="_blank">Facebook</a></div></li>
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

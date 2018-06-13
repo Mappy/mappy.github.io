@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
 
-        <title>Backbone isomorphique maison : pourquoi ?</title>
+        <title>Mappy Labs</title>
         <meta charset="utf-8" />
         <link href="https://techblog.mappy.com/feeds/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Full Atom Feed" />
-        <link href="https://techblog.mappy.com/feeds/web/rss.xml" type="application/atom+xml" rel="alternate" title="Mappy Labs Categories Atom Feed" />
 
 
         <!-- Mobile viewport optimized: j.mp/bplateviewport -->
@@ -34,40 +33,39 @@
 
         <div class="row">
 
-<section id="content" class="body">
+<section id="content">
+
+
 
    <div class="row">
+
+
         <div class="ten columns">
+		         <ol id="post-list">
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="./FOSS4G 2013 : Mappy-ing Open Source.html" rel="bookmark" title="Permalink to FOSS4G 2013 : Mappy-ing OpenSource">FOSS4G 2013 : Mappy-ing OpenSource</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2013-09-25T00:00:00+02:00"> Wed 25 September 2013 </abbr>
+                                        <address class="vcard author">
+                                            By <a class="url fn" href="./author/audrey-malherbe.html">Audrey Malherbe</a>
+                                        </address>
+				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>Feedback on the overhaul of the mapping engine of Mappy around Mapnik and PostGIS.</p> <a href="./FOSS4G 2013 : Mappy-ing Open Source.html" rel="bookmark" title="Permalink to FOSS4G 2013 : Mappy-ing OpenSource">Read more</i></a> </div><!-- /.entry-content -->
 
 
-            <header>
-              <h2 class="entry-title">
-                <a href="./pourquoi-backbone-isomorphique.html" rel="bookmark"
-                   title="Permalink to Backbone isomorphique maison : pourquoi ?">Backbone isomorphique maison : pourquoi ?</a></h2>
-           
-            </header>
-            <footer class="post-info">
-              <abbr class="published" title="2018-01-10T00:00:00+01:00">
-                Wed 10 January 2018
-              </abbr>
-              <address class="vcard author">
-                By <a class="url fn" href="./author/nicolas-betheuil.html">Nicolas Bétheuil</a>
-              </address>
-            </footer><!-- /.post-info -->
-            <div class="entry-content">
-              <p>Vous l'avez peut-être remarqué, nous avons refait une partie du site il y a bien six mois maintenant : les itinéraires. Nous appelons cela le multipath (prononcer <a href="https://www.anglaisfacile.com/exercices/exercice-anglais-2/exercice-anglais-66477.php">moultipaðe</a>)</p>
-<p>Petit tour du propriétaire : vous pouvez dorénavant pour une recherche d'itinéraire avoir les réponses dans plusieurs modes de transport : voiture (évidemment), bus, car, taxi, VTC, transport en commun, à pied ... et beaucoup d'autres modes suivront.</p>
-<p>Comme pour n'importe quelle partie du site : le <a href="https://www.wikiwand.com/fr/Optimisation_pour_les_moteurs_de_recherche">SEO</a> est une exigence forte. Nos pages doivent répondre de la même manière pour un moteur de recherche que pour une navigation utilisateur classique.</p>
-<p>Lors de la <a href="http://techblog.mappy.com/mappy-com-de-php-a-nodejs.html">migration de PHP vers NodeJS</a> réalisée l'année dernière, une architecture a été posée avec une séparation nette entre la partie serveur sous <code>express</code> et la partie cliente pilotant des vues <code>Backbone</code>. Cela impliquait notamment deux manières complètement différentes de récupérer la donnée avant de rendre la vue. Nous souhaitions explorer d'autres pistes pour faire évoluer l'architecture sans tout refondre. La piste de l'isomorphisme a alors été suivie pour uniformiser cette récupération de donnée. Nous souhaitions également suivre de manière plus rigoureuse le design MV de backbone.</p>
-<p>Une autre contrainte était la courbe d'apprentissage et le délai que nous avions pour faire cette évolution stratégique du produit Mappy. Nous étions une équipe de cinq développeurs, les autres connaissaient déjà <a href="http://backbonejs.org/">backbone</a> et j'arrivais avec plus de connaissances sur <a href="https://reactjs.org/">ReactJS</a> et la refonte d'un autre site en isomorphique.</p>
-<p>Pour des raisons de "time to market", nous ne souhaitions pas migrer tout le site vers React. Par ailleurs, l’ajouter en plus de backbone, avec son ecosystème et ses ~40Kb minifiés &amp; compressés était problèmatique pour des raisons de performance, notamment en mobile.</p>
-<p>L'idée était donc d'apporter une réponse proportionnée, adéquate, co-construite et réfléchie sans tout remettre en cause : l'architecture, les compétences de l'équipe et l'ambition stratégique du produit.</p>
-<p>Nous avons donc décidé de suivre cette voie de manière itérative. Tout d'abord par un POC (Proof Of Concept) puis par une intégration progressive dans les composants développés en s'attaquant à la plus grosse difficulté suivante.</p>
-<p>Nous avons commencé par un POC le 24 avril 2017 : en moins d'une semaine, nous avions une première version fonctionnelle qui montrait comment faire communiquer les composants entre eux avec un code applicatif identique entre la version cliente et serveur. Les nuances clients vs serveur étaient localisées dans ce que nous avons appelé plus tard AMIB pour Asynchronous Mappy Isomorphic Backbone. Le 11 mai, après avoir validé AMIB de façon collégiale en réunion technique, nous avons fusionné cette première version de travail fonctionnelle dans la branche principale ce qui a permis de partager le travail d'implémentation des vues avec les autres membres de l'équipe.</p>
-<p>Chez Mappy, nous avons la possibilité d'essayer, d'apprendre, d'expérimenter. On travaille ensemble à définir des objectifs, des modes de collaboration, des jalons, des étapes pour satisfaire les besoins qui nous sont exprimés.</p>
-<p>PS : Pour plus de notions / culture / références sur l'isomorphisme ... je vous laisse vous documenter si vous désirez en savoir plus : <a href="https://medium.com/airbnb-engineering/isomorphic-javascript-the-future-of-web-apps-10882b7a2ebc">chez Airbnb</a> ou <a href="http://tech.m6web.fr/isomorphic-single-page-app-parfaite-react-flux/">chez M6</a>.</p>
-            </div><!-- /.entry-content -->
 
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="./tag/english.html">english</a>
+											<a class="danger label" href="./tag/mapnik.html">mapnik</a>
+											<a class="danger label" href="./tag/postgis.html">postGIS</a>
+											<a class="danger label" href="./tag/opensource.html">opensource</a>
+								</div>
+
+
+
+				        </article></li>
+				</ol><!-- /#posts-list -->
 
         </div><!-- /.eleven.columns -->
         
@@ -136,8 +134,11 @@
 
 </div> </div><!-- /.row -->
 
-
-</section>
+<p class="paginator">
+            <a href="./index2.html"><i class="icon-arrow-left"></i></a>
+    Page 3 / 3
+</p>
+</section><!-- /#content -->
 
        </div><!-- /.row -->
     </div><!-- /.container -->
